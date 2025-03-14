@@ -1,0 +1,12 @@
+import { Sex } from './sex.enum';
+import { UserLogin } from './user-login.interface';
+import { UserRole } from './user-role.enum';
+
+export interface UserRegister extends UserLogin {
+  name: string;
+  avatar?: string;
+  sex: Sex;
+  birthDate?: Date;
+  location: string;
+  role: UserRole;
+}

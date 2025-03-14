@@ -1,0 +1,17 @@
+# Upload some file
+POST http://localhost:3342/api/files/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="Фото.JPG"
+
+< /home/oem/Загрузки/IMG_8728.JPG
+--boundary--
+
+###
+
+# Get file by ID
+GET http://localhost:3342/api/files/67b75f3fdc7dd6d4836f8e5d
+ HTTP/1.1
+
+###

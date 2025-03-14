@@ -1,0 +1,26 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    // "declaration": true,
+    // "emitDeclarationOnly": false,
+    // "outDir": "dist",
+    // "jsx": "react-jsx",
+    // "allowJs": false,
+    // "esModuleInterop": false,
+    // "allowSyntheticDefaultImports": true,
+    // "strict": true,
+    // "types": ["vite/client", "vitest"],
+    // "target": "ESNext", // Совместимо с Vite
+    "module": "commonjs"
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

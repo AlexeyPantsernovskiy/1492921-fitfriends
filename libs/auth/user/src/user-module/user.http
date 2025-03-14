@@ -1,0 +1,61 @@
+ # Create a new user
+POST http://localhost:3333/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "Aad4@nmail.ru",
+  "name": "Alexey Ivanov",
+  "password": "12345678"
+}
+
+###
+
+# Create a new user with uncorrected url
+POST http://localhost:3333/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "Anna-4@nmail.ru",
+  "name": "Anna",
+  "password": "12345678",
+}
+
+###
+# Get user by ID
+GET http://localhost:3333/api/user/67947fc34444fac62a805fb8 HTTP/1.1
+
+###
+
+# Login user by email and password
+POST http://localhost:3333/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "ai@nmail.ru",
+  "password": "12345678"
+}
+
+###
+
+# Get new JWT pair
+POST http://localhost:3333/api/users/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk0N2ZjMzQ0NDRmYWM2MmE4MDVmYjgiLCJlbWFpbCI6IkFJQG5tYWlsLnJ1IiwibmFtZSI6IkFsZXhleSBJdmFub3YiLCJ0b2tlbklkIjoiZWYxN2U2ZGItY2MxYi00ZDBlLThiMzMtMzk2ODY0NTQ0NWViIiwiaWF0IjoxNzM3ODcwNjQ5LCJleHAiOjE3NDA0NjI2NDl9.lZMnHDaCqgmfWMzTn7RPE8_KMByJlNGJQW9ITyDuZPE
+###
+
+# Check user token
+POST http://localhost:3333/api/user/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk0N2ZjMzQ0NDRmYWM2MmE4MDVmYjgiLCJlbWFpbCI6IkFJQG5tYWlsLnJ1IiwibmFtZSI6IkFsZXhleSBJdmFub3YiLCJpYXQiOjE3Mzc5MDI3OTUsImV4cCI6MTczNzkwMzA5NX0.mWqpXCEGIZp7M5Yi7HQ7Bvl9bGXrd6dHGNIJfPYBRno
+
+###
+
+# Update password
+POST http://localhost:3333/api/users/change-password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk0N2ZjMzQ0NDRmYWM2MmE4MDVmYjgiLCJlbWFpbCI6IkFJQG5tYWlsLnJ1IiwibmFtZSI6IkFsZXhleSBJdmFub3YiLCJpYXQiOjE3Mzc4NzAxNDcsImV4cCI6MTczNzg3MDQ0N30.y0rsM7vlwhrwMgWJl158gf8oh5pH-Ve8HPoJtX864h8
+Content-Type: application/json
+
+{
+  "oldPassword": "123sgrgfg1",
+  "newPassword": "123sgrgfg2"
+}
+
+###
