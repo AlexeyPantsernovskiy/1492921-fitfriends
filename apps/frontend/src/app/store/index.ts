@@ -29,3 +29,5 @@ export const userSelectors = userProcess.selectors;
 export const { logout } = userProcess.actions;
 export const { setSorting } = siteProcess.actions;
 export const getSorting = siteProcess.selectors.sorting;
+
+export * from './user-slice/user-action';

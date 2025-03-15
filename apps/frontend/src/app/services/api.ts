@@ -73,9 +73,12 @@ export const createAPI = (): AxiosInstance => {
         const errorMessage =
           typeof detailMessage.message === 'string'
             ? detailMessage.message
-            : detailMessage.message.join('\n');
+            : detailMessage.message.join('\n\n');
+
         if (!ignoreErrorMessage(errorMessage)) {
-          toast.warn(errorMessage);
+          toast.error(errorMessage, {
+            style: { whiteSpace: 'pre-line' },
+          });
         }
       }
       throw error;

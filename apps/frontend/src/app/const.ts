@@ -12,8 +12,8 @@ export enum AppRoute {
   Root = '/',
   Login = '/login',
   Register = '/register',
+  QuestionnaireUser = '/questionnaire-user/:userId',
 
-  Questionnaire = '/questionnaire',
   Account = '/account',
   Purchases = '/purchases',
   Catalog = '/catalog',
@@ -34,6 +34,7 @@ export const ApiRoute = {
   UserLogout: '/api/users/logout',
   UserRegister: '/api/users/register',
   TokenRefresh: '/api/users/refresh',
+  Questionnaire: '/api/users/:userId/questionnaire',
 } as const;
 
 export enum AuthorizationStatus {

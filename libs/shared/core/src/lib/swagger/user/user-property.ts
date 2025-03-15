@@ -72,7 +72,7 @@ export const UserProperty = {
     Description: {
       description: 'Дата рождения',
       required: false,
-      example: '10.11.1986',
+      example: '1986-11-27',
     },
   },
   Description: {

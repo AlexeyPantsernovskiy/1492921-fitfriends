@@ -1,17 +1,25 @@
  # Create a new user
-POST http://localhost:3333/api/users/register HTTP/1.1
+POST http://localhost:3350/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "Aad4@nmail.ru",
+  "email": "Aad5@nmail.ru",
   "name": "Alexey Ivanov",
-  "password": "12345678"
+  "password": "12345678",
+  "avatar": "img/avatar/user-photo.jpg",
+  "sex": "Мужской",
+  "birthday": "1986-11-27",
+  "description": "Привет! Я обожаю спорт и все, что с ним связанно.",
+  "location": "Петроградская",
+  "photo1": "img/photos/user-card-photo.jpg",
+  "photo2": "img/photos/user-card-photo.jpg",
+  "role": "sportsman"
 }
 
 ###
 
 # Create a new user with uncorrected url
-POST http://localhost:3333/api/users/register HTTP/1.1
+POST http://localhost:3350/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -22,40 +30,52 @@ Content-Type: application/json
 
 ###
 # Get user by ID
-GET http://localhost:3333/api/user/67947fc34444fac62a805fb8 HTTP/1.1
+GET http://localhost:3350/api/users/67d5a5cb391446eaf8b95805 HTTP/1.1
 
 ###
 
 # Login user by email and password
-POST http://localhost:3333/api/users/login HTTP/1.1
+POST http://localhost:3350/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "ai@nmail.ru",
-  "password": "12345678"
+  "email": "user7@user.ru",
+  "password": "123456"
 }
 
 ###
 
 # Get new JWT pair
-POST http://localhost:3333/api/users/refresh HTTP/1.1
+POST http://localhost:3350/api/users/refresh HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk0N2ZjMzQ0NDRmYWM2MmE4MDVmYjgiLCJlbWFpbCI6IkFJQG5tYWlsLnJ1IiwibmFtZSI6IkFsZXhleSBJdmFub3YiLCJ0b2tlbklkIjoiZWYxN2U2ZGItY2MxYi00ZDBlLThiMzMtMzk2ODY0NTQ0NWViIiwiaWF0IjoxNzM3ODcwNjQ5LCJleHAiOjE3NDA0NjI2NDl9.lZMnHDaCqgmfWMzTn7RPE8_KMByJlNGJQW9ITyDuZPE
 ###
 
 # Check user token
-POST http://localhost:3333/api/user/check HTTP/1.1
+POST http://localhost:3350/api/users/check HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk0N2ZjMzQ0NDRmYWM2MmE4MDVmYjgiLCJlbWFpbCI6IkFJQG5tYWlsLnJ1IiwibmFtZSI6IkFsZXhleSBJdmFub3YiLCJpYXQiOjE3Mzc5MDI3OTUsImV4cCI6MTczNzkwMzA5NX0.mWqpXCEGIZp7M5Yi7HQ7Bvl9bGXrd6dHGNIJfPYBRno
 
 ###
 
-# Update password
-POST http://localhost:3333/api/users/change-password HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk0N2ZjMzQ0NDRmYWM2MmE4MDVmYjgiLCJlbWFpbCI6IkFJQG5tYWlsLnJ1IiwibmFtZSI6IkFsZXhleSBJdmFub3YiLCJpYXQiOjE3Mzc4NzAxNDcsImV4cCI6MTczNzg3MDQ0N30.y0rsM7vlwhrwMgWJl158gf8oh5pH-Ve8HPoJtX864h8
+# Fill questionnaire
+PUT http://localhost:3350/api/users/67d5a5cb391446eaf8b95805/questionnaire HTTP/1.1
 Content-Type: application/json
 
 {
-  "oldPassword": "123sgrgfg1",
-  "newPassword": "123sgrgfg2"
+  "specialisation": [
+    "running",
+    "stretching"
+  ],
+  "time": "30-50 мин",
+  "level": "Любитель",
+  "caloriesLose": 3000,
+  "caloriesWaste": 2000,
+  "isReadyToTrain": true
 }
+
+###
+
+# Get questionnaire
+GET http://localhost:3350/api/users/67d5a5cb391446eaf8b95805 HTTP/1.1
+Content-Type: application/json
 
 ###

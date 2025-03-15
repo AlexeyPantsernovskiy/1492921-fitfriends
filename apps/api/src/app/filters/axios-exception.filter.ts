@@ -22,7 +22,6 @@ export class AxiosExceptionFilter implements ExceptionFilter {
       error.response?.data['message'] ||
       error.response?.statusText ||
       INTERNAL_SERVER_ERROR_MESSAGE;
-
     response.status(status).json({
       statusCode: status,
       message,

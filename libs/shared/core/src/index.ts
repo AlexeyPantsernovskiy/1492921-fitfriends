@@ -2,14 +2,18 @@ export * from './lib/constants/data';
 
 export { CommonResponse } from './lib/swagger/common-response';
 export { CommonProperty } from './lib/swagger/common-property';
+export { QuestionnaireProperty } from './lib/swagger/user/questionnaire-property';
+export { QuestionnaireResponse } from './lib/swagger/user/questionnaire-response';
 export { UserProperty } from './lib/swagger/user/user-property';
 export { UserParam } from './lib/swagger/user/user-param';
 export { UserResponse } from './lib/swagger/user/user-response';
 export { UserOperation } from './lib/swagger/user/user-operation';
 
 export { Sex } from './lib/types/sex.enum';
+export { Level } from './lib/types/level.enum';
+export { Time } from './lib/types/time.enum';
+export { Specialisation } from './lib/types/specialisation.enum';
 export * from './lib/types/user-role.enum';
-export { Questionnaire } from './lib/types/questionnaire.interface';
 
 export { Entity } from './lib/base/entity';
 export { StorableEntity } from './lib/interfaces/storable-entity.interface';
@@ -25,6 +29,7 @@ export { UserLogin } from './lib/types/user-login.interface';
 export { UserRegister } from './lib/types/user-register.interface';
 export { User } from './lib/types/user.interface';
 export { UserAuth } from './lib/types/user-auth.interface';
+export { Questionnaire } from './lib/types/questionnaire.interface';
 
 export { SortType } from './lib/types/sort-type.enum';
 export { SortDirection } from './lib/types/sort-direction.enum';

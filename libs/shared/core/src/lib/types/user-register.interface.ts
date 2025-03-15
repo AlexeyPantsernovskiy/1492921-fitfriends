@@ -6,7 +6,7 @@ export interface UserRegister extends UserLogin {
   name: string;
   avatar?: string;
   sex: Sex;
-  birthDate?: Date;
+  birthday?: Date;
   location: string;
   role: UserRole;
 }

@@ -6,15 +6,19 @@ import {
   SelectRadio,
   VariantCaption,
 } from '@frontend/components';
-// import { useAppDispatch } from '@frontend/src/hooks';
+import { useAppDispatch } from '@frontend/src/hooks';
 
 import {
+  Level,
   LEVELS,
   Questionnaire,
   Specialisation,
+  Time,
   TIMES,
 } from '@project/shared-core';
-import CheckboxBtn from '@frontend/src/components/checkbox-btn/checkbox-btn';
+import { CheckboxBtn } from '@frontend/components';
+import { fillQuestionnaire } from '@frontend/store';
+import { useParams } from 'react-router-dom';
 
 type InputCaloriesProps = {
   name: string;
@@ -38,20 +42,20 @@ const InputCalories = ({ name, caption }: InputCaloriesProps): JSX.Element => {
 };
 
 const QuestionnaireUser = (): JSX.Element => {
-  //const dispatch = useAppDispatch();
+  const params = useParams();
+  const { userId } = params;
 
-  const [questionnaire, setQuestionnaire] = useState<Questionnaire>({
-    specialisation: [],
-    time: '',
-    level: '',
-    caloriesLose: 0,
-    caloriesWaste: 0,
-  });
+  const dispatch = useAppDispatch();
+
+  const [specialisation, setSpecialisation] = useState<string[]>([]);
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (questionnaire.specialisation.length === 0) {
+    if (!userId) {
+      throw new Error('userId не указан в маршруте');
+    }
+    if (specialisation.length === 0) {
       const specialisationFields = e.currentTarget.querySelector(
         '[name="specialisation"]'
       ) as HTMLInputElement;
@@ -63,10 +67,10 @@ const QuestionnaireUser = (): JSX.Element => {
     }
 
     const formData = new FormData(e.currentTarget);
-    const data: Questionnaire = {
-      specialisation: questionnaire.specialisation,
-      time: formData.get('time')?.toString() || '',
-      level: formData.get('level')?.toString() || '',
+    const questionnaire: Questionnaire = {
+      specialisation: specialisation as Specialisation[],
+      time: (formData.get('time')?.toString() || '') as Time,
+      level: (formData.get('level')?.toString() || '') as Level,
       caloriesLose: parseInt(
         formData.get('calories-lose')?.toString() || '0',
         10
@@ -75,23 +79,23 @@ const QuestionnaireUser = (): JSX.Element => {
         formData.get('calories-waste')?.toString() || '0',
         10
       ),
+      isReadyToTrain: false,
     };
-
-    console.log('data', data);
-    //dispatch(questionnaireSave(data));
+    dispatch(fillQuestionnaire({ userId, questionnaire }));
   };
 
   const handleCheckboxBtnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
 
     if (name === 'specialisation') {
-      setQuestionnaire((prev) => ({
-        ...prev,
-        specialisation: checked
-          ? [...prev.specialisation, value]
-          : prev.specialisation.filter((item) => item !== value),
-      }));
+      const specialisationValue = value as Specialisation;
+      setSpecialisation((prev) =>
+        checked
+          ? [...prev, value]
+          : prev.filter((item) => item !== specialisationValue)
+      );
     }
+    // Очистка сообщения об ошибки
     if (checked) {
       const checkboxes = document.querySelectorAll<HTMLInputElement>(
         '[name="specialisation"]'

@@ -8,17 +8,24 @@ import {
   SEX,
   Sex,
   UserRole,
+  TIMES,
+  LEVELS,
+  SPECIALISATIONS,
 } from '@project/shared-core';
 
-@Schema({ _id: false }) // Отключаем _id для вложенной схемы
+@Schema({ _id: false })
 export class QuestionnaireSchema {
-  @Prop({ type: [String], default: [] })
+  @Prop({
+    type: [String],
+    enum: SPECIALISATIONS,
+    required: true,
+  })
   specialisation: string[];
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, enum: TIMES, required: true })
   time: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, enum: LEVELS, required: true })
   level: string;
 
   @Prop({ type: Number, required: true })
@@ -26,6 +33,13 @@ export class QuestionnaireSchema {
 
   @Prop({ type: Number, required: true })
   caloriesWaste: number;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+    required: true,
+  })
+  isReadyToTrain: boolean;
 }
 
 @Schema({
@@ -55,7 +69,7 @@ export class UserModel extends Document implements UserAuth {
   public sex: Sex;
 
   @Prop()
-  public birthDate?: Date;
+  public birthday?: Date;
 
   @Prop()
   public description?: string;

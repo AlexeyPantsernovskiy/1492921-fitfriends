@@ -13,14 +13,14 @@ import {
 } from '@nestjs/common';
 
 import {
-  UserAuth,
-  UserToken,
   User,
   CreateUserDto,
   LoginUserDto,
+  UserTokenRdo,
+  UserRdo,
 } from '@project/shared-core';
 import { jwtConfig } from '@project/auth-config';
-import { createJWTPayload } from '@project/shared-helpers';
+import { createJWTPayload, fillDto } from '@project/shared-helpers';
 
 import { RefreshTokenService } from '../refresh-token-module/refresh-token.service';
 import { UserRepository } from './user.repository';
@@ -39,43 +39,16 @@ export class UserService {
     private readonly refreshTokenService: RefreshTokenService
   ) {}
 
-  public async register(dto: CreateUserDto): Promise<UserEntity> {
-    const {
-      email,
-      name,
-      avatar,
-      sex,
-      birthDate,
-      description,
-      location,
-      photo1,
-      photo2,
-      role,
-      password,
-    } = dto;
-
-    const user: UserAuth = {
-      email,
-      name,
-      avatar,
-      sex,
-      birthDate,
-      description,
-      location,
-      photo1,
-      photo2,
-      role,
-      passwordHash: '',
-    };
-
-    if (await this.userRepository.findByEmail(email)) {
+  public async register(dto: CreateUserDto): Promise<UserRdo> {
+    if (await this.userRepository.findByEmail(dto.email)) {
       throw new ConflictException(UserErrorMessage.EmailExists);
     }
-    const userEntity = await new UserEntity(user).setPassword(password);
-    return await this.userRepository.save(userEntity);
+    const userEntity = await new UserEntity(dto).setPassword(dto.password);
+    const newUser = await this.userRepository.save(userEntity);
+    return fillDto(UserRdo, newUser.toPOJO());
   }
 
-  public async verifyUser(dto: LoginUserDto) {
+  public async verifyUser(dto: LoginUserDto): Promise<UserRdo | null> {
     const { email, password } = dto;
     const existUser = await this.userRepository.findByEmail(email);
     if (!existUser) {
@@ -85,30 +58,26 @@ export class UserService {
     if (!(await existUser.comparePassword(password))) {
       throw new UnauthorizedException(UserErrorMessage.PasswordWrong);
     }
-    return existUser;
+    return fillDto(UserRdo, existUser.toPOJO());
   }
 
-  public async getUserById(id: string) {
+  public async getUserById(id: string): Promise<UserRdo | null> {
     const user = await this.userRepository.findById(id);
-
     if (!user) {
       throw new NotFoundException(UserErrorMessage.UserNotFound);
     }
-
-    return user;
+    return fillDto(UserRdo, user.toPOJO());
   }
 
-  public async getUserByEmail(email: string) {
+  public async getUserByEmail(email: string): Promise<UserRdo | null> {
     const user = await this.userRepository.findByEmail(email);
-
     if (!user) {
       throw new NotFoundException(UserErrorMessage.UserNotFound);
     }
-
-    return user;
+    return fillDto(UserRdo, user.toPOJO());
   }
 
-  public async createUserToken(user: User): Promise<UserToken> {
+  public async createUserToken(user: User): Promise<UserTokenRdo> {
     const accessTokenPayload = createJWTPayload(user);
     const refreshTokenPayload = {
       ...accessTokenPayload,
@@ -132,13 +101,5 @@ export class UserService {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
-  }
-
-  public async getUserInfo(userId: string) {
-    const existUser = await this.userRepository.findById(userId);
-    if (!existUser) {
-      throw new NotFoundException(UserErrorMessage.UserNotFound);
-    }
-    return existUser;
   }
 }

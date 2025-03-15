@@ -61,7 +61,7 @@ const App = (): JSX.Element => (
           }
         />
         <Route
-          path={AppRoute.Questionnaire}
+          path={AppRoute.QuestionnaireUser}
           element={
             <PrivateRoute
               restrictedFor={AuthorizationStatus.Auth}

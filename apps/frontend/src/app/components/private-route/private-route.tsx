@@ -18,7 +18,6 @@ const PrivateRoute = ({
   redirectTo,
 }: PrivateRouteProps): JSX.Element => {
   const authorizationStatus = useAppSelector(userSelectors.authorizationStatus);
-  console.log('AuthorizationStatus.Auth', AuthorizationStatus.Auth);
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <Spinner />;
   }

@@ -6,7 +6,7 @@ import {
   PipeTransform,
 } from '@nestjs/common';
 
-const BAD_MONGO_ID_ERROR = 'Bad entity ID';
+const BAD_MONGO_ID_ERROR = 'Некорректный идентификатор MongoDB';
 
 @Injectable()
 export class MongoIdValidationPipe implements PipeTransform {

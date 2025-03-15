@@ -1,3 +1,5 @@
+import { Specialisation } from '../types/specialisation.enum';
+
 export const PREFIX_LOCATION = 'ст.м.';
 
 export const LOCATIONS = [
@@ -10,15 +12,7 @@ export const LOCATIONS = [
 
 export const SEX = ['Мужской', 'Женский', 'Неважно'] as const;
 
-export const Specialisation = {
-  yoga: 'Йога',
-  running: 'Бег',
-  boxing: 'Бокс',
-  stretching: 'Стрейчинг',
-  crossfit: 'Кроссфит',
-  aerobics: 'Аэробика',
-  pilates: 'Пилатес',
-} as const;
+export const SPECIALISATIONS = Object.keys(Specialisation);
 
 export const LEVELS = ['Новичок', 'Любитель', 'Профессионал'] as const;
 

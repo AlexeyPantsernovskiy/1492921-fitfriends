@@ -31,10 +31,6 @@ export const UserResponse = {
     status: HttpStatus.CREATED,
     description: 'Новый пользователь был успешно создан',
   },
-  // PasswordUpdated: {
-  //   status: HttpStatus.CREATED,
-  //   description: 'Пароль пользователя был успешно обновлен',
-  // },
   UserNotAuth: {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Пользователь не авторизован',

@@ -1,5 +1,4 @@
-import { UserEntity } from './user.entity';
-
+import { UserRdo } from '@project/shared-core';
 export interface RequestWithUser {
-  user?: UserEntity;
+  user?: UserRdo;
 }

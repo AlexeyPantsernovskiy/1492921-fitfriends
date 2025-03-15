@@ -14,6 +14,7 @@ import { UserModel, UserSchema } from './user.model';
 import { UserRepository } from './user.repository';
 import { UserFactory } from './user.factory';
 import { UserService } from './user.service';
+import { QuestionnaireService } from './questionnaire.service';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UserService } from './user.service';
     UserRepository,
     UserFactory,
     UserService,
+    QuestionnaireService,
     JwtAccessStrategy,
     LocalStrategy,
     JwtRefreshStrategy,

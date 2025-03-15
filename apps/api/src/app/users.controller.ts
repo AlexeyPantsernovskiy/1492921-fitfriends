@@ -7,6 +7,7 @@ import {
   InternalServerErrorException,
   Param,
   Post,
+  Put,
   Req,
   UploadedFile,
   UseFilters,
@@ -27,7 +28,9 @@ import * as url from 'node:url';
 import {
   CommonResponse,
   DefaultPhoto,
+  FillQuestionnaireDto,
   LoginUserDto,
+  QuestionnaireResponse,
   UserOperation,
   UserParam,
   UserProperty,
@@ -42,6 +45,7 @@ import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckNoAuthGuard } from './guards/check-no-auth.guard.';
 import { CreateUserWithPhotoDto } from './dto/create-user-with-photo.dto';
+import { MongoIdValidationPipe } from '@project/pipes';
 
 @ApiTags('Users')
 @Controller('users')
@@ -121,7 +125,9 @@ export class UsersController {
   @ApiResponse(UserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
   @ApiParam(UserParam.UserId)
-  public async show(@Param('userId') userId: string) {
+  public async show(
+    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string
+  ) {
     const userResponse = await this.httpService.axiosRef.get<UserRdo>(
       `${ApplicationServiceURL.Users}/${userId}`,
       {}
@@ -164,5 +170,40 @@ export class UsersController {
       }
     );
     return data;
+  }
+
+  @Put(':userId/questionnaire')
+  @ApiOperation(UserOperation.FillQuestionnaire)
+  @ApiResponse(QuestionnaireResponse.Created)
+  @ApiResponse(QuestionnaireResponse.UserNotFound)
+  @ApiResponse(CommonResponse.BadRequest)
+  @HttpCode(QuestionnaireResponse.Created.status)
+  public async fillQuestionnaire(
+    @Param(UserParam.UserId.name, MongoIdValidationPipe)
+    userId: string,
+    @Body() dto: FillQuestionnaireDto
+  ) {
+    const questionnaireResponse = await this.httpService.axiosRef.put(
+      `${ApplicationServiceURL.Users}/${userId}/questionnaire`,
+      dto
+    );
+    return questionnaireResponse.data;
+  }
+
+  @Get(':userId/questionnaire')
+  @ApiOperation(UserOperation.GetQuestionnaire)
+  @ApiResponse(QuestionnaireResponse.Get)
+  @ApiResponse(QuestionnaireResponse.UserNotFound)
+  @ApiResponse(CommonResponse.BadRequest)
+  @HttpCode(QuestionnaireResponse.Get.status)
+  public async getQuestionnaire(
+    @Param(UserParam.UserId.name, MongoIdValidationPipe)
+    userId: string
+  ) {
+    const questionnaireResponse = await this.httpService.axiosRef.get<UserRdo>(
+      `${ApplicationServiceURL.Users}/${userId}/questionnaire`,
+      {}
+    );
+    return questionnaireResponse.data;
   }
 }

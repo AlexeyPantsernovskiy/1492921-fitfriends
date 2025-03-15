@@ -8,23 +8,28 @@ import {
   UserToken,
   UserLogin,
   UserRdo,
-  UserRegister,
   LoggedUserRdo,
+  Questionnaire,
+  QuestionnaireRdo,
+  FillQuestionnaireDto,
+  UserRole,
 } from '@project/shared-core';
 import { ApiExtra } from '@frontend/src/types/types';
 
-export const UserAction = {
-  LOGIN_USER: 'user/login',
-  LOGOUT_USER: 'user/logout',
-  GET_USER_STATUS: 'user/check-auth',
-  REGISTER_USER: 'user/register',
+const UserAction = {
+  LoginUser: 'user/login',
+  LogoutUser: 'user/logout',
+  GetUserStatus: 'user/check-auth',
+  RegisterUser: 'user/register',
+  FillQuestionnaire: 'user/fill-questionnaire',
+  GetQuestionnaire: 'user/get-questionnaire',
 };
 
 export const getUserStatus = createAsyncThunk<
   UserRdo,
   undefined,
   { extra: ApiExtra }
->(UserAction.GET_USER_STATUS, async (_arg, { extra }) => {
+>(UserAction.GetUserStatus, async (_arg, { extra }) => {
   const { api } = extra;
 
   const refreshAccessToken = async (): Promise<UserToken> => {
@@ -64,7 +69,7 @@ export const loginUser = createAsyncThunk<
   UserRdo,
   UserLogin,
   { extra: ApiExtra }
->(UserAction.LOGIN_USER, async (login, { extra }) => {
+>(UserAction.LoginUser, async (login, { extra }) => {
   const { api, history } = extra;
 
   const { data } = await api.post<LoggedUserRdo>(ApiRoute.UserLogin, login);
@@ -78,11 +83,43 @@ export const loginUser = createAsyncThunk<
 
 export const registerUser = createAsyncThunk<
   void,
-  UserRegister,
+  FormData,
   { extra: ApiExtra }
->(UserAction.REGISTER_USER, async (user, { extra }) => {
+>(UserAction.RegisterUser, async (user, { extra }) => {
   const { api, history } = extra;
 
-  await api.post<UserRdo>(ApiRoute.UserRegister, user);
-  history.push(AppRoute.Questionnaire);
+  const { data } = await api.post<UserRdo>(ApiRoute.UserRegister, user);
+  const userId = data.id;
+  const role = data.role;
+  if (role === UserRole.Sportsman.code) {
+    history.push(AppRoute.QuestionnaireUser.replace(':userId', userId));
+  }
+});
+
+export const fillQuestionnaire = createAsyncThunk<
+  void,
+  { userId: string; questionnaire: Questionnaire },
+  { extra: ApiExtra }
+>(
+  UserAction.FillQuestionnaire,
+  async ({ userId, questionnaire }, { extra }) => {
+    const { api, history } = extra;
+    await api.put<QuestionnaireRdo>(
+      ApiRoute.Questionnaire.replace(':userId', userId),
+      questionnaire
+    );
+    history.push(AppRoute.Catalog);
+  }
+);
+
+export const getQuestionnaire = createAsyncThunk<
+  QuestionnaireRdo,
+  string,
+  { extra: ApiExtra }
+>(UserAction.GetUserStatus, async (userId, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<QuestionnaireRdo>(
+    ApiRoute.Questionnaire.replace(':userId', userId)
+  );
+  return data;
 });

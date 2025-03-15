@@ -39,6 +39,7 @@ const Select = ({
         onClick={handleToggleList}
       >
         <span className="custom-select__text" style={{ fontSize: '100%' }}>
+          {prefixCaption}
           {value}
         </span>
 

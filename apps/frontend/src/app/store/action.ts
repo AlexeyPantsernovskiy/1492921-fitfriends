@@ -16,7 +16,7 @@ type Extra = {
   history: History;
 };
 
-export const UserAction = {
+export const Action = {
   // FETCH_PRODUCT_TYPES: 'product-types/fetch',
   // FETCH_PRODUCTS: 'products/fetch',
   // FETCH_PRODUCT: 'product/fetch',

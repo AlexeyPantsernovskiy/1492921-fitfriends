@@ -50,17 +50,8 @@ const Registration = (): JSX.Element => {
     if (selectedPhoto) {
       formData.append('avatarFile', selectedPhoto);
     }
-
-    const data: UserRegister = {
-      email: formData.get('email')?.toString() || '',
-      name: formData.get('name')?.toString() || '',
-      password: formData.get('password')?.toString() || '',
-      location: location,
-      sex: (formData.get('sex')?.toString() || '') as Sex,
-      role: (formData.get('role')?.toString() || '') as UserRole,
-    };
-    console.log('RegisterUser', data);
-    dispatch(registerUser(data));
+    formData.set('location', location);
+    dispatch(registerUser(formData));
   };
 
   return (

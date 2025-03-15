@@ -10,7 +10,7 @@ export class UserEntity extends Entity implements StorableEntity<UserAuth> {
   public name: string;
   public avatar?: string;
   public sex: Sex;
-  public birthDate?: Date;
+  public birthday?: Date;
   public description?: string;
   public location: string;
   public photo1: string;
@@ -34,7 +34,7 @@ export class UserEntity extends Entity implements StorableEntity<UserAuth> {
     this.name = user.name;
     this.avatar = user.avatar;
     this.sex = user.sex;
-    this.birthDate = user.birthDate;
+    this.birthday = user.birthday;
     this.description = user.description;
     this.location = user.location;
     this.photo1 = user.photo1;
@@ -52,7 +52,7 @@ export class UserEntity extends Entity implements StorableEntity<UserAuth> {
       name: this.name,
       avatar: this.avatar,
       sex: this.sex,
-      birthDate: this.birthDate,
+      birthday: this.birthday,
       description: this.description,
       location: this.location,
       photo1: this.photo1,
