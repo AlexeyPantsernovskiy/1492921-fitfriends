@@ -48,8 +48,8 @@ POST http://localhost:3000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "Aad4@nmail.ru",
-  "password": "12345678"
+  "email": "user4@user.ru",
+  "password": "123456"
 }
 
 ###
@@ -70,7 +70,7 @@ PUT http://localhost:3000/api/users/67d5a5cb391446eaf8b95805/questionnaire HTTP/
 Content-Type: application/json
 
 {
-  "specialisation": [
+  "specialization": [
     "running",
     "stretching"
   ],
@@ -86,6 +86,43 @@ Content-Type: application/json
 # Get questionnaire
 GET http://localhost:3000/api/users/67d5a5cb391446eaf8b95805 HTTP/1.1
 Content-Type: application/json
+
+###
+
+# Update user
+PATCH http://localhost:3000/api/users/update HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2Q3MzQyOTAwYjc4YmViM2I3ZWVjMDMiLCJlbWFpbCI6InVzZXI0QHVzZXIucnUiLCJuYW1lIjoi0JjQstCw0L0iLCJyb2xlIjoic3BvcnRzbWFuIiwiaWF0IjoxNzQyMTgxODU3LCJleHAiOjE3NDIxODI3NTd9.V4RI6Q9xG0AKBdIL5ST9KYAhREz5Fn0bS4x4gEhYYGY
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="description"
+
+Я люблю сноуборд
+--boundary
+Content-Disposition: form-data; name="isReadyToTrain"
+
+false
+--boundary
+Content-Disposition: form-data; name="specialization"
+
+yoga
+--boundary
+Content-Disposition: form-data; name="specialization"
+
+aerobics
+--boundary
+Content-Disposition: form-data; name="location"
+
+Петроградская
+--boundary
+Content-Disposition: form-data; name="level"
+
+Любитель
+--boundary
+Content-Disposition: form-data; name="avatarFile"; filename="user-avatar.png"
+
+< ../../../../uploads/default-photo/user-avatar.png
+--boundary--
 
 ###
 
@@ -192,5 +229,4 @@ Content-Type: application/json
   "countStrings": 12,
   "price": 145.5
 }
-
 

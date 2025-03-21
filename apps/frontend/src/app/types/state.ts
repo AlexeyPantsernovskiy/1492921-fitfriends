@@ -1,7 +1,7 @@
 import store from '@frontend/store';
 import type { Guitar, GuitarType, ProductWithPagination } from './types';
 import { AuthorizationStatus } from '@frontend/src/const';
-import { SortType, User } from '@project/shared-core';
+import { SortType, User } from '@project/shared';
 
 export type SiteData = {
   guitarTypes: GuitarType | null;
@@ -18,6 +18,7 @@ export type SiteProcess = {
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   user: User | null;
+  saving: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

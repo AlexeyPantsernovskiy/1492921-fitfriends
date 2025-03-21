@@ -1,5 +1,4 @@
-import { SortDirection, SortType } from '@project/shared-core';
-import { InputProps } from './components/input/input';
+import { SortDirection, SortType } from '@project/shared';
 
 export enum ProductCardTab {
   Characteristics = 'characteristics',
@@ -13,8 +12,13 @@ export enum AppRoute {
   Login = '/login',
   Register = '/register',
   QuestionnaireUser = '/questionnaire-user/:userId',
+  Main = '/main',
+  Intro = '/intro',
+  PersonalAccount = '/personal-account',
+  NotFound = '/404',
 
-  Account = '/account',
+  Friends = '/friends',
+
   Purchases = '/purchases',
   Catalog = '/catalog',
   TrainingCard = '/training/:id',
@@ -23,7 +27,6 @@ export enum AppRoute {
   Products = '/products',
   Add = '/add',
   Edit = '/edit',
-  NotFound = '/404',
 }
 
 export const ApiRoute = {
@@ -35,6 +38,9 @@ export const ApiRoute = {
   UserRegister: '/api/users/register',
   TokenRefresh: '/api/users/refresh',
   Questionnaire: '/api/users/:userId/questionnaire',
+  UserUpdate: '/api/users/update',
+  UserGetInfo: '/api/users/:userId',
+  UserAvatar: '/api/users/avatar',
 } as const;
 
 export enum AuthorizationStatus {
@@ -71,16 +77,3 @@ export const TokenName = {
 
 export const BACKEND_URL = 'http://localhost:3000';
 export const REQUEST_TIMEOUT = 5000;
-
-export const InputField = {
-  Name: { name: 'name', caption: 'Имя', type: 'text' },
-  Email: { name: 'email', caption: 'E-mail', type: 'email' },
-  Birthday: {
-    name: 'birthday',
-    caption: 'Дата рождения',
-    type: 'date',
-    max: '2099-12-31',
-    required: false,
-  },
-  Password: { name: 'password', caption: 'Пароль', type: 'password' },
-} as const satisfies Record<string, InputProps>;

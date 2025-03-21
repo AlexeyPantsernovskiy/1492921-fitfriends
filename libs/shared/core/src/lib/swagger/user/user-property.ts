@@ -1,11 +1,15 @@
 import { LOCATIONS, SEX } from '../../constants/data';
-import { Role } from '../../types/user-role.enum';
+import { QuestionnaireUserRdo } from '../../rdo/user/questionnaire-user.rdo';
+import { UserRole } from '../../types/user-role.enum';
 
 export const UserProperty = {
   Id: {
     Description: {
       description: 'Идентификатор пользователя (ID)',
       example: '67947fc34444fac62a805fb8',
+    },
+    Validate: {
+      Message: 'Идентификатор пользователя должен быть корректным MongoID',
     },
   },
   Email: {
@@ -127,11 +131,28 @@ export const UserProperty = {
   Role: {
     Description: {
       description: 'Роль пользователя в системе (тренер/спортсмен)',
-      enum: Object.values(Role),
+      enum: Object.values(UserRole),
       example: 'sportsman',
     },
     Validate: {
-      Message: `Роль пользователя должна быть одним из вариантов: ${Object.values(Role).join(', ')}`,
+      Message: `Роль пользователя должна быть одним из вариантов: ${Object.values(UserRole).join(', ')}`,
+    },
+  },
+  Questionnaire: {
+    Description: {
+      description: 'Опросник пользователя',
+      type: QuestionnaireUserRdo,
+      example: `{
+  "specialization": [
+    "running",
+    "stretching"
+  ],
+  "time": "30-50 мин",
+  "level": "Любитель",
+  "caloriesLose": 3000,
+  "caloriesWaste": 2000,
+  "isReadyToTrain": true
+}`,
     },
   },
   AccessToken: {

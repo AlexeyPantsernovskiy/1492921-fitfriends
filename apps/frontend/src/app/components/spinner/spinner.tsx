@@ -1,5 +1,13 @@
 import { JSX } from 'react';
 
-const Spinner = (): JSX.Element => <div>Загрузка...</div>;
+import { SpinnerText } from '@frontend/types/component';
+
+export type SpinnerProps = {
+  text?: SpinnerText;
+};
+
+const Spinner = ({ text = SpinnerText.Loading }: SpinnerProps): JSX.Element => (
+  <div>{text}</div>
+);
 
 export default Spinner;

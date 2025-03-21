@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Put,
   Req,
@@ -23,11 +24,12 @@ import { fillDto } from '@project/shared-helpers';
 import {
   CommonResponse,
   CreateUserDto,
-  FillQuestionnaireDto,
+  FillQuestionnaireUserDto,
   LoggedUserRdo,
   LoginUserDto,
-  QuestionnaireResponse,
+  QuestionnaireUserResponse,
   TokenPayloadRdo,
+  UpdateUserDto,
   UserOperation,
   UserParam,
   UserResponse,
@@ -38,14 +40,14 @@ import { RequestWithUser } from './request-with-user.interface';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RequestWithTokenPayload } from './request-with-token-payload.interface';
-import { QuestionnaireService } from './questionnaire.service';
+import { QuestionnaireUserService } from './questionnaire-user.service';
 
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly questionnaireService: QuestionnaireService
+    private readonly questionnaireUserService: QuestionnaireUserService
   ) {}
 
   @Post('register')
@@ -108,28 +110,39 @@ export class UserController {
 
   @Put(':userId/questionnaire')
   @ApiOperation(UserOperation.FillQuestionnaire)
-  @ApiResponse(QuestionnaireResponse.Created)
-  @ApiResponse(QuestionnaireResponse.UserNotFound)
+  @ApiResponse(QuestionnaireUserResponse.Created)
+  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
-  @HttpCode(QuestionnaireResponse.Created.status)
+  @ApiParam(UserParam.UserId)
+  @HttpCode(QuestionnaireUserResponse.Created.status)
   public async fillQuestionnaire(
-    @Param(UserParam.UserId.name, MongoIdValidationPipe)
-    userId: string,
-    @Body() dto: FillQuestionnaireDto
+    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string,
+    @Body() dto: FillQuestionnaireUserDto
   ) {
-    return await this.questionnaireService.fill(userId, dto);
+    return await this.questionnaireUserService.fill(userId, dto);
   }
 
   @Get(':userId/questionnaire')
   @ApiOperation(UserOperation.GetQuestionnaire)
-  @ApiResponse(QuestionnaireResponse.Get)
-  @ApiResponse(QuestionnaireResponse.UserNotFound)
+  @ApiResponse(QuestionnaireUserResponse.Get)
+  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
-  @HttpCode(QuestionnaireResponse.Get.status)
+  @ApiParam(UserParam.UserId)
+  @HttpCode(QuestionnaireUserResponse.Get.status)
   public async getQuestionnaire(
-    @Param(UserParam.UserId.name, MongoIdValidationPipe)
-    userId: string
+    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string
   ) {
-    return await this.questionnaireService.get(userId);
+    return await this.questionnaireUserService.get(userId);
+  }
+
+  @Patch('update')
+  @ApiOperation(UserOperation.Update)
+  @ApiResponse(UserResponse.UserUpdated)
+  @ApiResponse(UserResponse.UserNotFound)
+  @ApiResponse(UserResponse.UserNotAuth)
+  @ApiResponse(CommonResponse.BadRequest)
+  @HttpCode(UserResponse.UserUpdated.status)
+  public async updateUser(@Body() dto: UpdateUserDto) {
+    return await this.userService.updateUser(dto);
   }
 }

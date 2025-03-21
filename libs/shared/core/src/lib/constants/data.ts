@@ -1,4 +1,6 @@
-import { Specialisation } from '../types/specialisation.enum';
+import { Specialization } from '../types/specialization.enum';
+
+export const EMPTY_VALUE = '~~~empty~~~';
 
 export const PREFIX_LOCATION = 'ст.м.';
 
@@ -12,7 +14,7 @@ export const LOCATIONS = [
 
 export const SEX = ['Мужской', 'Женский', 'Неважно'] as const;
 
-export const SPECIALISATIONS = Object.keys(Specialisation);
+export const SPECIALIZATIONS = Object.keys(Specialization);
 
 export const LEVELS = ['Новичок', 'Любитель', 'Профессионал'] as const;
 

@@ -2,10 +2,12 @@ import { HttpService } from '@nestjs/axios';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   InternalServerErrorException,
   Param,
+  Patch,
   Post,
   Put,
   Req,
@@ -23,14 +25,16 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import FormData from 'form-data';
-import * as url from 'node:url';
+//import * as url from 'node:url';
 
 import {
   CommonResponse,
   DefaultPhoto,
-  FillQuestionnaireDto,
+  EMPTY_VALUE,
+  FillQuestionnaireUserDto,
   LoginUserDto,
-  QuestionnaireResponse,
+  QuestionnaireUserResponse,
+  User,
   UserOperation,
   UserParam,
   UserProperty,
@@ -46,6 +50,9 @@ import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckNoAuthGuard } from './guards/check-no-auth.guard.';
 import { CreateUserWithPhotoDto } from './dto/create-user-with-photo.dto';
 import { MongoIdValidationPipe } from '@project/pipes';
+import { CheckAuthGuard } from './guards/check-auth.guard';
+import { InjectUserIdInterceptor } from './interceptors/inject-user-id.interceptor';
+import { UpdateUserWithPhotoDto } from './dto/update-user-with-photo.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -66,8 +73,15 @@ export class UsersController {
     return null;
   }
 
-  private addFilePath(path: string): string {
-    return `${ApplicationServiceURL.FileServe}/${path}`;
+  private addFilePath(user: User): User {
+    return {
+      ...user,
+      avatar: user.avatar
+        ? `${ApplicationServiceURL.FileServe}/${user.avatar}`
+        : '',
+      photo1: `${ApplicationServiceURL.FileServe}/${user.photo1}`,
+      photo2: `${ApplicationServiceURL.FileServe}/${user.photo2}`,
+    };
   }
 
   @Post('register')
@@ -102,7 +116,7 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/register`,
       dto
     );
-    return userResponse.data;
+    return this.addFilePath(userResponse.data);
   }
 
   @Post('login')
@@ -112,11 +126,11 @@ export class UsersController {
   @ApiResponse(CommonResponse.BadRequest)
   @ApiResponse(UserResponse.UserNotFound)
   public async login(@Body() loginUserDto: LoginUserDto) {
-    const { data } = await this.httpService.axiosRef.post(
+    const userResponse = await this.httpService.axiosRef.post<UserRdo>(
       `${ApplicationServiceURL.Users}/login`,
       loginUserDto
     );
-    return data;
+    return this.addFilePath(userResponse.data);
   }
 
   @Get(':userId')
@@ -132,7 +146,7 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/${userId}`,
       {}
     );
-    return userResponse.data;
+    return this.addFilePath(userResponse.data);
   }
 
   @Post('refresh')
@@ -174,14 +188,15 @@ export class UsersController {
 
   @Put(':userId/questionnaire')
   @ApiOperation(UserOperation.FillQuestionnaire)
-  @ApiResponse(QuestionnaireResponse.Created)
-  @ApiResponse(QuestionnaireResponse.UserNotFound)
+  @ApiResponse(QuestionnaireUserResponse.Created)
+  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
-  @HttpCode(QuestionnaireResponse.Created.status)
+  @ApiParam(UserParam.UserId)
+  @HttpCode(QuestionnaireUserResponse.Created.status)
   public async fillQuestionnaire(
     @Param(UserParam.UserId.name, MongoIdValidationPipe)
     userId: string,
-    @Body() dto: FillQuestionnaireDto
+    @Body() dto: FillQuestionnaireUserDto
   ) {
     const questionnaireResponse = await this.httpService.axiosRef.put(
       `${ApplicationServiceURL.Users}/${userId}/questionnaire`,
@@ -192,10 +207,11 @@ export class UsersController {
 
   @Get(':userId/questionnaire')
   @ApiOperation(UserOperation.GetQuestionnaire)
-  @ApiResponse(QuestionnaireResponse.Get)
-  @ApiResponse(QuestionnaireResponse.UserNotFound)
+  @ApiResponse(QuestionnaireUserResponse.Get)
+  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
-  @HttpCode(QuestionnaireResponse.Get.status)
+  @ApiParam(UserParam.UserId)
+  @HttpCode(QuestionnaireUserResponse.Get.status)
   public async getQuestionnaire(
     @Param(UserParam.UserId.name, MongoIdValidationPipe)
     userId: string
@@ -205,5 +221,40 @@ export class UsersController {
       {}
     );
     return questionnaireResponse.data;
+  }
+
+  @Patch('update')
+  @ApiOperation(UserOperation.Update)
+  @ApiResponse(UserResponse.UserUpdated)
+  @ApiResponse(UserResponse.UserNotFound)
+  @ApiResponse(UserResponse.UserNotAuth)
+  @ApiResponse(CommonResponse.BadRequest)
+  @HttpCode(UserResponse.UserUpdated.status)
+  @ApiConsumes('multipart/form-data')
+  @ApiBearerAuth('accessToken')
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(UseInterceptors)
+  @UseInterceptors(InjectUserIdInterceptor)
+  @UseInterceptors(
+    UploadFileInterceptor(UserProperty.PhotoFile.Validate, 'avatarFile')
+  )
+  public async updateUser(
+    @Body() dto: UpdateUserWithPhotoDto,
+    @UploadedFile() avatarFile?: Express.Multer.File
+  ) {
+    if (avatarFile) {
+      try {
+        dto['avatar'] = await this.uploadFile(avatarFile);
+      } catch (error) {
+        throw new InternalServerErrorException(
+          `Не удалось загрузить фото на сервер по причине: ${error.message} (${error?.errors})`
+        );
+      }
+    }
+    const updateResponse = await this.httpService.axiosRef.patch<UserRdo>(
+      `${ApplicationServiceURL.Users}/update`,
+      dto
+    );
+    return this.addFilePath(updateResponse.data);
   }
 }

@@ -1,45 +1,21 @@
-import { FormEvent, JSX, /*useEffect, useRef,*/ useState } from 'react';
+import { FormEvent, JSX, useState } from 'react';
 
 import { useAppDispatch } from '@frontend/src/hooks';
 import { registerUser } from '@frontend/src/store/user-slice/user-action';
-import {
-  LOCATIONS,
-  PREFIX_LOCATION,
-  Sex,
-  SEX,
-  UserRegister,
-  UserRole,
-} from '@project/shared-core';
-
+import { LOCATIONS, PREFIX_LOCATION, SEX, UserRoleInfo } from '@project/shared';
 import {
   Avatar,
-  Button,
-  Checkbox,
-  Input,
+  FilledButton,
+  CheckboxIcon,
+  CustomInput,
   Logo,
-  Select,
-  SelectRadio,
+  CustomSelect,
+  ToggleRadio,
 } from '@frontend/components';
-import { AppRoute, InputField } from '@frontend/src/const';
-import historyBrowser from '@frontend/src/history';
+import { FormField } from '@frontend/types/component';
 
 const Registration = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  //const [isNameValid, setIsNameValid] = useState<boolean>(false);
-  // const uploadRef = useRef<HTMLInputElement>(null);
-  // const imgRef = useRef<HTMLImageElement>(null);
-
-  // const onImageAddButtonClick = () => {
-  //   uploadRef.current?.click();
-  // };
-
-  // useEffect(() => {
-  //   if (product?.photo) {
-  //     if (imgRef.current) {
-  //       imgRef.current.srcset = product.photo;
-  //     }
-  //   }
-  // }, [product, dispatch]);
 
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
   const [location, setLocation] = useState('');
@@ -67,7 +43,14 @@ const Registration = (): JSX.Element => {
               <form method="get" onSubmit={handleFormSubmit}>
                 <div className="sign-up">
                   <div className="sign-up__load-photo">
-                    <Avatar photo={selectedPhoto} onChange={setSelectedPhoto} />
+                    <Avatar
+                      photo={
+                        selectedPhoto
+                          ? URL.createObjectURL(selectedPhoto)
+                          : undefined
+                      }
+                      onChange={setSelectedPhoto}
+                    />
                     <div className="sign-up__description">
                       <h2 className="sign-up__legend">
                         Загрузите фото профиля
@@ -78,37 +61,36 @@ const Registration = (): JSX.Element => {
                     </div>
                   </div>
                   <div className="sign-up__data">
-                    <Input {...InputField.Name} />
-                    <Input {...InputField.Email} />
-                    <Input {...InputField.Birthday} />
-                    <Select
+                    <CustomInput {...FormField.Name} />
+                    <CustomInput {...FormField.Email} />
+                    <CustomInput {...FormField.Birthday} />
+                    <CustomSelect
                       items={LOCATIONS}
                       caption="Ваша локация"
                       value={location}
                       prefixCaption={PREFIX_LOCATION}
                       onSelect={setLocation}
                     />
-                    <Input {...InputField.Password} />
-                    <SelectRadio
+                    <CustomInput {...FormField.Password} />
+                    <ToggleRadio
+                      {...FormField.Sex}
                       classPrefix="sign-up"
-                      name="sex"
                       items={SEX}
-                      caption="Пол"
                     />
                   </div>
                   <div className="sign-up__role">
                     <h2 className="sign-up__legend">Выберите роль</h2>
                     <div className="role-selector sign-up__role-selector">
-                      {Object.values(UserRole).map((role) => (
+                      {Object.entries(UserRoleInfo).map(([key, value]) => (
                         <div className="role-btn">
                           <label>
                             <input
                               className="visually-hidden"
                               type="radio"
                               name="role"
-                              value={role.code}
-                              defaultChecked={role.isDefault}
-                              disabled={role.isDisabled}
+                              value={key}
+                              defaultChecked={value.isDefault}
+                              disabled={value.isDisabled}
                             />
                             <span className="role-btn__icon">
                               <svg width="12" height="13" aria-hidden="true">
@@ -116,26 +98,26 @@ const Registration = (): JSX.Element => {
                               </svg>
                             </span>
                             <span className="role-btn__btn">
-                              {role.caption}
+                              {value.caption}
                             </span>
                           </label>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <Checkbox
+                  <CheckboxIcon
                     classPrefix="sign-up"
                     name="user-agreement"
                     caption={
                       <>
-                        'Я соглашаюсь с{' '}
-                        <span>политикой конфиденциальности</span> компании'
+                        Я соглашаюсь с <span>политикой конфиденциальности</span>{' '}
+                        компании
                       </>
                     }
                     value="user-agreement"
-                    isChecked
+                    checked
                   />
-                  <Button classPrefix="sign-up" />
+                  <FilledButton classPrefix="sign-up" />
                 </div>
               </form>
             </div>

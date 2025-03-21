@@ -1,10 +1,10 @@
 import { FormEvent, JSX } from 'react';
 
-import { Button, Input, Logo } from '@frontend/components';
-import { InputField } from '@frontend/src/const';
+import { FilledButton, CustomInput, Logo } from '@frontend/components';
 import { useAppDispatch } from '@frontend/src/hooks';
 import { loginUser } from '@frontend/src/store/user-slice/user-action';
-import { UserLogin } from '@project/shared-core';
+import { UserLogin } from '@project/shared';
+import { FormField } from '@frontend/types/component';
 
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -31,9 +31,9 @@ const Login = (): JSX.Element => {
             <div className="popup-form__form">
               <form method="get" onSubmit={handleFormSubmit}>
                 <div className="sign-in">
-                  <Input {...InputField.Email} classPrefix="sign-in" />
-                  <Input {...InputField.Password} classPrefix="sign-in" />
-                  <Button classPrefix="sign-in" />
+                  <CustomInput {...FormField.Email} classPrefix="sign-in" />
+                  <CustomInput {...FormField.Password} classPrefix="sign-in" />
+                  <FilledButton classPrefix="sign-in" />
                 </div>
               </form>
             </div>

@@ -39,7 +39,7 @@ POST http://localhost:3350/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user7@user.ru",
+  "email": "user4@user.ru",
   "password": "123456"
 }
 
@@ -61,7 +61,7 @@ PUT http://localhost:3350/api/users/67d5a5cb391446eaf8b95805/questionnaire HTTP/
 Content-Type: application/json
 
 {
-  "specialisation": [
+  "specialization": [
     "running",
     "stretching"
   ],
@@ -77,5 +77,19 @@ Content-Type: application/json
 # Get questionnaire
 GET http://localhost:3350/api/users/67d5a5cb391446eaf8b95805 HTTP/1.1
 Content-Type: application/json
+
+###
+
+# Update user
+PATCH http://localhost:3350/api/users/update HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId": "67d7342900b78beb3b7eec03",
+  "description": "Люблю бегать по утрам",
+  "specialization": ["running"],
+  "level": "Любитель",
+  "isReadyToTrain": true
+}
 
 ###

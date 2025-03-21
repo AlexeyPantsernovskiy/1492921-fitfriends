@@ -1,5 +1,5 @@
 import { TokenName } from '@frontend/src/const';
-import { UserToken } from '@project/shared-core';
+import { UserToken } from '@project/shared';
 
 export class Token {
   static getAccessToken() {
@@ -21,5 +21,6 @@ export class Token {
 
   static drop() {
     localStorage.removeItem(TokenName.Access);
+    localStorage.removeItem(TokenName.Refresh);
   }
 }

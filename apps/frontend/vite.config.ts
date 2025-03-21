@@ -28,9 +28,6 @@ export default defineConfig({
     commonjsOptions: {
       transformMixedEsModules: true,
     },
-    // rollupOptions: {
-    //   external: ['@project/shared-core'], // Укажите вашу библиотеку
-    // },
   },
   test: {
     watch: false,
@@ -52,13 +49,15 @@ export default defineConfig({
       '@frontend/pages': path.resolve(__dirname, './src/app/pages/index.ts'),
       '@frontend/store': path.resolve(__dirname, './src/app/store/index.ts'),
       '@frontend/src': path.resolve(__dirname, './src/app'),
-      '@project/shared-core': path.resolve(
+      '@frontend/const': path.resolve(__dirname, './src/app/const.ts'),
+      '@frontend/types': path.resolve(__dirname, './src/app/types'),
+      '@project/shared': path.resolve(
         __dirname,
-        '../../libs/shared/core/src/index.ts'
+        '../../libs/shared/core/src/index-frontend.ts'
       ),
     },
   },
-  optimizeDeps: {
-    include: ['@project/shared-core'],
-  },
+  // optimizeDeps: {
+  //   include: ['@project/shared-client'],
+  // },
 });

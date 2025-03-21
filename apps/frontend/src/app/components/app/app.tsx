@@ -6,105 +6,155 @@ import {
 } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { PrivateRoute } from '@frontend/components';
+import {
+  PrivateRoute,
+  Wrapper,
+  WrapperHeaderMain,
+  WrapperMain,
+} from '@frontend/components';
 import { AppRoute, AuthorizationStatus } from '@frontend/src/const';
 import historyBrowser from '@frontend/src/history';
-import { Intro, Login, Main, Registration } from '@frontend/pages';
-import QuestionnaireUser from '@frontend/src/pages/questionnaire/questionnaire-user';
+import {
+  Friends,
+  Intro,
+  Login,
+  Main,
+  NotFound,
+  PersonalAccount,
+  QuestionnaireUser,
+  Registration,
+} from '@frontend/src/pages';
 
 const App = (): JSX.Element => (
   <HistoryRouter history={historyBrowser}>
     <Routes>
-      <Route element={<Main />}>
-        <Route
-          index
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Catalog}
-            >
-              <Intro />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Root}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Catalog}
-            >
-              <Intro />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Login}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Catalog}
-            >
-              <Login />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Register}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Catalog}
-            >
-              <Registration />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.QuestionnaireUser}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Root}
-            >
-              <QuestionnaireUser />
-            </PrivateRoute>
-          }
-        />
-        {/* <Route
-          path={AppRoute.Catalog}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.NoAuth}
-              redirectTo={AppRoute.Root}
-            >
-              <ProductList />
-            </PrivateRoute>
-          }
-        /> */}
-        {/* <Route
-          path={AppRoute.Account}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.NoAuth}
-              redirectTo={AppRoute.Root}
-            >
-              <AddProduct />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.TrainingCard}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.NoAuth}
-              redirectTo={AppRoute.Root}
-            >
-              <EditProduct />
-            </PrivateRoute>
-          }
-        /> */}
-        <Route path="*" element={<Intro />} />
+      <Route element={<Wrapper />}>
+        <Route element={<WrapperMain />}>
+          <Route
+            path={AppRoute.Intro}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.Auth}
+                redirectTo={AppRoute.Root}
+              >
+                <Intro />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Login}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.Auth}
+                redirectTo={AppRoute.Root}
+              >
+                <Login />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Register}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.Auth}
+                redirectTo={AppRoute.Root}
+              >
+                <Registration />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.QuestionnaireUser}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.Auth}
+                redirectTo={AppRoute.Root}
+              >
+                <QuestionnaireUser />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        <Route element={<WrapperHeaderMain />}>
+          <Route
+            index
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Intro}
+              >
+                <Main />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Friends}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <Friends />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Main}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Intro}
+              >
+                <Main />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.PersonalAccount}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Intro}
+              >
+                <PersonalAccount />
+              </PrivateRoute>
+            }
+          />
+          {/* <Route
+            path={AppRoute.Catalog}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <ProductList />
+              </PrivateRoute>
+            }
+          /> */}
+          {/* <Route
+            path={AppRoute.Account}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <AddProduct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.TrainingCard}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <EditProduct />
+              </PrivateRoute>
+            }
+          /> */}
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   </HistoryRouter>

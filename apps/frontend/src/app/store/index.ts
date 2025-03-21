@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { getUserStatus } from './user-slice/user-action';
+import { getUserAuth } from './user-slice/user-action';
 import { rootReducer } from './root-reducer';
 import { createAPI } from '@frontend/src/services/api';
 import history from '@frontend/src/history';
@@ -21,7 +21,7 @@ const store = configureStore({
     }),
 });
 
-store.dispatch(getUserStatus());
+store.dispatch(getUserAuth());
 
 export default store;
 

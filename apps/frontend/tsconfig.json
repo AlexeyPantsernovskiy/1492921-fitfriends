@@ -12,8 +12,10 @@
       "@frontend/components": ["src/app/components/index.ts"],
       "@frontend/pages": ["src/app/pages/index.ts"],
       "@frontend/store": ["src/app/store/index.ts"],
+      "@frontend/const": ["src/app/const.ts"],
+      "@frontend/types/*": ["src/app/types/*"],
       "@frontend/src/*": ["src/app/*"],
-      "@project/shared-core": ["../../libs/shared/core/src/index.ts"]
+      "@project/shared": ["../../libs/shared/core/src/index-frontend.ts"]
     }
   },
   "files": [],

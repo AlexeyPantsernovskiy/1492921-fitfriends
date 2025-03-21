@@ -1,24 +1,24 @@
-import { ChangeEvent, FormEvent, JSX, useState } from 'react';
+import { FormEvent, JSX, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import {
-  Button,
   Logo,
-  SelectRadio,
-  VariantCaption,
+  FilledButton,
+  ToggleRadio,
+  CustomInput,
+  ChecklistButton,
 } from '@frontend/components';
-import { useAppDispatch } from '@frontend/src/hooks';
-
+import { ToggleRadioCaptionSize } from '@frontend/types/component';
 import {
   Level,
   LEVELS,
   Questionnaire,
-  Specialisation,
+  Specialization,
   Time,
   TIMES,
-} from '@project/shared-core';
-import { CheckboxBtn } from '@frontend/components';
+} from '@project/shared';
 import { fillQuestionnaire } from '@frontend/store';
-import { useParams } from 'react-router-dom';
+import { useAppDispatch } from '@frontend/src/hooks';
 
 type InputCaloriesProps = {
   name: string;
@@ -29,14 +29,14 @@ const InputCalories = ({ name, caption }: InputCaloriesProps): JSX.Element => {
   return (
     <div className={`questionnaire-user__${name}`}>
       <span className="questionnaire-user__legend">{caption}</span>
-      <div className="custom-input custom-input--with-text-right questionnaire-user__input">
-        <label>
-          <span className="custom-input__wrapper">
-            <input type="number" name={name} required min={1} />
-            <span className="custom-input__text">ккал</span>
-          </span>
-        </label>
-      </div>
+      <CustomInput
+        classPrefix="questionnaire-user"
+        type="number"
+        caption={''}
+        name={name}
+        rightText="ккал"
+        min={1}
+      />
     </div>
   );
 };
@@ -47,7 +47,7 @@ const QuestionnaireUser = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  const [specialisation, setSpecialisation] = useState<string[]>([]);
+  const [specialization, setSpecialization] = useState<Specialization[]>([]);
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,20 +55,20 @@ const QuestionnaireUser = (): JSX.Element => {
     if (!userId) {
       throw new Error('userId не указан в маршруте');
     }
-    if (specialisation.length === 0) {
-      const specialisationFields = e.currentTarget.querySelector(
-        '[name="specialisation"]'
+    if (specialization.length === 0) {
+      const specializationFields = e.currentTarget.querySelector(
+        '[name="specialization"]'
       ) as HTMLInputElement;
-      specialisationFields.setCustomValidity(
+      specializationFields.setCustomValidity(
         'Необходимо выбрать хотя бы одну специализацию'
       );
-      specialisationFields.reportValidity();
+      specializationFields.reportValidity();
       return;
     }
 
     const formData = new FormData(e.currentTarget);
     const questionnaire: Questionnaire = {
-      specialisation: specialisation as Specialisation[],
+      specialization: specialization as Specialization[],
       time: (formData.get('time')?.toString() || '') as Time,
       level: (formData.get('level')?.toString() || '') as Level,
       caloriesLose: parseInt(
@@ -82,26 +82,6 @@ const QuestionnaireUser = (): JSX.Element => {
       isReadyToTrain: false,
     };
     dispatch(fillQuestionnaire({ userId, questionnaire }));
-  };
-
-  const handleCheckboxBtnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
-
-    if (name === 'specialisation') {
-      const specialisationValue = value as Specialisation;
-      setSpecialisation((prev) =>
-        checked
-          ? [...prev, value]
-          : prev.filter((item) => item !== specialisationValue)
-      );
-    }
-    // Очистка сообщения об ошибки
-    if (checked) {
-      const checkboxes = document.querySelectorAll<HTMLInputElement>(
-        '[name="specialisation"]'
-      );
-      checkboxes.forEach((checkbox) => checkbox.setCustomValidity(''));
-    }
   };
 
   return (
@@ -119,31 +99,27 @@ const QuestionnaireUser = (): JSX.Element => {
                       <span className="questionnaire-user__legend">
                         Ваша специализация (тип) тренировок
                       </span>
-                      <div className="specialization-checkbox questionnaire-user__specializations">
-                        {Object.entries(Specialisation).map(([key, value]) => (
-                          <CheckboxBtn
-                            key={key}
-                            name="specialisation"
-                            caption={value}
-                            value={key}
-                            onChange={handleCheckboxBtnChange}
-                          />
-                        ))}
-                      </div>
+                      <ChecklistButton
+                        classPrefix="questionnaire-user"
+                        name="specialization"
+                        items={Specialization}
+                        value={specialization}
+                        onChange={setSpecialization}
+                      />
                     </div>
-                    <SelectRadio
+                    <ToggleRadio
                       classPrefix="questionnaire-user"
                       name="time"
                       caption="Сколько времени вы готовы уделять на тренировку в день"
                       items={TIMES}
-                      variant={VariantCaption.BigCaption}
+                      captionSize={ToggleRadioCaptionSize.Big}
                     />
-                    <SelectRadio
+                    <ToggleRadio
                       classPrefix="questionnaire-user"
                       name="level"
                       caption="Ваш уровень"
                       items={LEVELS}
-                      variant={VariantCaption.BigCaption}
+                      captionSize={ToggleRadioCaptionSize.Big}
                     />
                     <div className="questionnaire-user__block">
                       <InputCalories
@@ -156,7 +132,7 @@ const QuestionnaireUser = (): JSX.Element => {
                       />
                     </div>
                   </div>
-                  <Button classPrefix="questionnaire-user" />
+                  <FilledButton classPrefix="questionnaire-user" />
                 </div>
               </form>
             </div>

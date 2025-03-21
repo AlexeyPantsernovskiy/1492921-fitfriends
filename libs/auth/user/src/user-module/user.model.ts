@@ -4,23 +4,22 @@ import { Document } from 'mongoose';
 import {
   UserAuth,
   Questionnaire,
-  Role,
   SEX,
   Sex,
   UserRole,
   TIMES,
   LEVELS,
-  SPECIALISATIONS,
+  SPECIALIZATIONS,
 } from '@project/shared-core';
 
 @Schema({ _id: false })
 export class QuestionnaireSchema {
   @Prop({
     type: [String],
-    enum: SPECIALISATIONS,
+    enum: SPECIALIZATIONS,
     required: true,
   })
-  specialisation: string[];
+  specialization: string[];
 
   @Prop({ type: String, enum: TIMES, required: true })
   time: string;
@@ -90,7 +89,7 @@ export class UserModel extends Document implements UserAuth {
 
   @Prop({
     type: String,
-    enum: Role,
+    enum: Object.values(UserRole),
     required: true,
   })
   public role: UserRole;

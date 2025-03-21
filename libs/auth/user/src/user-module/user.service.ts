@@ -18,6 +18,8 @@ import {
   LoginUserDto,
   UserTokenRdo,
   UserRdo,
+  UpdateUserDto,
+  EMPTY_VALUE,
 } from '@project/shared-core';
 import { jwtConfig } from '@project/auth-config';
 import { createJWTPayload, fillDto } from '@project/shared-helpers';
@@ -46,6 +48,34 @@ export class UserService {
     const userEntity = await new UserEntity(dto).setPassword(dto.password);
     const newUser = await this.userRepository.save(userEntity);
     return fillDto(UserRdo, newUser.toPOJO());
+  }
+
+  public async updateUser(dto: UpdateUserDto): Promise<UserRdo> {
+    const user = await this.userRepository.findById(dto.userId);
+    if (!user) {
+      throw new ConflictException(UserErrorMessage.UserNotFound);
+    }
+
+    const newUser = {
+      ...user,
+      id: dto.userId,
+      avatar: dto.avatar === EMPTY_VALUE ? '' : dto.avatar || user.avatar,
+      name: dto.name || user.name,
+      description: dto.description,
+      location: dto.location || user.location,
+      sex: dto.sex || user.sex,
+      questionnaire: {
+        ...user.questionnaire,
+        specialization:
+          dto.specialization || user.questionnaire?.specialization,
+        level: dto.level || user.questionnaire?.level,
+        isReadyToTrain: dto.isReadyToTrain,
+      },
+    };
+
+    const updateUser = new UserEntity(newUser);
+    await this.userRepository.update(updateUser);
+    return fillDto(UserRdo, updateUser.toPOJO());
   }
 
   public async verifyUser(dto: LoginUserDto): Promise<UserRdo | null> {

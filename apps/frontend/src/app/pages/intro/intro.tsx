@@ -2,7 +2,8 @@ import { JSX } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { AppRoute } from '@frontend/src/const';
-import Button, { ButtonType } from '../../components/button/button';
+import { FilledButton } from '@frontend/components';
+import { ButtonType } from '@frontend/types/component';
 
 const Intro = (): JSX.Element => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const Intro = (): JSX.Element => {
           </picture>
         </div>
         <div className="intro__buttons">
-          <Button
+          <FilledButton
             caption="Регистрация"
             type={ButtonType.Button}
             classPrefix="intro"

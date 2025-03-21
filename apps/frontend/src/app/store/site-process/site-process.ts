@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { StoreSlice } from '@frontend/src/const';
 import { SiteProcess } from '@frontend/src/types/state';
-import { SortType } from '@project/shared-core';
+import { SortType } from '@project/shared';
 
 const initialState: SiteProcess = {
   sorting: SortType.CreateDate,

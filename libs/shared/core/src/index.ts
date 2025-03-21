@@ -2,8 +2,8 @@ export * from './lib/constants/data';
 
 export { CommonResponse } from './lib/swagger/common-response';
 export { CommonProperty } from './lib/swagger/common-property';
-export { QuestionnaireProperty } from './lib/swagger/user/questionnaire-property';
-export { QuestionnaireResponse } from './lib/swagger/user/questionnaire-response';
+export { QuestionnaireUserProperty } from './lib/swagger/user/questionnaire-user-property';
+export { QuestionnaireUserResponse } from './lib/swagger/user/questionnaire-user-response';
 export { UserProperty } from './lib/swagger/user/user-property';
 export { UserParam } from './lib/swagger/user/user-param';
 export { UserResponse } from './lib/swagger/user/user-response';
@@ -12,7 +12,7 @@ export { UserOperation } from './lib/swagger/user/user-operation';
 export { Sex } from './lib/types/sex.enum';
 export { Level } from './lib/types/level.enum';
 export { Time } from './lib/types/time.enum';
-export { Specialisation } from './lib/types/specialisation.enum';
+export { Specialization } from './lib/types/specialization.enum';
 export * from './lib/types/user-role.enum';
 
 export { Entity } from './lib/base/entity';
@@ -41,6 +41,13 @@ export { LogonInfo } from './lib/types/logon-info.interface';
 export { BearerAuth, BearerAuthOption } from './lib/constants/bearer-auth';
 export { DefaultPort } from './lib/constants/default-port';
 
-export * from './lib/dto/user.dto';
-export * from './lib/rdo/user.rdo';
-export { TokenPayloadRdo } from './lib/rdo/token-payload.rdo';
+export { CreateUserDto } from './lib/dto/user/create-user.dto';
+export { FillQuestionnaireUserDto } from './lib/dto/user/fill-questionnaire-user.dto';
+export { LoginUserDto } from './lib/dto/user/login-user.dto';
+export { UpdateUserDto } from './lib/dto/user/update-user.dto';
+
+export { TokenPayloadRdo } from './lib/rdo/user/token-payload.rdo';
+export { LoggedUserRdo } from './lib/rdo/user/logged-user.rdo';
+export { UserTokenRdo } from './lib/rdo/user/user-token.rdo';
+export { UserRdo } from './lib/rdo/user/user.rdo';
+export { QuestionnaireUserRdo } from './lib/rdo/user/questionnaire-user.rdo';

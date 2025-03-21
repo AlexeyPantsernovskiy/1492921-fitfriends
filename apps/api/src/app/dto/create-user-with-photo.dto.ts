@@ -1,4 +1,5 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
+
 import { CreateUserDto, UserProperty } from '@project/shared-core';
 
 export class CreateUserWithPhotoDto extends OmitType(CreateUserDto, [

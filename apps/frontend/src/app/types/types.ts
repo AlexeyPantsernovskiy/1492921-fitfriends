@@ -22,7 +22,6 @@ export type GuitarTypeInfo = {
   name: string;
   countStrings: number[];
 };
-
 export type GuitarType = Record<string, GuitarTypeInfo>;
 
 export type Product = {

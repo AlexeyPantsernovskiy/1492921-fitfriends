@@ -6,10 +6,11 @@ import axios, {
 } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { toast } from 'react-toastify';
-import { Token } from './token';
-import { BACKEND_URL, REQUEST_TIMEOUT } from '@frontend/src/const';
 
+import { BACKEND_URL, REQUEST_TIMEOUT } from '@frontend/src/const';
 import store, { logout } from '@frontend/store';
+
+import { Token } from './token';
 
 type DetailMessageType = {
   type: string;
@@ -22,7 +23,10 @@ type IgnoreErrorMessage = {
   Include?: string;
 };
 
-const IgnoreErrorMessages: IgnoreErrorMessage[] = [{ Include: 'Token' }];
+const IgnoreErrorMessages: IgnoreErrorMessage[] = [
+  { Start: 'Unauthorized' },
+  { End: 'не авторизован' },
+];
 
 const ignoreErrorMessage = (errorMessage: string): boolean =>
   IgnoreErrorMessages.reduce(
@@ -34,10 +38,10 @@ const ignoreErrorMessage = (errorMessage: string): boolean =>
     false
   );
 
-const StatusCodeMapping = new Set([StatusCodes.UNAUTHORIZED]);
+const IgnoreErrorCodes: number[] = [];
 
 const shouldDisplayError = (response: AxiosResponse) =>
-  StatusCodeMapping.has(response.status);
+  !IgnoreErrorCodes.includes(response.status);
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
@@ -67,7 +71,7 @@ export const createAPI = (): AxiosInstance => {
         store.dispatch(logout());
       }
 
-      if (!shouldDisplayError(error.response)) {
+      if (shouldDisplayError(error.response)) {
         const detailMessage = error.response.data;
 
         const errorMessage =

@@ -1,7 +1,9 @@
 import { HttpStatus } from '@nestjs/common';
 
-import { LoggedUserRdo, UserRdo, UserTokenRdo } from '../../rdo/user.rdo';
-import { TokenPayloadRdo } from '../../rdo/token-payload.rdo';
+import { TokenPayloadRdo } from '../../rdo/user/token-payload.rdo';
+import { LoggedUserRdo } from '../../rdo/user/logged-user.rdo';
+import { UserRdo } from '../../rdo/user/user.rdo';
+import { UserTokenRdo } from '../../rdo/user/user-token.rdo';
 
 export const UserResponse = {
   LoggedSuccess: {
@@ -31,6 +33,11 @@ export const UserResponse = {
     status: HttpStatus.CREATED,
     description: 'Новый пользователь был успешно создан',
   },
+  UserUpdated: {
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'Данные о пользователе были успешно изменены',
+  },
   UserNotAuth: {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Пользователь не авторизован',
@@ -48,5 +55,15 @@ export const UserResponse = {
   UserAuthForbidden: {
     status: HttpStatus.FORBIDDEN,
     description: 'Запрещено для авторизованных пользователей',
+  },
+  AvatarDeleted: {
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'Аватар пользователя удален',
+  },
+  AvatarUpdated: {
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'Аватар пользователя изменен',
   },
 } as const;

@@ -4,4 +4,4 @@ export const DefaultPort = {
   FileVault: 3351,
   FitFriends: 3352,
   Frontend: 5000,
-};
+} as const;
