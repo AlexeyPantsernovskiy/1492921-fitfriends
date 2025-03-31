@@ -8,6 +8,7 @@ import {
   LOCATIONS,
   PREFIX_LOCATION,
   Sex,
+  SexName,
   Specialization,
   User,
   UserRoleInfo,
@@ -234,7 +235,7 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
           onSelect={setLocation}
         />
         <CustomSelect
-          items={Sex}
+          items={SexName}
           caption="Пол"
           value={sex}
           disabled={!isEdit}

@@ -13,7 +13,8 @@ cp ./libs/training/models/prisma/.env.example ./libs/training/models/prisma/.env
 ```bash
 docker compose --file ./apps/auth/docker-compose.yml --project-name "fitfriends-user" --env-file ./apps/auth/.env up -d
 docker compose --file ./apps/file-vault/docker-compose.yml --project-name "fitfriends-file-vault" --env-file ./apps/file-vault/.env up -d
-docker compose --file ./apps/training/docker-compose.yml --project-name "fitfriends-training" --env-file ./apps/training/.env up -d```
+docker compose --file ./apps/trainings/docker-compose.yml --project-name "fitfriends-trainings" --env-file ./apps/trainings/.env up -d
+```
 
 ### Установить зависимости
 ```bash
@@ -41,8 +42,18 @@ chmod +x ./dist/apps/cli/main.js
 ```bash
 npm run cli:generate
 ```
+Пароли у всех созданных пользователей: 123456
+Логины(email) можно посмотреть в базе данных http://localhost:8050/db/users/users
+Логин/пароль для подключения к базе с пользователями: admin/passW0rd
 
-## Запустить сервисы backend
+## Запустить сразу все сервисы 
+
+```bash
+npx nx run-many -t serve -p file-vault auth trainings api frontend --parallel=5
+```
+
+## Запуск сервисов backend по-отдельности
+Не нужно выполнять, если были запущены сразу все сервисы
 ```bash
 npx nx run file-vault:serve
 npx nx run auth:serve
@@ -50,7 +61,8 @@ npx nx run trainings:serve
 npx nx run api:serve
 ```
 
-### Запустить сервис frontend
+### Запуск сервиса frontend
+Не нужно выполнять, если были запущены сразу все сервисы
 ```bash
 npx nx run frontend:serve
 ```

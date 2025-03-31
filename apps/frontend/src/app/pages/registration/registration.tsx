@@ -2,7 +2,12 @@ import { FormEvent, JSX, useState } from 'react';
 
 import { useAppDispatch } from '@frontend/src/hooks';
 import { registerUser } from '@frontend/src/store/user-slice/user-action';
-import { LOCATIONS, PREFIX_LOCATION, Sex, UserRoleInfo } from '@project/shared';
+import {
+  LOCATIONS,
+  PREFIX_LOCATION,
+  SexName,
+  UserRoleInfo,
+} from '@project/shared';
 import {
   Avatar,
   FilledButton,
@@ -75,7 +80,7 @@ const Registration = (): JSX.Element => {
                     <ToggleRadio
                       {...FormField.Sex}
                       classPrefix="sign-up"
-                      items={Sex}
+                      items={SexName}
                     />
                   </div>
                   <div className="sign-up__role">

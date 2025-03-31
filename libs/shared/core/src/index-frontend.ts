@@ -1,6 +1,7 @@
 export * from './lib/constants/data';
 
 export { Sex } from './lib/types/sex.enum';
+export { SexName } from './lib/types/sex.enum';
 export { SexNameForTraining } from './lib/types/sex.enum';
 export { Level } from './lib/types/level.enum';
 export { Duration } from './lib/types/duration.enum';
@@ -22,7 +23,6 @@ export type { TrainingQuery } from './lib/query/training.query';
 export type { TrainingWithPaginationRdo } from './lib/rdo/training/training-with-pagination.rdo';
 export type { TrainingWithCoachRdo } from './lib/rdo/training/training-with-coach.rdo';
 export type { TrainingRdo } from './lib/rdo/training/training.rdo';
-
 
 export { SortType } from './lib/types/sort-type.enum';
 export { SortDirection } from './lib/types/sort-direction.enum';
