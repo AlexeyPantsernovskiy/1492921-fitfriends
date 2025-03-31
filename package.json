@@ -5,10 +5,11 @@
   "scripts": {
     "lint": "eslint \"{src,apps,libs}/**/*.ts\"",
     "cli": "npx nx run cli:build && node scripts/add-shebang.js && chmod +x ./dist/apps/cli/main.js && ./dist/apps/cli/main.js",
-    "cli:generate": "npx nx run cli:build && node scripts/add-shebang.js && chmod +x ./dist/apps/cli/main.js && ./dist/apps/cli/main.js --generate 30 mongodb://admin:passW0rd@localhost:27025/users?authSource=admin postgres://user_shop:passW0rd@localhost:5433/shop"
+    "cli:generate": "npx nx run cli:build && node scripts/add-shebang.js && chmod +x ./dist/apps/cli/main.js && ./dist/apps/cli/main.js --generate 30 mongodb://admin:passW0rd@localhost:27050/users?authSource=admin postgres://admin:passW0rd@localhost:5452/fitfriends"
   },
   "private": true,
   "dependencies": {
+    "@faker-js/faker": "9.6.0",
     "@nestjs-modules/mailer": "2.0.2",
     "@nestjs/axios": "4.0.0",
     "@nestjs/common": "11.0.10",
@@ -40,6 +41,7 @@
     "passport": "0.7.0",
     "passport-jwt": "4.0.1",
     "passport-local": "1.0.0",
+    "qs": "6.14.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-helmet-async": "2.0.5",
@@ -48,6 +50,7 @@
     "react-toastify": "11.0.5",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
+    "swiper": "11.2.6",
     "vite-plugin-commonjs": "^0.10.4"
   },
   "devDependencies": {

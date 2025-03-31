@@ -21,7 +21,7 @@ services:
       timeout: 10s
       retries: 5
 
-  shop.user.express:
+  fitfriends.user.express:
     image: mongo-express:1.0.2-20
     restart: always
     container_name: fitfriends.user.express

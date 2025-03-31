@@ -22,7 +22,7 @@ services:
       timeout: 10s
       retries: 5
 
-  shop.file-vault.express:
+  fitfriends.file-vault.express:
     image: mongo-express:1.0-20
     restart: always
     container_name: fitfriends.file-vault.express

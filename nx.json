@@ -1,7 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -34,7 +37,11 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps-e2e/**/*", "apps/cli-e2e/**/*"]
+      "exclude": [
+        "apps-e2e/**/*",
+        "apps/cli-e2e/**/*",
+        "apps/trainings-e2e/**/*"
+      ]
     },
     {
       "plugin": "@nx/vite/plugin",
