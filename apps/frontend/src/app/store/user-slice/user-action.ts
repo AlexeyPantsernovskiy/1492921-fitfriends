@@ -132,7 +132,7 @@ export const getQuestionnaire = createAsyncThunk<
   QuestionnaireUserRdo,
   string,
   { extra: ApiExtra }
->(UserAction.GetUserStatus, async (userId, { extra }) => {
+>(UserAction.GetQuestionnaire, async (userId, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<QuestionnaireUserRdo>(
     ApiRoute.Questionnaire.replace(':userId', userId)

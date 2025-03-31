@@ -30,14 +30,14 @@ function FlatButton({
         className
       )}
       type={type}
-      {...(!caption ? { ariaLabel: caption } : {})}
+      aria-label={btnCaption}
       onClick={onClick}
     >
-      {(iconPosition === IconPosition.Right) && <span>{btnCaption}</span>}
+      {iconPosition === IconPosition.Right && <span>{btnCaption}</span>}
       <svg width={icon.width} height={icon.height} aria-hidden="true">
         <use xlinkHref={`#${icon.name}`}></use>
       </svg>
-      {(iconPosition === IconPosition.Left) && <span>{btnCaption}</span>}
+      {iconPosition === IconPosition.Left && <span>{btnCaption}</span>}
     </button>
   );
 }

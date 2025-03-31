@@ -75,7 +75,7 @@ export type SearchItemProps = {
 
 const SearchItem = ({ text }: SearchItemProps): JSX.Element => {
   return (
-    <li className="search__item" key={text}>
+    <li className="search__item">
       <Link to="" className="search__link is-active">
         {text}
       </Link>
@@ -116,7 +116,7 @@ const Header = (): JSX.Element => {
             </label>
             <ul className="search__list">
               {SEARCH_HISTORY.map((item) => (
-                <SearchItem text={item} />
+                <SearchItem key={item} text={item} />
               ))}
             </ul>
           </form>

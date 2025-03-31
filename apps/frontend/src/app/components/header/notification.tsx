@@ -16,9 +16,8 @@ const Notification = ({ text, time }: NotificationProps): JSX.Element => {
     minute: '2-digit',
   });
 
-  const key = `${formattedDate}, ${formattedTime} ${text}`;
   return (
-    <li className="main-nav__subitem" key={key}>
+    <li className="main-nav__subitem">
       <Link className="notification is-active" to="#">
         <p className="notification__text">{text}</p>
         <time className="notification__time" dateTime={time.toISOString()}>
@@ -47,8 +46,8 @@ const NotificationList = ({ items }: NotoficationListProps): JSX.Element => {
       <div className="main-nav__dropdown">
         <p className="main-nav__label">Оповещения</p>
         <ul className="main-nav__sublist">
-          {items.map((item) => (
-            <Notification text={item.text} time={item.time} />
+          {items.map((item, index) => (
+            <Notification key={index} text={item.text} time={item.time} />
           ))}
         </ul>
       </div>
