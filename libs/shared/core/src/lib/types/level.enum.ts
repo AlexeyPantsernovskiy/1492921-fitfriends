@@ -1,3 +1,7 @@
-import { LEVELS } from '../constants/data';
+export const Level = {
+  beginner: 'Новичок',
+  amateur: 'Любитель',
+  professional: 'Профессионал',
+} as const;
 
-export type Level = (typeof LEVELS)[number];
+export type Level = keyof typeof Level;

@@ -1,9 +1,9 @@
 import { JSX } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { AppRoute } from '@frontend/src/const';
 import { FilledButton } from '@frontend/components';
 import { ButtonType } from '@frontend/types/component';
+import { AppRoute } from '@frontend/types/types';
 
 const Intro = (): JSX.Element => {
   const navigate = useNavigate();

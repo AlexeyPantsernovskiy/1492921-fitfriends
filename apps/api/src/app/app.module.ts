@@ -4,7 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 import { ClientConfig } from './app.config';
 import { UsersController } from './users.controller';
 import { CheckAuthGuard } from './guards/check-auth.guard';
-//import { ShopController } from './shop.controller';
+import { TrainingsController } from './trainings.controller';
 @Module({
   imports: [
     HttpModule.register({
@@ -12,8 +12,7 @@ import { CheckAuthGuard } from './guards/check-auth.guard';
       maxRedirects: ClientConfig.HttpMaxRedirects,
     }),
   ],
-  //controllers: [UsersController, ShopController],
-  controllers: [UsersController],
+  controllers: [UsersController, TrainingsController],
   providers: [CheckAuthGuard],
 })
 export class AppModule {}

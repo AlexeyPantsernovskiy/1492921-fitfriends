@@ -7,7 +7,7 @@ import {
   SEX,
   Sex,
   UserRole,
-  TIMES,
+  DURATIONS,
   LEVELS,
   SPECIALIZATIONS,
 } from '@project/shared-core';
@@ -21,8 +21,8 @@ export class QuestionnaireSchema {
   })
   specialization: string[];
 
-  @Prop({ type: String, enum: TIMES, required: true })
-  time: string;
+  @Prop({ type: String, enum: DURATIONS, required: true })
+  duration: string;
 
   @Prop({ type: String, enum: LEVELS, required: true })
   level: string;

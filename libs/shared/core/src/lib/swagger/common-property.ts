@@ -41,7 +41,7 @@ export const CommonProperty = {
   ItemsPerPage: {
     Description: {
       description: 'Количество элементов на странице',
-      example: 20,
+      example: 9,
     },
   },
 } as const;

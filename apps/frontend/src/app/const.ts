@@ -1,37 +1,4 @@
-import { SortDirection, SortType } from '@project/shared';
-
-export enum ProductCardTab {
-  Characteristics = 'characteristics',
-  Description = 'description',
-}
-
-export const DEFAULT_PRODUCT_CARD_TAB = ProductCardTab.Characteristics;
-
-export enum AppRoute {
-  Root = '/',
-  Login = '/login',
-  Register = '/register',
-  QuestionnaireUser = '/questionnaire-user/:userId',
-  Main = '/main',
-  Intro = '/intro',
-  PersonalAccount = '/personal-account',
-  NotFound = '/404',
-
-  Friends = '/friends',
-
-  Purchases = '/purchases',
-  Catalog = '/catalog',
-  TrainingCard = '/training/:id',
-
-  // Убрать
-  Products = '/products',
-  Add = '/add',
-  Edit = '/edit',
-}
-
 export const ApiRoute = {
-  ShopProducts: '/api/shop/products',
-  ShopProductTypes: '/api/shop/product-types',
   UserCheckAuth: '/api/users/check',
   UserLogin: '/api/users/login',
   UserLogout: '/api/users/logout',
@@ -41,6 +8,8 @@ export const ApiRoute = {
   UserUpdate: '/api/users/update',
   UserGetInfo: '/api/users/:userId',
   UserAvatar: '/api/users/avatar',
+  Trainings: '/api/trainings',
+  SpecialForYou: '/api/trainings/special-for-you'
 } as const;
 
 export enum AuthorizationStatus {
@@ -49,31 +18,28 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-// export enum SortDirection {
-//   Desc = 'desc',
-//   Asc = 'asc',
-// }
-
-// export enum SortType {
-//   CreateDate = 'createDate',
-//   //Price = 'price',
-// }
-
-export const DefaultSort = {
-  Direction: SortDirection.Asc,
-  Type: SortType.CreateDate,
-} as const;
-
 export enum StoreSlice {
-  SiteData = 'SITE_DATA',
+  TrainingProcess = 'TRAINING_PROCESS',
   SiteProcess = 'SITE_PROCESS',
   UserProcess = 'USER_PROCESS',
 }
 
 export const TokenName = {
-  Access: 'guitar-shop-access-token',
-  Refresh: 'guitar-shop-refresh-token',
+  Access: 'fitfriends-access-token',
+  Refresh: 'fitfriends-refresh-token',
 };
 
 export const BACKEND_URL = 'http://localhost:3000';
 export const REQUEST_TIMEOUT = 5000;
+
+export const LimitTrainingCard = {
+  SpecialForYou: 9,
+  Catalog: 6,
+  SliderSpecialForYou: 3,
+  SliderSpecialOffers: 3,
+  SliderPopular: 4,
+  SliderFriends: 4,
+} as const;
+
+// Размер скидки которая применяется при установки флага "Специальное предложение"
+export const discount = 0.2;

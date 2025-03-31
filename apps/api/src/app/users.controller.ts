@@ -2,7 +2,6 @@ import { HttpService } from '@nestjs/axios';
 import {
   Body,
   Controller,
-  Delete,
   Get,
   HttpCode,
   InternalServerErrorException,
@@ -25,12 +24,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import FormData from 'form-data';
-//import * as url from 'node:url';
 
 import {
   CommonResponse,
   DefaultPhoto,
-  EMPTY_VALUE,
   FillQuestionnaireUserDto,
   LoginUserDto,
   QuestionnaireUserResponse,
@@ -41,7 +38,10 @@ import {
   UserRdo,
   UserResponse,
 } from '@project/shared-core';
-import { multerFileToFormData } from '@project/shared-helpers';
+import {
+  createUrlForFile,
+  multerFileToFormData,
+} from '@project/shared-helpers';
 import { UploadFileInterceptor } from '@project/interceptors';
 import { UploadedFileRdo } from '@project/file-uploader';
 
@@ -73,14 +73,14 @@ export class UsersController {
     return null;
   }
 
-  private addFilePath(user: User): User {
+  private correctFilePath(user: User): User {
     return {
       ...user,
       avatar: user.avatar
-        ? `${ApplicationServiceURL.FileServe}/${user.avatar}`
+        ? createUrlForFile(user.avatar, ApplicationServiceURL.FileServe)
         : '',
-      photo1: `${ApplicationServiceURL.FileServe}/${user.photo1}`,
-      photo2: `${ApplicationServiceURL.FileServe}/${user.photo2}`,
+      photo1: createUrlForFile(user.photo1, ApplicationServiceURL.FileServe),
+      photo2: createUrlForFile(user.photo2, ApplicationServiceURL.FileServe),
     };
   }
 
@@ -116,7 +116,7 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/register`,
       dto
     );
-    return this.addFilePath(userResponse.data);
+    return this.correctFilePath(userResponse.data);
   }
 
   @Post('login')
@@ -130,7 +130,7 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/login`,
       loginUserDto
     );
-    return this.addFilePath(userResponse.data);
+    return this.correctFilePath(userResponse.data);
   }
 
   @Get(':userId')
@@ -146,7 +146,7 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/${userId}`,
       {}
     );
-    return this.addFilePath(userResponse.data);
+    return this.correctFilePath(userResponse.data);
   }
 
   @Post('refresh')
@@ -255,6 +255,6 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/update`,
       dto
     );
-    return this.addFilePath(updateResponse.data);
+    return this.correctFilePath(updateResponse.data);
   }
 }

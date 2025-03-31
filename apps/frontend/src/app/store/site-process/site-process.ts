@@ -5,7 +5,7 @@ import { SiteProcess } from '@frontend/src/types/state';
 import { SortType } from '@project/shared';
 
 const initialState: SiteProcess = {
-  sorting: SortType.CreateDate,
+  sorting: SortType.Date,
 };
 
 export const siteProcess = createSlice({

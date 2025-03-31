@@ -2,8 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, StoreSlice } from '@frontend/src//const';
 import { UserProcess } from '@frontend/src/types/state';
-import { getUserAuth, loginUser, logoutUser, updateUser } from './user-action';
 import { User } from '@project/shared';
+
+import { getUserAuth, loginUser, logoutUser, updateUser } from './user-action';
+
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,

@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { QuestionnaireUserProperty } from '../../swagger/user/questionnaire-user-property';
 import { Specialization } from '../../types/specialization.enum';
-import { Time } from '../../types/time.enum';
+import { Duration } from '../../types/duration.enum';
 import { Level } from '../../types/level.enum';
 
 export class QuestionnaireUserRdo {
@@ -11,9 +11,9 @@ export class QuestionnaireUserRdo {
   @Expose()
   specialization: Specialization[];
 
-  @ApiProperty(QuestionnaireUserProperty.Time.Description)
+  @ApiProperty(QuestionnaireUserProperty.Duration.Description)
   @Expose()
-  time: Time;
+  duration: Duration;
 
   @ApiProperty(QuestionnaireUserProperty.Level.Description)
   @Expose()

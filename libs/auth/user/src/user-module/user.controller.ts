@@ -36,10 +36,10 @@ import {
 } from '@project/shared-core';
 
 import { UserService } from './user.service';
-import { RequestWithUser } from './request-with-user.interface';
+import { RequestWithUser } from '../../../../shared/core/src/lib/interfaces/request-with-user.interface';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { RequestWithTokenPayload } from './request-with-token-payload.interface';
+import { RequestWithTokenPayload } from '../../../../shared/core/src/lib/interfaces/request-with-token-payload.interface';
 import { QuestionnaireUserService } from './questionnaire-user.service';
 
 @ApiTags('Users')

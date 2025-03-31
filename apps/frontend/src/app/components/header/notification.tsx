@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export type NotificationProps = {
   text: string;
   time: Date;
@@ -14,14 +16,15 @@ const Notification = ({ text, time }: NotificationProps): JSX.Element => {
     minute: '2-digit',
   });
 
+  const key = `${formattedDate}, ${formattedTime} ${text}`;
   return (
-    <li className="main-nav__subitem">
-      <a className="notification is-active" href="#">
+    <li className="main-nav__subitem" key={key}>
+      <Link className="notification is-active" to="#">
         <p className="notification__text">{text}</p>
         <time className="notification__time" dateTime={time.toISOString()}>
           {`${formattedDate}, ${formattedTime}`}
         </time>
-      </a>
+      </Link>
     </li>
   );
 };
@@ -32,12 +35,15 @@ export type NotoficationListProps = {
 
 const NotificationList = ({ items }: NotoficationListProps): JSX.Element => {
   return (
-    <li className="main-nav__item main-nav__item--notifications">
-      <a className="main-nav__link" href="#" aria-label="Уведомления">
+    <li
+      className="main-nav__item main-nav__item--notifications"
+      key="icon-notification"
+    >
+      <Link className="main-nav__link" to="#" aria-label="Уведомления">
         <svg width="14" height="18" aria-hidden="true">
           <use xlinkHref="#icon-notification"></use>
         </svg>
-      </a>
+      </Link>
       <div className="main-nav__dropdown">
         <p className="main-nav__label">Оповещения</p>
         <ul className="main-nav__sublist">

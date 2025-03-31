@@ -10,11 +10,11 @@ import {
   Min,
 } from 'class-validator';
 
-import { LEVELS, SPECIALIZATIONS, TIMES } from '../../constants/data';
+import { LEVELS, SPECIALIZATIONS, DURATIONS } from '../../constants/data';
 import { QuestionnaireUserProperty } from '../../swagger/user/questionnaire-user-property';
 import { Questionnaire } from '../../types/questionnaire.interface';
 import { Specialization } from '../../types/specialization.enum';
-import { Time } from '../../types/time.enum';
+import { Duration } from '../../types/duration.enum';
 import { Level } from '../../types/level.enum';
 
 export class FillQuestionnaireUserDto implements Questionnaire {
@@ -28,11 +28,11 @@ export class FillQuestionnaireUserDto implements Questionnaire {
   })
   specialization: Specialization[];
 
-  @ApiProperty(QuestionnaireUserProperty.Time.Description)
-  @IsEnum(TIMES, {
-    message: QuestionnaireUserProperty.Time.Validate.Message,
+  @ApiProperty(QuestionnaireUserProperty.Duration.Description)
+  @IsEnum(DURATIONS, {
+    message: QuestionnaireUserProperty.Duration.Validate.Message,
   })
-  time: Time;
+  duration: Duration;
 
   @ApiProperty(QuestionnaireUserProperty.Level.Description)
   @IsEnum(LEVELS, {

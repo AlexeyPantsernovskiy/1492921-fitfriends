@@ -13,7 +13,7 @@ import Spinner from './spinner/spinner';
 import Wrapper from './wrapper/wrapper';
 import WrapperMain from './wrapper/wrapper-main';
 import WrapperHeaderMain from './wrapper/wrapper-header-main';
-import FutureBlock from './future-block/future-block';
+import ThumbnailNearest from './thumbnail-nearest/thumbnail-nearest';
 import PersonalAccountUser from './personal-account-user/personal-account-user';
 import UserInfo from './user-info/user-info';
 import Header from './header/header';
@@ -21,6 +21,19 @@ import IconButton from './icon-button/icon-button';
 import FlatButton from './flat-button/flat-button';
 import ChecklistButton from './checklist-button/checklist-button';
 import CustomTextarea from './custom-textarea/custom-textarea';
+import ThumbnailLink from './thumbnail-link/thumbnail-link';
+import PersonalAccountCoach from './personal-account-coach/personal-account-coach';
+import SpecialForYou from './special-for-you/special-for-you';
+import SpecialOffers from './special-offers/special-offers';
+import PopularTrainings from './popular-trainings/popular-trainings';
+import LookForCompany from './look-for-company/look-for-company';
+import PopularTrainingCard from './popular-training-card/popular-training-card';
+import SpecialOfferCard from './special-offer-card/special-offer-card';
+import LookForCompanyCard from './look-for-company-card/look-for-company-card';
+import SpecialForYouCard from './special-for-you-card/special-for-you-card';
+import BackButton from './back-button/back-button';
+import Comments from './comments/comments';
+import TrainingInfo from './training-info/training-info';
 
 export {
   App,
@@ -43,8 +56,21 @@ export {
   WrapperMain,
   WrapperHeaderMain,
   Header,
-  FutureBlock,
   PersonalAccountUser,
+  PersonalAccountCoach,
   UserInfo,
+  ThumbnailLink,
+  ThumbnailNearest,
+  SpecialForYou,
+  SpecialForYouCard,
+  SpecialOffers,
+  SpecialOfferCard,
+  PopularTrainings,
+  PopularTrainingCard,
+  LookForCompany,
+  LookForCompanyCard,
+  BackButton,
+  Comments,
+  TrainingInfo
 };
 export type { CustomInputProps };

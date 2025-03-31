@@ -1,4 +1,4 @@
-import { LEVELS, SPECIALIZATIONS, TIMES } from '../../constants/data';
+import { LEVELS, SPECIALIZATIONS, DURATIONS } from '../../constants/data';
 
 export const QuestionnaireUserProperty = {
   UserId: {
@@ -18,14 +18,14 @@ export const QuestionnaireUserProperty = {
       Message: `Специализация должна быть набором из значений (${SPECIALIZATIONS.join(', ')})`,
     },
   },
-  Time: {
+  Duration: {
     Description: {
       description: 'Время, выделяемое на тренировку',
-      enum: TIMES,
-      example: TIMES[1],
+      enum: DURATIONS,
+      example: DURATIONS[1],
     },
     Validate: {
-      Message: `Время, выделяемое на тренировку должно быть одним из значений (${TIMES.join(', ')})`,
+      Message: `Время, выделяемое на тренировку должно быть одним из значений (${DURATIONS.join(', ')})`,
     },
   },
   Level: {

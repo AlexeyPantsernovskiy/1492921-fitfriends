@@ -10,6 +10,8 @@
   "include": [
     "src/**/*.ts",
     "../../shared/core/src/lib/swagger/user/user-property.ts",
-    "../../shared/core/src/lib/swagger/user/user-response.ts"
+    "../../shared/core/src/lib/swagger/user/user-response.ts",
+    "../../shared/core/src/lib/interfaces/request-with-token-payload.interface.ts",
+    "../../shared/core/src/lib/interfaces/request-with-user.interface.ts"
   ]
 }

@@ -1,7 +1,7 @@
-import { Entity, JwtToken, StorableEntity } from '@project/shared-core';
+import { MongoEntity, JwtToken, StorableEntity } from '@project/shared-core';
 
 export class RefreshTokenEntity
-  extends Entity
+  extends MongoEntity
   implements StorableEntity<JwtToken>
 {
   public tokenId: string;

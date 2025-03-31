@@ -64,9 +64,9 @@ export const UserProperty = {
   },
   Sex: {
     Description: {
-      description: 'Пол (Мужской, Женский, Неважно)',
+      description: 'Пол (man, female, empty)',
       enum: SEX,
-      example: 'Женский',
+      example: 'female',
     },
     Validate: {
       Message: `Пол должен быть одним из вариантов: ${SEX.join(', ')}`,
@@ -130,7 +130,7 @@ export const UserProperty = {
   },
   Role: {
     Description: {
-      description: 'Роль пользователя в системе (тренер/спортсмен)',
+      description: 'Роль пользователя в системе (coach/sportsman)',
       enum: Object.values(UserRole),
       example: 'sportsman',
     },
@@ -147,8 +147,8 @@ export const UserProperty = {
     "running",
     "stretching"
   ],
-  "time": "30-50 мин",
-  "level": "Любитель",
+  "duration": "minutes30_50",
+  "level": "beginner",
   "caloriesLose": 3000,
   "caloriesWaste": 2000,
   "isReadyToTrain": true

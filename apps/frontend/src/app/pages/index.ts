@@ -7,6 +7,7 @@ import Main from './main/main';
 import Friends from './friends/friends';
 import PersonalAccount from './personal-account/personal-account';
 import QuestionnaireUser from './questionnaire/questionnaire-user';
+import TrainingCard from './training-card/training-card';
 
 export {
   Main,
@@ -18,4 +19,5 @@ export {
   NotFound,
   Friends,
   PersonalAccount,
+  TrainingCard
 };

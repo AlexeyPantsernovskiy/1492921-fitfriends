@@ -2,12 +2,11 @@ import { ToggleRadioCaptionSize } from '@frontend/types/component';
 import classNames from 'classnames';
 import { JSX } from 'react';
 
-
-
 type ToggleRadioProps = {
   classPrefix: string;
   name: string;
-  items: string[] | readonly string[];
+  items: object;
+  //items?: string[] | readonly string[];
   caption: string;
   value?: string;
   captionSize?: ToggleRadioCaptionSize;
@@ -22,29 +21,25 @@ const ToggleRadio = ({
   captionSize = ToggleRadioCaptionSize.Normal,
 }: ToggleRadioProps): JSX.Element => {
   return (
-    <div
-      className={`${classPrefix}__${captionSize.classDiv}`}
-    >
-      <span
-        className={`${classPrefix}__${captionSize.classCaption}`}
-      >
+    <div className={`${classPrefix}__${captionSize.classDiv}`}>
+      <span className={`${classPrefix}__${captionSize.classCaption}`}>
         {caption}
       </span>
       <div
         className={classNames(
           'custom-toggle-radio',
           'custom-toggle-radio--big',
-          {[`${classPrefix}__radio`]:classPrefix}
+          { [`${classPrefix}__radio`]: classPrefix }
         )}
       >
-        {items.map((item) => (
+        {Object.entries(items).map(([key, item]) => (
           <div className="custom-toggle-radio__block">
             <label>
               <input
                 type="radio"
                 name={name}
-                value={item}
-                defaultChecked={value === item}
+                value={key}
+                defaultChecked={value === key}
                 required
               />
               <span className="custom-toggle-radio__icon"></span>

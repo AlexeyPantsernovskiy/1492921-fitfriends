@@ -5,11 +5,9 @@ import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 import {
   EMPTY_VALUE,
   Level,
-  LEVELS,
   LOCATIONS,
   PREFIX_LOCATION,
   Sex,
-  SEX,
   Specialization,
   User,
   UserRoleInfo,
@@ -140,12 +138,12 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
             <>
               <IconButton
                 classNames={getClassName('control-btn')}
-                icon={Icon.Refresh}
+                icon={Icon.RefreshPhoto}
                 onClick={handleRefreshButtonClick}
               />
               <IconButton
                 classNames={getClassName('control-btn')}
-                icon={Icon.Delete}
+                icon={Icon.DeletePhoto}
                 onClick={handleDeleteButtonClick}
               />
             </>
@@ -164,10 +162,11 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
         onSubmit={handleFormSubmit}
       >
         <FlatButton
-          classNamePrefix={`user-info__${isEdit ? 'save' : 'edit'}`}
+          className={`user-info__${isEdit ? 'save' : 'edit'}-button`}
           caption={isEdit ? 'Сохранить' : 'Редактировать'}
           type={isEdit ? ButtonType.Submit : ButtonType.Button}
-          iconName={Icon.Edit.iconName}
+          icon={Icon.Edit}
+          isUnderline
           {...(!isEdit ? { onClick: handleEditButtonClick } : {})}
         />
         <div className={getClassName('section')}>
@@ -235,7 +234,7 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
           onSelect={setLocation}
         />
         <CustomSelect
-          items={SEX}
+          items={Sex}
           caption="Пол"
           value={sex}
           disabled={!isEdit}
@@ -243,7 +242,7 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
           onSelect={(value) => setSex(value as Sex)}
         />
         <CustomSelect
-          items={LEVELS}
+          items={Level}
           caption="Уровень"
           value={level as string}
           disabled={!isEdit}

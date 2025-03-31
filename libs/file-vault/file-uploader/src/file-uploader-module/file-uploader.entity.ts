@@ -1,6 +1,9 @@
-import { Entity, File, StorableEntity } from '@project/shared-core';
+import { MongoEntity, File, StorableEntity } from '@project/shared-core';
 
-export class FileUploaderEntity extends Entity implements StorableEntity<File> {
+export class FileUploaderEntity
+  extends MongoEntity
+  implements StorableEntity<File>
+{
   public originalName: string;
   public size: number;
   public mimetype: string;

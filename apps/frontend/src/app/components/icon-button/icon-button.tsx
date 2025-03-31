@@ -4,12 +4,14 @@ import { MouseEvent, JSX } from 'react';
 type IconButtonProps = {
   classNames: string;
   icon: IconAttr;
+  ref?: React.RefObject<HTMLButtonElement>;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
 function IconButton({
   classNames,
   icon,
+  ref,
   onClick,
 }: IconButtonProps): JSX.Element {
   return (
@@ -17,10 +19,11 @@ function IconButton({
       className={classNames}
       title={icon.caption}
       aria-label={icon.caption.toLowerCase()}
+      {...(!ref ? { ref: ref } : {})}
       onClick={onClick}
     >
-      <svg width="14" height="16" aria-hidden="true">
-        <use xlinkHref={`#${icon.iconName}`}></use>
+      <svg width={icon.width} height={icon.height} aria-hidden="true">
+        <use xlinkHref={`#${icon.name}`}></use>
       </svg>
     </button>
   );

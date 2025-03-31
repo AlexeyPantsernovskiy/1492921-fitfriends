@@ -1,37 +1,43 @@
-import { ButtonType, Icon, IconName } from '@frontend/types/component';
+import { ButtonType, IconAttr, IconPosition } from '@frontend/types/component';
 import classNames from 'classnames';
 import { MouseEvent, JSX } from 'react';
 
 export type FlatButtonProps = {
-  classNamePrefix: string;
-  caption: string;
+  className: string;
+  caption?: string;
   type?: ButtonType;
-  iconName: IconName;
+  icon: IconAttr;
+  iconPosition?: IconPosition;
+  isUnderline?: boolean;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
 function FlatButton({
-  classNamePrefix,
+  className,
   caption,
   type = 'button',
-  iconName,
+  icon,
+  iconPosition = IconPosition.Right,
+  isUnderline = false,
   onClick,
 }: FlatButtonProps): JSX.Element {
+  const btnCaption = caption ?? icon?.caption;
   return (
     <button
       className={classNames(
         'btn-flat',
-        'btn-flat--underlined',
-        `${classNamePrefix}-button`
+        { 'btn-flat--underlined': isUnderline },
+        className
       )}
       type={type}
-      aria-label={caption}
+      {...(!caption ? { ariaLabel: caption } : {})}
       onClick={onClick}
     >
-      <svg width="12" height="12" aria-hidden="true">
-        <use xlinkHref={`#${iconName}`}></use>
+      {(iconPosition === IconPosition.Right) && <span>{btnCaption}</span>}
+      <svg width={icon.width} height={icon.height} aria-hidden="true">
+        <use xlinkHref={`#${icon.name}`}></use>
       </svg>
-      <span>{caption}</span>
+      {(iconPosition === IconPosition.Left) && <span>{btnCaption}</span>}
     </button>
   );
 }

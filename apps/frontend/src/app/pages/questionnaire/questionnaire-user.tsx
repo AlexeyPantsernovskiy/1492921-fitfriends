@@ -11,11 +11,9 @@ import {
 import { ToggleRadioCaptionSize } from '@frontend/types/component';
 import {
   Level,
-  LEVELS,
   Questionnaire,
   Specialization,
-  Time,
-  TIMES,
+  Duration,
 } from '@project/shared';
 import { fillQuestionnaire } from '@frontend/store';
 import { useAppDispatch } from '@frontend/src/hooks';
@@ -69,7 +67,7 @@ const QuestionnaireUser = (): JSX.Element => {
     const formData = new FormData(e.currentTarget);
     const questionnaire: Questionnaire = {
       specialization: specialization as Specialization[],
-      time: (formData.get('time')?.toString() || '') as Time,
+      duration: (formData.get('Duration')?.toString() || '') as Duration,
       level: (formData.get('level')?.toString() || '') as Level,
       caloriesLose: parseInt(
         formData.get('calories-lose')?.toString() || '0',
@@ -109,16 +107,16 @@ const QuestionnaireUser = (): JSX.Element => {
                     </div>
                     <ToggleRadio
                       classPrefix="questionnaire-user"
-                      name="time"
+                      name="Duration"
                       caption="Сколько времени вы готовы уделять на тренировку в день"
-                      items={TIMES}
+                      items={Duration}
                       captionSize={ToggleRadioCaptionSize.Big}
                     />
                     <ToggleRadio
                       classPrefix="questionnaire-user"
                       name="level"
                       caption="Ваш уровень"
-                      items={LEVELS}
+                      items={Level}
                       captionSize={ToggleRadioCaptionSize.Big}
                     />
                     <div className="questionnaire-user__block">

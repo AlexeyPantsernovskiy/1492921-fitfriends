@@ -62,3 +62,11 @@ export function calculatePage(totalCount: number, limit: number): number {
 
 export const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : '';
+
+export function createUrlForFile(filepath: string, url: string): string {
+  if (filepath.startsWith('img/')) {
+    return `/${filepath}`;
+  }
+
+  return `${url}/${filepath}`;
+}

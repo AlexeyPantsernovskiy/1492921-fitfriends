@@ -1,14 +1,23 @@
 import store from '@frontend/store';
-import type { Guitar, GuitarType, ProductWithPagination } from './types';
 import { AuthorizationStatus } from '@frontend/src/const';
-import { SortType, User } from '@project/shared';
+import {
+  SortType,
+  TrainingRdo,
+  TrainingWithCoachRdo,
+  TrainingWithPaginationRdo,
+  User,
+} from '@project/shared';
 
-export type SiteData = {
-  guitarTypes: GuitarType | null;
-  products: ProductWithPagination;
-  isProductsLoading: boolean;
-  product: Guitar | null;
-  isProductLoading: boolean;
+export type TrainingProcess = {
+  specialForYou: TrainingRdo[];
+  isSpecialForYouLoading: boolean;
+  trainings: TrainingWithPaginationRdo | null;
+  isTrainingsLoading: boolean;
+  training: TrainingWithCoachRdo | null;
+  isTrainingLoading: boolean;
+  // trainingComment: TrainingCommentWithPagination | null;
+  // isTrainingCommentLoading: boolean;
+  // isSuccessAddTrainingComment: boolean;
 };
 
 export type SiteProcess = {

@@ -1,21 +1,23 @@
 import { AxiosInstance } from 'axios';
 import { History } from 'history';
 
-// export type User = {
-//   name: string;
-//   email: string;
-// };
+export const AppRoute = {
+  Root: '/',
+  Login: '/login',
+  Register: '/register',
+  QuestionnaireUser: '/questionnaire-user/:userId',
+  Main: '/main',
+  Intro: '/intro',
+  PersonalAccount: '/personal-account',
+  NotFound: '/404',
 
-// export type UserRegister = User & {
-//   name: string;
-//   email: string;
-//   password: string;
-// };
+  Friends: '/friends',
 
-// export type UserLogin = {
-//   email: string;
-//   password: string;
-// };
+  Purchases: '/purchases',
+  Catalog: '/catalog',
+  TrainingCard: '/training/:id',
+} as const;
+export type AppRoute = (typeof AppRoute)[keyof typeof AppRoute];
 
 export type GuitarTypeInfo = {
   code: string;

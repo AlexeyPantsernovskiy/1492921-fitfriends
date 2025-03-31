@@ -1,0 +1,21 @@
+# Get all trainings
+GET http://localhost:3352/api/trainings HTTP/1.1
+
+###
+
+# Get trainings with filter
+GET http://localhost:3352/api/trainings?limit=4&sortBy=price&sortDirection=desc&specializations=aerobics&specializations=yoga&page=2 HTTP/1.1
+
+###
+
+# Get training by id
+GET http://localhost:3352/api/trainings/22 HTTP/1.1
+
+###
+
+# Get trainings special for you
+http://localhost:3352/api/trainings/special-for-you?limit=9&specializations=yoga&sex=empty&level=beginner&duration=minutes10_30&calories=3223
+
+###
+
+

@@ -1,6 +1,7 @@
 import { registerAs } from '@nestjs/config';
-import { DefaultPort } from '@project/shared-core';
 import * as Joi from 'joi';
+
+import { DefaultPort } from '@project/shared-core';
 
 const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
 

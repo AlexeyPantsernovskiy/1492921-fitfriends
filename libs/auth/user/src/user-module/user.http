@@ -65,7 +65,7 @@ Content-Type: application/json
     "running",
     "stretching"
   ],
-  "time": "30-50 мин",
+  "Duration": "30-50 мин",
   "level": "Любитель",
   "caloriesLose": 3000,
   "caloriesWaste": 2000,

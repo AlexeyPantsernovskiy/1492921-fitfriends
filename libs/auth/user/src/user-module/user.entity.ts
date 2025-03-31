@@ -1,11 +1,20 @@
 import { compare, genSalt, hash } from 'bcrypt';
 
-import { Entity, Questionnaire, Sex, UserRole } from '@project/shared-core';
-import { StorableEntity, UserAuth } from '@project/shared-core';
+import {
+  StorableEntity,
+  UserAuth,
+  Questionnaire,
+  Sex,
+  UserRole,
+  MongoEntity,
+} from '@project/shared-core';
 
 import { SALT_ROUNDS } from './user.constant';
 
-export class UserEntity extends Entity implements StorableEntity<UserAuth> {
+export class UserEntity
+  extends MongoEntity
+  implements StorableEntity<UserAuth>
+{
   public email: string;
   public name: string;
   public avatar?: string;

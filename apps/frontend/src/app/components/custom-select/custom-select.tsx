@@ -2,7 +2,7 @@ import { JSX, useState } from 'react';
 import classNames from 'classnames';
 
 export type CustomSelectProps = {
-  items: string[] | readonly string[];
+  items: object | string[] | readonly string[];
   caption: string;
   value: string;
   disabled?: boolean;
@@ -25,10 +25,16 @@ const CustomSelect = ({
   const handleToggleList = () => {
     setIsOpen(!isOpen);
   };
-  const handleSelectLocation = (item: string) => {
+  const handleSelectItem = (item: string) => {
     onSelect(item);
     setIsOpen(false);
   };
+
+  const itemsList = Array.isArray(items)
+    ? Object.fromEntries(items.map((item) => [item, item]))
+    : items;
+
+  const displayValue = value ? itemsList[value] : '';
 
   return (
     <div
@@ -45,7 +51,7 @@ const CustomSelect = ({
       </span>
       <div className="custom-select__placeholder">
         {value && prefixCaption}
-        {value}
+        {displayValue}
       </div>
       <button
         className="custom-select__button"
@@ -55,8 +61,8 @@ const CustomSelect = ({
         disabled={disabled}
       >
         <span className="custom-select__text" style={{ fontSize: '100%' }}>
-          {prefixCaption}
-          {value}
+          {value && prefixCaption}
+          {displayValue}
         </span>
 
         <span className="custom-select__icon">
@@ -67,16 +73,16 @@ const CustomSelect = ({
       </button>
       {isOpen && (
         <ul className="custom-select__list" role="listbox">
-          {items.map((item) => (
+          {Object.entries(itemsList).map(([key, item]) => (
             <li
-              key={item}
+              key={key}
               className="custom-select__item"
               role="option"
-              aria-selected={value === item}
-              onClick={() => handleSelectLocation(item)}
+              aria-selected={value === key}
+              onClick={() => handleSelectItem(key)}
             >
               {prefixCaption}
-              {item}
+              {item as string}
             </li>
           ))}
         </ul>

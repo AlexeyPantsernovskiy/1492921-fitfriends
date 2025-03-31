@@ -1,9 +1,9 @@
 import { Level } from './level.enum';
 import { Specialization } from './specialization.enum';
-import { Time } from './time.enum';
+import { Duration } from './duration.enum';
 export interface Questionnaire {
   specialization: Specialization[];
-  time: Time;
+  duration: Duration;
   level: Level;
   caloriesLose: number;
   caloriesWaste: number;

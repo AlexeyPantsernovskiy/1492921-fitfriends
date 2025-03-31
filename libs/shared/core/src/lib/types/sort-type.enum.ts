@@ -1,6 +1,7 @@
 export const SortType = {
-  CreateDate: 'createDate',
-  //Price: 'price',
+  Date: 'createDate',
+  Price: 'price',
+  Rating: 'rating',
 } as const;
 
 export type SortType = (typeof SortType)[keyof typeof SortType];

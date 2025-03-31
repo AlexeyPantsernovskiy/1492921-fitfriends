@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import NotificationList, { NotificationProps } from './notification';
-import { AppRoute } from '@frontend/src/const';
+
+import { AppRoute } from '@frontend/types/types';
 
 const SEARCH_HISTORY = ['Бокс', 'Бег', 'Аэробика'];
 
@@ -52,7 +53,7 @@ const NavItem = ({ item }: NavItemProps): JSX.Element => {
   const { pathname } = location;
 
   return (
-    <li className="main-nav__item">
+    <li className="main-nav__item" key={item.icon}>
       <Link
         className={`main-nav__link ${
           pathname === item.route ? 'is-active' : ''
@@ -74,7 +75,7 @@ export type SearchItemProps = {
 
 const SearchItem = ({ text }: SearchItemProps): JSX.Element => {
   return (
-    <li className="search__item">
+    <li className="search__item" key={text}>
       <Link to="" className="search__link is-active">
         {text}
       </Link>

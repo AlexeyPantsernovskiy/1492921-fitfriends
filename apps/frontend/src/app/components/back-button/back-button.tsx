@@ -1,25 +1,19 @@
-import history from '../../history';
+import history from '@frontend/src/history';
+import {FlatButton} from '@frontend/components';
+import { Icon, IconPosition } from '@frontend/types/component';
 
 interface BackButtonProps {
-  baseClassName: string;
+  className: string;
 }
 
-function BackButton({ baseClassName }: BackButtonProps): JSX.Element {
-  const onButtonClick = () => {
-    history.back();
-  };
-
+function BackButton({ className }: BackButtonProps): JSX.Element {
   return (
-    <button
-      className={`btn-flat ${baseClassName}`}
-      type="button"
-      onClick={onButtonClick}
-    >
-      <svg width="14" height="10" aria-hidden="true">
-        <use xlinkHref="#arrow-left"></use>
-      </svg>
-      <span>Назад</span>
-    </button>
+    <FlatButton
+      className={className}
+      icon={Icon.Back}
+      iconPosition= {IconPosition.Left}
+      onClick={() => history.back()}
+    />
   );
 }
 

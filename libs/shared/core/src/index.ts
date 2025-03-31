@@ -1,4 +1,5 @@
 export * from './lib/constants/data';
+export { TrainingParamWeight } from './lib/constants/training.constant';
 
 export { CommonResponse } from './lib/swagger/common-response';
 export { CommonProperty } from './lib/swagger/common-property';
@@ -9,13 +10,22 @@ export { UserParam } from './lib/swagger/user/user-param';
 export { UserResponse } from './lib/swagger/user/user-response';
 export { UserOperation } from './lib/swagger/user/user-operation';
 
+export { TrainingOperation } from './lib/swagger/training/training-operation';
+export { TrainingParam } from './lib/swagger/training/training-param';
+export { TrainingProperty } from './lib/swagger/training/training-property';
+export { TrainingResponse } from './lib/swagger/training/training-response';
+
 export { Sex } from './lib/types/sex.enum';
+export { SexName } from './lib/types/sex.enum';
 export { Level } from './lib/types/level.enum';
-export { Time } from './lib/types/time.enum';
+export { Duration } from './lib/types/duration.enum';
 export { Specialization } from './lib/types/specialization.enum';
+export { Training } from './lib/types/training.interface';
+export { TrainingWithPagination } from './lib/types/training-with-pagination.type';
 export * from './lib/types/user-role.enum';
 
-export { Entity } from './lib/base/entity';
+export { MongoEntity } from './lib/base/mongo-entity';
+export { PgEntity } from './lib/base/pg-entity';
 export { StorableEntity } from './lib/interfaces/storable-entity.interface';
 export { EntityFactory } from './lib/interfaces/entity-factory.interface';
 export { TokenPayload } from './lib/interfaces/token-payload.interface';
@@ -24,6 +34,8 @@ export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';
 export { FileValidateOptions } from './lib/interfaces/file-validate-options.interface';
 export { PaginationResult } from './lib/interfaces/pagination.interface';
+export { RequestWithTokenPayload } from './lib/interfaces/request-with-token-payload.interface';
+export { RequestWithUser } from './lib/interfaces/request-with-user.interface';
 
 export { UserLogin } from './lib/types/user-login.interface';
 export { UserRegister } from './lib/types/user-register.interface';
@@ -46,8 +58,15 @@ export { FillQuestionnaireUserDto } from './lib/dto/user/fill-questionnaire-user
 export { LoginUserDto } from './lib/dto/user/login-user.dto';
 export { UpdateUserDto } from './lib/dto/user/update-user.dto';
 
+export { LimitQuery } from './lib/query/limit.query';
+export { TrainingQuery } from './lib/query/training.query';
+export { SpecialForYouQuery } from './lib/query/special-for-you.query';
+
 export { TokenPayloadRdo } from './lib/rdo/user/token-payload.rdo';
 export { LoggedUserRdo } from './lib/rdo/user/logged-user.rdo';
 export { UserTokenRdo } from './lib/rdo/user/user-token.rdo';
 export { UserRdo } from './lib/rdo/user/user.rdo';
 export { QuestionnaireUserRdo } from './lib/rdo/user/questionnaire-user.rdo';
+export { TrainingWithPaginationRdo } from './lib/rdo/training/training-with-pagination.rdo';
+export { TrainingRdo } from './lib/rdo/training/training.rdo';
+export { TrainingWithCoachRdo } from './lib/rdo/training/training-with-coach.rdo';
