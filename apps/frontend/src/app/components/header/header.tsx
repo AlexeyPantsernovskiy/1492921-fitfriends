@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import NotificationList, { NotificationProps } from './notification';
-
-import { AppRoute } from '@frontend/types/types';
+import { AppRoute } from '@frontend/const';
 
 const SEARCH_HISTORY = ['Бокс', 'Бег', 'Аэробика'];
 

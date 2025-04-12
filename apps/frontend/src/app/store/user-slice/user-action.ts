@@ -1,8 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ApiRoute } from '@frontend/src/const';
+import { ApiRoute, AppRoute } from '@frontend/src/const';
 import { Token } from '@frontend/src/services/token';
 import {
   UserToken,
@@ -14,7 +14,7 @@ import {
   UserRole,
   TokenPayloadRdo,
 } from '@project/shared';
-import { ApiExtra, AppRoute } from '@frontend/src/types/types';
+import { ApiExtra } from '@frontend/src/types/types';
 
 const UserAction = {
   LoginUser: 'user/login',

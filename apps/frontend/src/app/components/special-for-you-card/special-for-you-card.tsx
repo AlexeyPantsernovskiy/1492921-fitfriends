@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '@frontend/types/types';
 import { Training } from '@project/shared';
+import { AppRoute } from '@frontend/const';
 
 interface SpecialForYouCardProps {
   training: Training;

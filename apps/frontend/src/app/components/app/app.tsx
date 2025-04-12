@@ -12,7 +12,7 @@ import {
   WrapperHeaderMain,
   WrapperMain,
 } from '@frontend/components';
-import { AuthorizationStatus } from '@frontend/src/const';
+import { AppRoute, AuthorizationStatus } from '@frontend/src/const';
 import historyBrowser from '@frontend/src/history';
 import {
   Friends,
@@ -24,8 +24,8 @@ import {
   QuestionnaireUser,
   Registration,
   TrainingCard,
+  TrainingCatalog,
 } from '@frontend/src/pages';
-import { AppRoute } from '@frontend/types/types';
 
 const App = (): JSX.Element => (
   <HistoryRouter history={historyBrowser}>
@@ -122,29 +122,17 @@ const App = (): JSX.Element => (
               </PrivateRoute>
             }
           />
-          {/* <Route
+          <Route
             path={AppRoute.Catalog}
             element={
               <PrivateRoute
                 restrictedFor={AuthorizationStatus.NoAuth}
                 redirectTo={AppRoute.Root}
               >
-                <ProductList />
-              </PrivateRoute>
-            }
-          /> */}
-          {/* <Route
-            path={AppRoute.Account}
-            element={
-              <PrivateRoute
-                restrictedFor={AuthorizationStatus.NoAuth}
-                redirectTo={AppRoute.Root}
-              >
-                <AddProduct />
+                <TrainingCatalog />
               </PrivateRoute>
             }
           />
-          */}
           <Route
             path={AppRoute.TrainingCard}
             element={

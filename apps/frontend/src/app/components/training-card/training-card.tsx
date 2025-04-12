@@ -1,15 +1,13 @@
 import { Link } from 'react-router-dom';
 
 import { Specialization, Training } from '@project/shared';
-import { AppRoute } from '@frontend/types/types';
+import { AppRoute } from '@frontend/const';
 
-interface PopularTrainingCardProps {
+interface TrainingCardProps {
   training: Training;
 }
 
-function PopularTrainingCard({
-  training,
-}: PopularTrainingCardProps): JSX.Element {
+function TrainingCard({ training }: TrainingCardProps): JSX.Element {
   return (
     <div className="thumbnail-training">
       <div className="thumbnail-training__inner">
@@ -69,4 +67,4 @@ function PopularTrainingCard({
   );
 }
 
-export default PopularTrainingCard;
+export default TrainingCard;

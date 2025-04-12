@@ -1,23 +1,9 @@
 import { AxiosInstance } from 'axios';
 import { History } from 'history';
 
-export const AppRoute = {
-  Root: '/',
-  Login: '/login',
-  Register: '/register',
-  QuestionnaireUser: '/questionnaire-user/:userId',
-  Main: '/main',
-  Intro: '/intro',
-  PersonalAccount: '/personal-account',
-  NotFound: '/404',
+import { AppRoute, ToggleRange } from '@frontend/const';
 
-  Friends: '/friends',
-
-  Purchases: '/purchases',
-  Catalog: '/catalog',
-  TrainingCard: '/training/:id',
-} as const;
-export type AppRoute = (typeof AppRoute)[keyof typeof AppRoute];
+export type RouteApp = (typeof AppRoute)[keyof typeof AppRoute];
 
 export type GuitarTypeInfo = {
   code: string;
@@ -53,3 +39,7 @@ export type ApiExtra = {
   api: AxiosInstance;
   history: History;
 };
+
+export type RangeValue = { min: number; max: number };
+
+export type ToggleMinMax = (typeof ToggleRange)[keyof typeof ToggleRange];

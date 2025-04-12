@@ -1,25 +1,39 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { StatusCodes } from 'http-status-codes';
+import {
+  REQUESTED_RANGE_NOT_SATISFIABLE,
+  StatusCodes,
+} from 'http-status-codes';
 
-import { ApiRoute, LimitTrainingCard } from '@frontend/src/const';
+import { ApiRoute, AppRoute, LimitTrainingCard } from '@frontend/src/const';
 import {
   TrainingWithPaginationRdo,
   TrainingQuery,
   TrainingWithCoachRdo,
   TrainingRdo,
 } from '@project/shared';
-import { ApiExtra, AppRoute } from '@frontend/src/types/types';
+import { ApiExtra } from '@frontend/src/types/types';
 
 const TrainingAction = {
+  GetAllTrainings: 'trainings/all',
   GetTrainings: 'trainings/get',
   SpecialForYou: 'trainings/special-for-you',
   GetTraining: 'training/get',
 };
 
+export const getAllTrainings = createAsyncThunk<
+  TrainingWithPaginationRdo,
+  void,
+  { extra: ApiExtra }
+>(TrainingAction.GetAllTrainings, async (_arg, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<TrainingWithPaginationRdo>(ApiRoute.Trainings);
+  return data;
+});
+
 export const getTrainings = createAsyncThunk<
   TrainingWithPaginationRdo,
-  TrainingQuery | null,
+  TrainingQuery,
   { extra: ApiExtra }
 >(TrainingAction.GetTrainings, async (query, { extra }) => {
   const { api } = extra;

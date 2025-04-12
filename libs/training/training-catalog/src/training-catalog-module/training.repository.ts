@@ -36,26 +36,25 @@ export class TrainingRepository extends BasePostgresRepository<
     field: string,
     min?: number,
     max?: number
-  ): Record<string, any> | undefined {
-    if (!min && !max) {
+  ): Record<string, object> | undefined {
+    if (min && max) {
       return min === max
         ? { [field]: { equals: max } }
         : { [field]: { gte: min, lte: max } };
     }
 
-    const condition: Record<string, any> = {};
-    if (!min) {
+    const condition: Record<string, number> = {};
+    if (min) {
       condition.gte = min;
     }
-    if (!max) {
+    if (max) {
       condition.lte = max;
     }
     return Object.keys(condition).length ? { [field]: condition } : undefined;
   }
 
-  public async getMaxPrice(where: Prisma.TrainingWhereInput): Promise<number> {
+  public async getMaxPrice(): Promise<number> {
     const maxPrice = await this.client.training.aggregate({
-      where,
       _max: {
         price: true,
       },
@@ -77,7 +76,7 @@ export class TrainingRepository extends BasePostgresRepository<
 
   public async find(
     query?: TrainingQuery
-  ): Promise<PaginationResult<TrainingEntity | null>> {
+  ): Promise<PaginationResult<TrainingEntity> & { maxAllPrice: number }> {
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
@@ -104,8 +103,7 @@ export class TrainingRepository extends BasePostgresRepository<
     if (query?.sortBy) {
       orderBy[query.sortBy] = query.sortDirection;
     }
-
-    const [records, count] = await Promise.all([
+    const [records, count, maxPrice] = await Promise.all([
       this.client.training.findMany({
         where,
         orderBy,
@@ -113,6 +111,7 @@ export class TrainingRepository extends BasePostgresRepository<
         take,
       }),
       this.getCount(where),
+      this.getMaxPrice(),
     ]);
 
     return {
@@ -121,10 +120,13 @@ export class TrainingRepository extends BasePostgresRepository<
       totalPages: calculatePage(count, take),
       itemsPerPage: take,
       totalItems: count,
+      maxAllPrice: maxPrice,
     };
   }
 
-  public async findSpecialForYou(query: SpecialForYouQuery): Promise<Training[]> {
+  public async findSpecialForYou(
+    query: SpecialForYouQuery
+  ): Promise<Training[]> {
     const { limit, specializations, sex, level, duration, calories } = query;
 
     try {
@@ -164,7 +166,10 @@ export class TrainingRepository extends BasePostgresRepository<
 
       return records;
     } catch (error) {
-      this.logger.error('Ошибка при поиске тренировок, специально подобранных ждя Вас', error);
+      this.logger.error(
+        'Ошибка при поиске тренировок, специально подобранных ждя Вас',
+        error
+      );
       return [];
     }
   }

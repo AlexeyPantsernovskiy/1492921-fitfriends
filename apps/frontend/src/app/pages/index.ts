@@ -8,6 +8,7 @@ import Friends from './friends/friends';
 import PersonalAccount from './personal-account/personal-account';
 import QuestionnaireUser from './questionnaire/questionnaire-user';
 import TrainingCard from './training-card/training-card';
+import TrainingCatalog from './training-catalog/training-catalog';
 
 export {
   Main,
@@ -19,5 +20,6 @@ export {
   NotFound,
   Friends,
   PersonalAccount,
-  TrainingCard
+  TrainingCard,
+  TrainingCatalog,
 };

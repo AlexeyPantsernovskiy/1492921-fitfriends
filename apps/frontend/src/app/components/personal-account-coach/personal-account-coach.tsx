@@ -1,6 +1,6 @@
 import { ThumbnailLink, ThumbnailNearest } from '@frontend/components';
+import { AppRoute } from '@frontend/const';
 import { Icon } from '@frontend/types/component';
-import { AppRoute } from '@frontend/types/types';
 
 function PersonalAccountCoach(): JSX.Element {
   return (

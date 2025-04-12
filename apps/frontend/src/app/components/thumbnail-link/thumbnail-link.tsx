@@ -1,12 +1,12 @@
 import { JSX } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '@frontend/types/types';
+import { RouteApp } from '@frontend/types/types';
 import { IconAttr } from '@frontend/types/component';
 
 export type ThumbnailLinkProps = {
   text?: string;
-  link: AppRoute;
+  link: RouteApp;
   icon: IconAttr;
 };
 

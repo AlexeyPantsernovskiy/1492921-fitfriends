@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Specialization } from '@project/shared';
-import { AppRoute } from '@frontend/types/types';
+import { AppRoute } from '@frontend/const';
 
 interface LookForCompanyCardProps {
   user: {

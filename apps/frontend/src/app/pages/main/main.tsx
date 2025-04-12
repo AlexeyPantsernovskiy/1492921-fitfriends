@@ -1,6 +1,11 @@
-import { LookForCompany, PopularTrainings, SpecialForYou, SpecialOffers } from '@frontend/components';
+import {
+  LookForCompany,
+  PopularTrainings,
+  SpecialForYou,
+  SpecialOffers,
+} from '@frontend/components';
 import { useAppDispatch } from '@frontend/src/hooks';
-import { getSpecialForYou, getTrainings } from '@frontend/store';
+import { getAllTrainings, getSpecialForYou } from '@frontend/store';
 
 import { useEffect } from 'react';
 
@@ -9,7 +14,7 @@ const Main = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getSpecialForYou());
-    dispatch(getTrainings(null));
+    dispatch(getAllTrainings());
   }, [dispatch]);
 
   return (

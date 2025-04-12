@@ -27,13 +27,16 @@ import SpecialForYou from './special-for-you/special-for-you';
 import SpecialOffers from './special-offers/special-offers';
 import PopularTrainings from './popular-trainings/popular-trainings';
 import LookForCompany from './look-for-company/look-for-company';
-import PopularTrainingCard from './popular-training-card/popular-training-card';
+import TrainingCard from './training-card/training-card';
 import SpecialOfferCard from './special-offer-card/special-offer-card';
 import LookForCompanyCard from './look-for-company-card/look-for-company-card';
 import SpecialForYouCard from './special-for-you-card/special-for-you-card';
 import BackButton from './back-button/back-button';
 import Comments from './comments/comments';
 import TrainingInfo from './training-info/training-info';
+import SliderRange from './slider-range/slider-range';
+import TrainingCatalogFilter from './training-catalog-filter/training-catalog-filter';
+import InputRange from './input-range/input-range';
 
 export {
   App,
@@ -66,11 +69,14 @@ export {
   SpecialOffers,
   SpecialOfferCard,
   PopularTrainings,
-  PopularTrainingCard,
+  TrainingCard,
   LookForCompany,
   LookForCompanyCard,
   BackButton,
   Comments,
-  TrainingInfo
+  TrainingInfo,
+  SliderRange,
+  InputRange,
+  TrainingCatalogFilter,
 };
 export type { CustomInputProps };

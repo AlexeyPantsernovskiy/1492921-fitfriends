@@ -26,3 +26,5 @@ export type { TrainingRdo } from './lib/rdo/training/training.rdo';
 
 export { SortType } from './lib/types/sort-type.enum';
 export { SortDirection } from './lib/types/sort-direction.enum';
+
+export { TrainingProperty } from './lib/swagger/training/training-property';

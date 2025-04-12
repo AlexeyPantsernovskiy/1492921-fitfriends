@@ -1,6 +1,6 @@
 import { Icon } from '@frontend/types/component';
-import { AppRoute } from '@frontend/types/types';
 import { ThumbnailLink, ThumbnailNearest } from '@frontend/components';
+import { AppRoute } from '@frontend/const';
 
 type InputCaloriesProps = {
   caption: string;

@@ -54,7 +54,7 @@ export const TrainingProperty = {
       example: '700',
     },
     Validate: {
-      min: 0,
+      Min: 0,
       Message: 'Стоимость тренировке не может быть отрицательной',
     },
   },
@@ -63,11 +63,11 @@ export const TrainingProperty = {
       description: 'Количество калорий',
       minimum: 1000,
       maximum: 5000,
-      example: '1000',
+      example: 1000,
     },
     Validate: {
-      min: 1000,
-      max: 5000,
+      Min: 1000,
+      Max: 5000,
       Message: 'Количество калорий должно быть от 1000 до 5000 символов',
     },
   },
@@ -101,6 +101,13 @@ export const TrainingProperty = {
     Description: {
       description: 'Рейтинг тренировки',
       example: '4.5',
+      minimum: 0,
+      maximum: 5,
+    },
+    Validate: {
+      Min: 0,
+      Max: 5,
+      Message: 'Рейтинг должен быть в диапазоне от 0 до 5',
     },
   },
   CoachId: {
@@ -248,6 +255,12 @@ export const TrainingProperty = {
       isArray: true,
       example: [SPECIALIZATIONS[1], SPECIALIZATIONS[3]],
       required: false,
+    },
+  },
+  MaxAllPrice: {
+    Description: {
+      description: 'Максимальная цена из всех тренировок',
+      example: 2200,
     },
   },
 } as const;

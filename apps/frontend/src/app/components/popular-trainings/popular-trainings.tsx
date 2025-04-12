@@ -3,16 +3,15 @@ import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
-import { AppRoute } from '@frontend/types/types';
 import { trainingSelectors } from '@frontend/store';
-import { LimitTrainingCard } from '@frontend/const';
+import { AppRoute, LimitTrainingCard } from '@frontend/const';
 import { Icon } from '@frontend/types/component';
 
 import {
   Spinner,
   FlatButton,
   IconButton,
-  PopularTrainingCard,
+  TrainingCard,
   ThumbnailNearest,
 } from '@frontend/components';
 
@@ -81,7 +80,7 @@ function PopularTrainings(): JSX.Element {
                   className="popular-trainings__item"
                   key={`popular-trainings__item-${training.id}`}
                 >
-                  <PopularTrainingCard training={training} />
+                  <TrainingCard training={training} />
                 </li>
               </SwiperSlide>
             ))}

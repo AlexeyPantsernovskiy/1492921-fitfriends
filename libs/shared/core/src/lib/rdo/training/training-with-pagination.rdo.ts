@@ -5,6 +5,7 @@ import { TrainingRdo } from './training.rdo';
 
 import { TrainingProperty } from '../../swagger/training/training-property';
 import { TrainingWithPagination } from '../../types/training-with-pagination.type';
+import { CommonProperty } from '../../swagger/common-property';
 
 export class TrainingWithPaginationRdo implements TrainingWithPagination {
   @ApiProperty(TrainingProperty.TrainingCatalog.Description)
@@ -14,30 +15,22 @@ export class TrainingWithPaginationRdo implements TrainingWithPagination {
   public entities: TrainingRdo[];
 
   @Expose()
-  @ApiProperty({
-    description: 'totalPages',
-    example: 10,
-  })
+  @ApiProperty(CommonProperty.TotalPages.Description)
   public totalPages: number;
 
   @Expose()
-  @ApiProperty({
-    description: 'totalItems',
-    example: 100,
-  })
+  @ApiProperty(CommonProperty.TotalItems.Description)
   public totalItems: number;
 
   @Expose()
-  @ApiProperty({
-    description: 'currentPage',
-    example: 1,
-  })
+  @ApiProperty(CommonProperty.CurrentPage.Description)
   public currentPage: number;
 
   @Expose()
-  @ApiProperty({
-    description: 'itemsPerPage',
-    example: 5,
-  })
+  @ApiProperty(CommonProperty.ItemsPerPage.Description)
   public itemsPerPage: number;
+
+  @Expose()
+  @ApiProperty(TrainingProperty.MaxAllPrice.Description)
+  public maxAllPrice: number;
 }

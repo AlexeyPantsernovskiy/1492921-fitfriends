@@ -1,3 +1,20 @@
+export const AppRoute = {
+  Root: '/',
+  Login: '/login',
+  Register: '/register',
+  QuestionnaireUser: '/questionnaire-user/:userId',
+  Main: '/main',
+  Intro: '/intro',
+  PersonalAccount: '/personal-account',
+  NotFound: '/404',
+
+  Friends: '/friends',
+
+  Purchases: '/purchases',
+  Catalog: '/catalog',
+  TrainingCard: '/training/:id',
+} as const;
+
 export const ApiRoute = {
   UserCheckAuth: '/api/users/check',
   UserLogin: '/api/users/login',
@@ -9,7 +26,7 @@ export const ApiRoute = {
   UserGetInfo: '/api/users/:userId',
   UserAvatar: '/api/users/avatar',
   Trainings: '/api/trainings',
-  SpecialForYou: '/api/trainings/special-for-you'
+  SpecialForYou: '/api/trainings/special-for-you',
 } as const;
 
 export enum AuthorizationStatus {
@@ -43,3 +60,8 @@ export const LimitTrainingCard = {
 
 // Размер скидки которая применяется при установки флага "Специальное предложение"
 export const discount = 0.2;
+
+export const ToggleRange = {
+  Min: 'min',
+  Max: 'max',
+} as const;

@@ -33,9 +33,10 @@ export class TrainingService {
     };
   }
 
-  public async getTrainingsSpecialForYou(query: SpecialForYouQuery
+  public async getTrainingsSpecialForYou(
+    query: SpecialForYouQuery
   ): Promise<TrainingRdo[] | null> {
-    const trainings =  await this.trainingRepository.findSpecialForYou(query);
-    return trainings.map((item) => fillDto(TrainingRdo, item))
-  };
+    const trainings = await this.trainingRepository.findSpecialForYou(query);
+    return trainings.map((item) => fillDto(TrainingRdo, item));
+  }
 }

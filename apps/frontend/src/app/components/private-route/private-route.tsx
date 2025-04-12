@@ -2,13 +2,14 @@ import { JSX } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { Spinner } from '@frontend/components';
-import { AppRoute, AuthorizationStatus } from '@frontend/src/const';
+import { AuthorizationStatus } from '@frontend/src/const';
 import { useAppSelector } from '@frontend/src/hooks';
 import { userSelectors } from '@frontend/store';
+import { RouteApp } from '@frontend/types/types';
 
 type PrivateRouteProps = {
   restrictedFor: AuthorizationStatus;
-  redirectTo: AppRoute;
+  redirectTo: RouteApp;
   children: JSX.Element;
 };
 

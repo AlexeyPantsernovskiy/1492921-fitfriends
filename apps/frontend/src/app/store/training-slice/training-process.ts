@@ -9,18 +9,58 @@ import {
   TrainingWithPaginationRdo,
 } from '@project/shared';
 
-import { getTraining, getTrainings, getSpecialForYou } from './training-action';
+import {
+  getTraining,
+  getTrainings,
+  getSpecialForYou,
+  getAllTrainings,
+} from './training-action';
 
 const initialState: TrainingProcess = {
-  specialForYou: [],
-  isSpecialForYouLoading: false,
   trainings: null,
   isTrainingsLoading: false,
+  trainingCatalog: null,
+  isTrainingCatalogLoading: false,
+  specialForYou: [],
+  isSpecialForYouLoading: false,
   training: null,
   isTrainingLoading: false,
+
   // trainingComment: null,
   // isTrainingCommentLoading: false,
   // isSuccessAddTrainingComment: false,
+};
+
+const endLoadingAllTrainings = (
+  state: TrainingProcess,
+  action: PayloadAction<TrainingWithPaginationRdo>
+) => {
+  state.trainings = action.payload;
+  state.isTrainingsLoading = false;
+};
+
+const startLoadingAllTrainings = (state: TrainingProcess) => {
+  state.isTrainingsLoading = true;
+};
+
+const errorLoadingAllTrainings = (state: TrainingProcess) => {
+  state.isTrainingsLoading = false;
+};
+
+const endLoadingTrainings = (
+  state: TrainingProcess,
+  action: PayloadAction<TrainingWithPaginationRdo>
+) => {
+  state.trainingCatalog = action.payload;
+  state.isTrainingCatalogLoading = false;
+};
+
+const startLoadingTrainings = (state: TrainingProcess) => {
+  state.isTrainingCatalogLoading = true;
+};
+
+const errorLoadingTrainings = (state: TrainingProcess) => {
+  state.isTrainingCatalogLoading = false;
 };
 
 const endLoadingSpecialForYou = (
@@ -37,22 +77,6 @@ const startLoadingSpecialForYou = (state: TrainingProcess) => {
 
 const errorLoadingSpecialForYou = (state: TrainingProcess) => {
   state.isSpecialForYouLoading = false;
-};
-
-const endLoadingTrainings = (
-  state: TrainingProcess,
-  action: PayloadAction<TrainingWithPaginationRdo>
-) => {
-  state.trainings = action.payload;
-  state.isTrainingsLoading = false;
-};
-
-const startLoadingTrainings = (state: TrainingProcess) => {
-  state.isTrainingsLoading = true;
-};
-
-const errorLoadingTrainings = (state: TrainingProcess) => {
-  state.isTrainingsLoading = false;
 };
 
 const endLoadingTraining = (
@@ -77,25 +101,32 @@ export const trainingProcess = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getSpecialForYou.pending, startLoadingSpecialForYou)
-      .addCase(getSpecialForYou.fulfilled, endLoadingSpecialForYou)
-      .addCase(getSpecialForYou.rejected, errorLoadingSpecialForYou)
+      .addCase(getAllTrainings.pending, startLoadingAllTrainings)
+      .addCase(getAllTrainings.fulfilled, endLoadingAllTrainings)
+      .addCase(getAllTrainings.rejected, errorLoadingAllTrainings)
 
       .addCase(getTrainings.pending, startLoadingTrainings)
       .addCase(getTrainings.fulfilled, endLoadingTrainings)
       .addCase(getTrainings.rejected, errorLoadingTrainings)
+
+      .addCase(getSpecialForYou.pending, startLoadingSpecialForYou)
+      .addCase(getSpecialForYou.fulfilled, endLoadingSpecialForYou)
+      .addCase(getSpecialForYou.rejected, errorLoadingSpecialForYou)
 
       .addCase(getTraining.pending, startLoadingTraining)
       .addCase(getTraining.fulfilled, endLoadingTraining)
       .addCase(getTraining.rejected, errorLoadingTraining);
   },
   selectors: {
-    isSpecialForYouLoading: (state) => state.isSpecialForYouLoading,
-    specialForYou: (state) => state.specialForYou,
     isTrainingsLoading: (state) => state.isTrainingsLoading,
     trainings: (state) => state.trainings,
+    isTrainingCatalogLoading: (state) => state.isTrainingCatalogLoading,
+    trainingCatalog: (state) => state.trainingCatalog,
+    isSpecialForYouLoading: (state) => state.isSpecialForYouLoading,
+    specialForYou: (state) => state.specialForYou,
     isTrainingLoading: (state) => state.isTrainingLoading,
     training: (state) => state.training,
+    maxPrice: (state) => state.trainingCatalog?.maxAllPrice || 0,
   },
 });
 
@@ -125,10 +156,5 @@ export const trainingSelectors = {
         (training) => training.rating === maxRating
       );
     }
-  ),
-  maxPrice: createSelector(trainingProcess.selectors.trainings, (trainings) =>
-    !trainings || trainings.entities.length === 0
-      ? 0
-      : Math.max(...trainings.entities.map((training) => training.price))
   ),
 };

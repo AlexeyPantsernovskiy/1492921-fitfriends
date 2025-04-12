@@ -11,6 +11,5 @@ import { TrainingService } from './training.service';
   imports: [PrismaClientModule],
   controllers: [TrainingController],
   providers: [TrainingService, TrainingRepository, TrainingFactory],
-  exports: [TrainingService],
 })
 export class TrainingModule {}

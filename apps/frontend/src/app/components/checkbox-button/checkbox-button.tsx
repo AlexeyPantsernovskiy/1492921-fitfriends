@@ -1,6 +1,6 @@
 import { ChangeEvent, JSX } from 'react';
 
-export type CheckboxButtonProps = {
+type CheckboxButtonProps = {
   name: string;
   caption: string | JSX.Element;
   value: string;

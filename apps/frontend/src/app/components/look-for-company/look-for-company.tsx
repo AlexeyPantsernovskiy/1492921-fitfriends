@@ -4,10 +4,9 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 
 import { Icon } from '@frontend/types/component';
-import { AppRoute } from '@frontend/types/types';
 import history from '@frontend/src/history';
 import { mockUsersLookForCompany } from '@project/shared';
-import { LimitTrainingCard } from '@frontend/const';
+import { AppRoute, LimitTrainingCard } from '@frontend/const';
 import {
   FlatButton,
   IconButton,
