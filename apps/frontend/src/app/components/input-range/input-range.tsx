@@ -6,7 +6,7 @@ import { RangeValue, ToggleMinMax } from '@frontend/types/types';
 import { ToggleRange } from '@frontend/const';
 
 const DEBOUNCE_TIME = 500;
-const STEPS = 50;
+const STEPS_COUNT = 50;
 
 export type InputRangeProps = {
   caption: string;
@@ -33,39 +33,31 @@ function InputRange({
   step,
   onChange,
 }: InputRangeProps) {
-  // Состояния для отображения в input
   const [displayMin, setDisplayMin] = useState(String(minValue));
   const [displayMax, setDisplayMax] = useState(String(maxValue));
+  const [isEditing, setIsEditing] = useState(false);
 
-  // Автоматический расчет шага для слайдера, если не указан
   const sliderStep =
-    step ?? Math.max(1, Math.floor((maxRangeValue - minRangeValue) / STEPS));
+    step ??
+    Math.max(1, Math.floor((maxRangeValue - minRangeValue) / STEPS_COUNT));
 
-  // Дебаунс для onChange
   const debouncedOnChange = useDebouncedCallback(
     (values: RangeValue) => onChange(values),
     DEBOUNCE_TIME
   );
 
-  // Синхронизация с внешними изменениями
   useEffect(() => {
-    setDisplayMin(String(minValue));
-    setDisplayMax(String(maxValue));
-  }, [minValue, maxValue]);
+    if (!isEditing) {
+      setDisplayMin(String(minValue));
+      setDisplayMax(String(maxValue));
+    }
+  }, [minValue, maxValue, isEditing]);
 
-  // Функция для строгой валидации значений
   const validateValues = useCallback(
     (min: number, max: number) => {
-      let validMin = Math.max(
-        minRangeValue,
-        Math.min(min, maxRangeValue - sliderStep)
-      );
-      let validMax = Math.min(
-        maxRangeValue,
-        Math.max(max, minRangeValue + sliderStep)
-      );
+      let validMin = Math.max(minRangeValue, Math.min(min, maxRangeValue));
+      let validMax = Math.min(maxRangeValue, Math.max(max, minRangeValue));
 
-      // Гарантируем min < max
       if (validMin >= validMax) {
         if (min < maxRangeValue) {
           validMax = Math.min(validMin + sliderStep, maxRangeValue);
@@ -79,7 +71,6 @@ function InputRange({
     [minRangeValue, maxRangeValue, sliderStep]
   );
 
-  // Обработчик изменений в полях ввода
   const handleInputChange = useCallback(
     (type: ToggleMinMax) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
@@ -89,73 +80,33 @@ function InputRange({
       } else {
         setDisplayMax(value);
       }
-
-      // Парсим текущие значения
-      const currentMin =
-        type === ToggleRange.Min
-          ? parseInt(value, 10)
-          : parseInt(displayMin, 10);
-      const currentMax =
-        type === ToggleRange.Max
-          ? parseInt(value, 10)
-          : parseInt(displayMax, 10);
-
-      // Если значения валидны - применяем с дебаунсом
-      if (!isNaN(currentMin) && !isNaN(currentMax)) {
-        const { min, max } = validateValues(currentMin, currentMax);
-        debouncedOnChange({ min, max });
-      }
+      setIsEditing(true);
     },
-    [displayMin, displayMax, debouncedOnChange, validateValues]
+    []
   );
 
-  // Обработчик потери фокуса
-  const handleBlur = useCallback(
-    (type: ToggleMinMax) => () => {
-      const numValue = parseInt(
-        type === ToggleRange.Min ? displayMin : displayMax,
-        10
-      );
+  const handleBlur = useCallback(() => {
+    const numMin = parseInt(displayMin, 10);
+    const numMax = parseInt(displayMax, 10);
 
-      if (isNaN(numValue)) {
-        // Восстанавливаем предыдущее значение
-        if (type === ToggleRange.Min) {
-          setDisplayMin(String(minValue));
-        } else {
-          setDisplayMax(String(maxValue));
-        }
-        return;
-      }
+    const validated = validateValues(
+      isNaN(numMin) ? minRangeValue : numMin,
+      isNaN(numMax) ? maxRangeValue : numMax
+    );
 
-      const currentMin =
-        type === ToggleRange.Min
-          ? numValue
-          : parseInt(displayMin, 10) || minRangeValue;
-      const currentMax =
-        type === ToggleRange.Max
-          ? numValue
-          : parseInt(displayMax, 10) || maxRangeValue;
+    setDisplayMin(String(validated.min));
+    setDisplayMax(String(validated.max));
+    setIsEditing(false);
+    debouncedOnChange(validated);
+  }, [
+    displayMin,
+    displayMax,
+    minRangeValue,
+    maxRangeValue,
+    validateValues,
+    debouncedOnChange,
+  ]);
 
-      const { min, max } = validateValues(currentMin, currentMax);
-
-      // Обновляем отображаемые значения
-      setDisplayMin(String(min));
-      setDisplayMax(String(max));
-      debouncedOnChange({ min, max });
-    },
-    [
-      displayMin,
-      displayMax,
-      minRangeValue,
-      maxRangeValue,
-      minValue,
-      maxValue,
-      debouncedOnChange,
-      validateValues,
-    ]
-  );
-
-  // Получаем валидные значения для слайдера
   const { min: sliderMin, max: sliderMax } = validateValues(
     parseInt(displayMin, 10) || minRangeValue,
     parseInt(displayMax, 10) || maxRangeValue
@@ -179,7 +130,8 @@ function InputRange({
             name={minName}
             value={displayMin}
             onChange={handleInputChange(ToggleRange.Min)}
-            onBlur={handleBlur(ToggleRange.Min)}
+            onBlur={handleBlur}
+            onFocus={() => setIsEditing(true)}
           />
           <label htmlFor={minName}>от</label>
         </div>
@@ -192,7 +144,8 @@ function InputRange({
             name={maxName}
             value={displayMax}
             onChange={handleInputChange(ToggleRange.Max)}
-            onBlur={handleBlur(ToggleRange.Max)}
+            onBlur={handleBlur}
+            onFocus={() => setIsEditing(true)}
           />
           <label htmlFor={maxName}>до</label>
         </div>

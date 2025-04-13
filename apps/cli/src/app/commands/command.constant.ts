@@ -20,6 +20,7 @@ export const MOCK_TRAININGS = [
       'Интенсивная утренняя пробежка для заряда энергией на весь день.',
     specialization: 'running',
     level: 'beginner',
+    price: 0,
   },
   {
     name: 'Йога для всех',
@@ -44,6 +45,7 @@ export const MOCK_TRAININGS = [
     description: 'Основы пилатеса для улучшения гибкости и осанки.',
     specialization: 'pilates',
     level: 'beginner',
+    price: 0,
   },
   {
     name: 'Бокс с тренером',
@@ -74,6 +76,7 @@ export const MOCK_TRAININGS = [
     description: 'Танцевальные движения под музыку для улучшения настроения.',
     specialization: 'aerobics',
     level: 'beginner',
+    price: 0,
   },
   {
     name: 'Функциональный тренинг',

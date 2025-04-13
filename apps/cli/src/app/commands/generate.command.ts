@@ -45,7 +45,7 @@ export class GenerateCommand implements Command {
         ...training,
         image: `default/training-${faker.number.int({ min: 1, max: 4 })}.png`,
         duration: faker.helpers.arrayElement([...DURATIONS]) as Duration,
-        price: faker.number.int({ min: 0, max: 1500 }),
+        price: training.price ?? faker.number.int({ min: 0, max: 1700 }),
         calories: faker.number.int({
           min: QuestionnaireUserProperty.CaloriesLose.Validate.Min,
           max: QuestionnaireUserProperty.CaloriesLose.Validate.Max,
