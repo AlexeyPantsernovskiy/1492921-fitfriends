@@ -1,20 +1,27 @@
 export * from './lib/constants/data';
+export * from './lib/constants/user.constant';
+export * from './lib/constants/training.constant';
 
-export { Sex } from './lib/types/sex.enum';
-export { SexName } from './lib/types/sex.enum';
+export { Sex, SexName } from './lib/types/sex.enum';
 export { SexNameForTraining } from './lib/types/sex.enum';
-export { Level } from './lib/types/level.enum';
-export { Duration } from './lib/types/duration.enum';
+export { Level, LevelName } from './lib/types/level.enum';
+export { Duration, DurationName } from './lib/types/duration.enum';
 export { Specialization } from './lib/types/specialization.enum';
 export * from './lib/types/user-role.enum';
 
 export type { User } from './lib/types/user.interface';
 export type { UserLogin } from './lib/types/user-login.interface';
 export type { UserToken } from './lib/interfaces/user-token.interface';
+export type { UserQuestionnaire } from './lib/types/questionnaire.interface';
+export type { CoachQuestionnaire } from './lib/types/questionnaire.interface';
 export type { Questionnaire } from './lib/types/questionnaire.interface';
 export type { UserRdo } from './lib/rdo/user/user.rdo';
 export type { LoggedUserRdo } from './lib/rdo/user/logged-user.rdo';
-export type { QuestionnaireUserRdo } from './lib/rdo/user/questionnaire-user.rdo';
+export type {
+  QuestionnaireUserRdo,
+  QuestionnaireCoachRdo,
+  QuestionnaireRdo,
+} from './lib/rdo/user/questionnaire.rdo';
 export type { TokenPayloadRdo } from './lib/rdo/user/token-payload.rdo';
 
 export type { Training } from './lib/types/training.interface';

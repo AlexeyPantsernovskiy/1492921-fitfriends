@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { QuestionnaireUserRdo } from '../../rdo/user/questionnaire-user.rdo';
+import { QuestionnaireUserRdo } from '../../rdo/user/questionnaire.rdo';
 
 export const QuestionnaireUserResponse = {
   UserNotFound: {

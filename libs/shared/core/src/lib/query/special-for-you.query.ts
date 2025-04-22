@@ -8,8 +8,8 @@ import {
   IsNumber,
   IsOptional,
   Max,
-  Min }
-from 'class-validator';
+  Min,
+} from 'class-validator';
 
 import { CommonProperty } from '../swagger/common-property';
 import { DURATIONS, LEVELS, SEX, SPECIALIZATIONS } from '../constants/data';
@@ -24,7 +24,7 @@ export class SpecialForYouQuery {
   @ApiProperty(CommonProperty.ItemsPerPage.Description)
   @IsOptional()
   @Transform(({ value }) => parseInt(value, 10))
-  public limit?: number ;
+  public limit?: number;
 
   @ApiProperty(UserProperty.Sex.Description)
   @IsEnum(SEX, {
@@ -34,11 +34,7 @@ export class SpecialForYouQuery {
 
   @ApiProperty(QuestionnaireUserProperty.Specialization.Description)
   @IsNotEmpty()
-  @Transform(({ value }) =>
-    typeof value === 'string'
-      ? [value.toLowerCase()]
-      : value.map((tag) => tag.toLowerCase())
-  )
+  @Transform(({ value }) => (typeof value === 'string' ? [value] : value))
   @IsArray()
   @ArrayMinSize(1)
   @IsEnum(SPECIALIZATIONS, {

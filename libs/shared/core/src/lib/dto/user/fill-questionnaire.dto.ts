@@ -6,20 +6,30 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
+  IsString,
+  Length,
   Max,
   Min,
+  ValidateIf,
 } from 'class-validator';
 
 import { LEVELS, SPECIALIZATIONS, DURATIONS } from '../../constants/data';
 import { QuestionnaireUserProperty } from '../../swagger/user/questionnaire-user-property';
-import { Questionnaire } from '../../types/questionnaire.interface';
+import {
+  BaseQuestionnaire,
+  CoachQuestionnaire,
+  UserQuestionnaire,
+} from '../../types/questionnaire.interface';
 import { Specialization } from '../../types/specialization.enum';
 import { Duration } from '../../types/duration.enum';
 import { Level } from '../../types/level.enum';
+import { Transform } from 'class-transformer';
 
-export class FillQuestionnaireUserDto implements Questionnaire {
+export class FillQuestionnaireBaseDto implements BaseQuestionnaire {
   @ApiProperty(QuestionnaireUserProperty.Specialization.Description)
   @IsNotEmpty()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
   @ArrayMinSize(1)
   @IsEnum(SPECIALIZATIONS, {
@@ -28,17 +38,27 @@ export class FillQuestionnaireUserDto implements Questionnaire {
   })
   specialization: Specialization[];
 
-  @ApiProperty(QuestionnaireUserProperty.Duration.Description)
-  @IsEnum(DURATIONS, {
-    message: QuestionnaireUserProperty.Duration.Validate.Message,
-  })
-  duration: Duration;
-
   @ApiProperty(QuestionnaireUserProperty.Level.Description)
   @IsEnum(LEVELS, {
     message: QuestionnaireUserProperty.Level.Validate.Message,
   })
   level: Level;
+
+  @ApiProperty(QuestionnaireUserProperty.IsReadyToTrain.Description)
+  @Transform(({ value }) => value === 'true' || value === true)
+  @IsBoolean()
+  isReadyToTrain: boolean;
+}
+
+export class FillUserQuestionnaireDto
+  extends FillQuestionnaireBaseDto
+  implements UserQuestionnaire
+{
+  @ApiProperty(QuestionnaireUserProperty.Duration.Description)
+  @IsEnum(DURATIONS, {
+    message: QuestionnaireUserProperty.Duration.Validate.Message,
+  })
+  duration: Duration;
 
   @ApiProperty(QuestionnaireUserProperty.CaloriesLose.Description)
   @IsNumber()
@@ -59,8 +79,34 @@ export class FillQuestionnaireUserDto implements Questionnaire {
     message: QuestionnaireUserProperty.CaloriesWaste.Validate.Message,
   })
   caloriesWaste: number;
+}
 
-  @ApiProperty(QuestionnaireUserProperty.IsReadyToTrain.Description)
+export class FillCoachQuestionnaireDto
+  extends FillQuestionnaireBaseDto
+  implements CoachQuestionnaire
+{
+  @ApiProperty(QuestionnaireUserProperty.Certificate.Description)
+  @IsString()
+  public certificate: string;
+
+  @ApiProperty(QuestionnaireUserProperty.Achievements.Description)
+  @IsString()
+  @IsOptional()
+  @ValidateIf((o) => o.achievements !== '')
+  @Length(
+    QuestionnaireUserProperty.Achievements.Validate.MinLength,
+    QuestionnaireUserProperty.Achievements.Validate.MaxLength,
+    {
+      message: QuestionnaireUserProperty.Achievements.Validate.Message,
+    }
+  )
+  public achievements?: string;
+
+  @ApiProperty(QuestionnaireUserProperty.IamReadyToTrain.Description)
   @IsBoolean()
   isReadyToTrain: boolean;
 }
+
+export type FillQuestionnaireDto =
+  | FillUserQuestionnaireDto
+  | FillCoachQuestionnaireDto;

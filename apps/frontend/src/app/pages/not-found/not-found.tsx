@@ -1,11 +1,9 @@
 import BackButton from '../../components/back-button/back-button';
-//import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 
 function NotFound(): JSX.Element {
   return (
     <div className="container">
-      {/* <CustomHelmet pageTitle="Страница не найдена" /> */}
-      <BackButton baseClassName="" />
+      <BackButton className="" />
       <h1
         style={{
           marginTop: 100,

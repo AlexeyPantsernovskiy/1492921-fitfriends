@@ -4,7 +4,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app/app.module';
-import { BearerAuth, BearerAuthOption } from '@project/shared-core';
+import {
+  BearerAuth,
+  BearerAuthOption,
+  FillCoachQuestionnaireDto,
+  FillUserQuestionnaireDto,
+} from '@project/shared-core';
 
 async function bootstrap() {
   const GLOBAL_PREFIX = 'api';
@@ -20,7 +25,9 @@ async function bootstrap() {
 
   app.setGlobalPrefix(GLOBAL_PREFIX);
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    extraModels: [FillUserQuestionnaireDto, FillCoachQuestionnaireDto],
+  });
   SwaggerModule.setup('spec', app, document);
 
   app.useGlobalPipes(

@@ -6,7 +6,6 @@ type ToggleRadioProps = {
   classPrefix: string;
   name: string;
   items: object;
-  //items?: string[] | readonly string[];
   caption: string;
   value?: string;
   captionSize?: ToggleRadioCaptionSize;
@@ -33,7 +32,7 @@ const ToggleRadio = ({
         )}
       >
         {Object.entries(items).map(([key, item]) => (
-          <div className="custom-toggle-radio__block">
+          <div className="custom-toggle-radio__block" key={key}>
             <label>
               <input
                 type="radio"

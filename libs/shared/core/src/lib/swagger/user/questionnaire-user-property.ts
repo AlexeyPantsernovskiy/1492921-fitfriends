@@ -1,4 +1,5 @@
 import { LEVELS, SPECIALIZATIONS, DURATIONS } from '../../constants/data';
+import { UserLimit } from '../../constants/user.constant';
 
 export const QuestionnaireUserProperty = {
   UserId: {
@@ -15,7 +16,8 @@ export const QuestionnaireUserProperty = {
       example: [SPECIALIZATIONS[1], SPECIALIZATIONS[3]],
     },
     Validate: {
-      Message: `Специализация должна быть набором из значений (${SPECIALIZATIONS.join(', ')})`,
+      ...UserLimit.Specialization,
+      Message: `Специализация должна быть набором из не более ${UserLimit.Specialization.MaxCount} значений (${SPECIALIZATIONS.join(', ')})`,
     },
   },
   Duration: {
@@ -44,9 +46,8 @@ export const QuestionnaireUserProperty = {
       example: 3000,
     },
     Validate: {
-      Min: 1000,
-      Max: 5000,
-      Message: 'Количество калорий для сброса должно быть от 1000 до 5000',
+      ...UserLimit.CaloriesLose,
+      Message: `Количество калорий для сброса должно быть от ${UserLimit.CaloriesLose.Min} до ${UserLimit.CaloriesLose.Max}`,
     },
   },
   CaloriesWaste: {
@@ -55,10 +56,8 @@ export const QuestionnaireUserProperty = {
       example: 2000,
     },
     Validate: {
-      Min: 1000,
-      Max: 5000,
-      Message:
-        'Количество калорий для траты в день должно быть от 1000 до 5000',
+      ...UserLimit.CaloriesWaste,
+      Message: `Количество калорий для траты в день должно быть от ${UserLimit.CaloriesWaste.Min} до ${UserLimit.CaloriesWaste.Max}`,
     },
   },
   IsReadyToTrain: {
@@ -70,7 +69,52 @@ export const QuestionnaireUserProperty = {
       required: true,
     },
     Validate: {
-      Message: `Готовность к тренировке должно быть обязательно заполнено (true или false)`,
+      Message:
+        'Готовность к тренировке должно быть обязательно заполнено (true или false)',
+    },
+  },
+  IamReadyToTrain: {
+    Description: {
+      description: 'Готовность проводить индивидуальные тренировки',
+      type: Boolean,
+      example: true,
+      default: false,
+      required: true,
+    },
+    Validate: {
+      Message:
+        'Признак готовности тренировать должен быть обязательно заполнен (true или false)',
+    },
+  },
+  Certificate: {
+    Description: {
+      description: 'Путь к файлу с сертификатом',
+      example: 'documents/certificate.pdf',
+      required: true,
+    },
+  },
+  CertificateFile: {
+    Description: {
+      type: 'string',
+      description: 'Файл с сертификатом тренера',
+      example: 'documents/certificate.pdf',
+      format: 'binary',
+      required: true,
+    },
+    Validate: {
+      ...UserLimit.CertificateFile,
+      Message: 'Разрешено загружать фото в формате .pdf',
+    },
+  },
+  Achievements: {
+    Description: {
+      description: 'Текст с описанием заслуг тренера',
+      required: false,
+      example: 'Автор курса "Фитнес-мама", который прошли более 150 женщин',
+    },
+    Validate: {
+      ...UserLimit.Achievements,
+      Message: `Длина текста с описанием заслуг тренера должна быть от ${UserLimit.Achievements.MinLength} до ${UserLimit.Achievements.MaxLength} символов`,
     },
   },
 } as const;

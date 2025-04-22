@@ -48,7 +48,7 @@ POST http://localhost:3000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user4@user.ru",
+  "email": "liza@mail.ru",
   "password": "123456"
 }
 
@@ -74,8 +74,8 @@ Content-Type: application/json
     "running",
     "stretching"
   ],
-  "Duration": "30-50 мин",
-  "level": "Любитель",
+  "Duration": "minutes30_50",
+  "level": "amateur",
   "caloriesLose": 3000,
   "caloriesWaste": 2000,
   "isReadyToTrain": true
@@ -84,8 +84,10 @@ Content-Type: application/json
 ###
 
 # Get questionnaire
-GET http://localhost:3000/api/users/67d5a5cb391446eaf8b95805 HTTP/1.1
+GET http://localhost:3000/api/users/questionnaire HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODAwMDFiNmJlZTgxZjcxMGQzMDZhMTQiLCJlbWFpbCI6ImFAYTEucnUiLCJuYW1lIjoiQWxleCIsInJvbGUiOiJjb2FjaCIsImlhdCI6MTc0NTEyMjU5OCwiZXhwIjoxNzQ1MTIzNDk4fQ.X56G591vbSucwu6tJq6avd37fDVuYMbBZcp7RAMK1u4
+
 
 ###
 

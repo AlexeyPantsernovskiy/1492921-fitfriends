@@ -38,8 +38,6 @@ export class TrainingRepository extends BasePostgresRepository<
     max?: number
   ): Record<string, object> | undefined {
     if ((min || min === 0) && (max || max === 0)) {
-      console.log('min === max', min === max);
-      console.log('result', { [field]: { equals: max } });
       return min === max
         ? { [field]: { equals: max } }
         : { [field]: { gte: min, lte: max } };
@@ -129,7 +127,6 @@ export class TrainingRepository extends BasePostgresRepository<
     query: SpecialForYouQuery
   ): Promise<Training[]> {
     const { limit, specializations, sex, level, duration, calories } = query;
-
     try {
       const records = await this.client.$queryRaw<Training[]>`
         SELECT

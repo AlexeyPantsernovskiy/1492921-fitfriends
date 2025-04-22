@@ -1,9 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import {
-  REQUESTED_RANGE_NOT_SATISFIABLE,
-  StatusCodes,
-} from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 
 import { ApiRoute, AppRoute, LimitTrainingCard } from '@frontend/src/const';
 import {
@@ -71,32 +68,6 @@ export const getSpecialForYou = createAsyncThunk<
   );
   return data;
 });
-
-// export const getSpecialTrainings = createAsyncThunk<
-//   TrainingWithPaginationRdo,
-//   undefined,
-//   { extra: ApiExtra }
-// >(TrainingAction.GetSpecialTrainings, async (_arg, { extra }) => {
-//   const { api } = extra;
-//   const { data } = await api.get<TrainingWithPaginationRdo>(
-//     `${ApiRoute.Trainings}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}&limit=${SPECIAL_FOR_YOU_CARD_LIMIT}`
-//   );
-
-//   return data;
-// });
-
-// export const getPopularTrainings = createAsyncThunk<
-//   TrainingWithPaginationRdo,
-//   undefined,
-//   { extra: ApiExtra }
-// >(TrainingAction.GetPopularTrainings, async (_arg, { extra }) => {
-//   const { api } = extra;
-//   const { data } = await api.get<TrainingWithPaginationRdo>(
-//     `${ApiRoute.Trainings}?page=1&sortBy=${SortType.Rating}&sortDirection=${SortDirection.Desc}`
-//   );
-
-//   return data;
-// });
 
 export const getTraining = createAsyncThunk<
   TrainingWithCoachRdo,

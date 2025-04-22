@@ -1,13 +1,11 @@
 import BackButton from '../../components/back-button/back-button';
-//import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 
 function Friends(): JSX.Element {
   return (
     <section className="friends-list">
-      {/* <CustomHelmet pageTitle="Список друзей" /> */}
       <div className="container">
         <div className="friends-list__wrapper">
-          <BackButton baseClassName="friends-list__back" />
+          <BackButton className="friends-list__back" />
           <div className="friends-list__title-wrapper">
             <h1 className="friends-list__title">Мои друзья</h1>
           </div>

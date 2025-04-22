@@ -2,17 +2,17 @@ import { AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ApiRoute, AppRoute } from '@frontend/src/const';
+import { ApiRoute } from '@frontend/src/const';
 import { Token } from '@frontend/src/services/token';
 import {
   UserToken,
   UserLogin,
   UserRdo,
   LoggedUserRdo,
-  Questionnaire,
   QuestionnaireUserRdo,
-  UserRole,
   TokenPayloadRdo,
+  UserQuestionnaire,
+  QuestionnaireCoachRdo,
 } from '@project/shared';
 import { ApiExtra } from '@frontend/src/types/types';
 
@@ -22,7 +22,8 @@ const UserAction = {
   GetUserStatus: 'user/check-auth',
   GetUser: 'user/get',
   RegisterUser: 'user/register',
-  FillQuestionnaire: 'user/fill-questionnaire',
+  FillUserQuestionnaire: 'user/fill-user-questionnaire',
+  FillCoachQuestionnaire: 'user/fill-coach-questionnaire',
   GetQuestionnaire: 'user/get-questionnaire',
   UpdateUser: 'user/update',
 };
@@ -85,48 +86,47 @@ export const getUser = createAsyncThunk<UserRdo, string, { extra: ApiExtra }>(
   }
 );
 
-export const logoutUser = createAsyncThunk<
-  void,
-  undefined,
-  { extra: ApiExtra }
->(UserAction.LogoutUser, async (_arg, { extra }) => {
-  //const { api, history } = extra;
-  //await api.delete(ApiRoute.UserLogout);
-  const { history } = extra;
-  Token.drop();
-  history.push(AppRoute.Intro);
-});
+export const logoutUser = createAsyncThunk<void, undefined>(
+  UserAction.LogoutUser,
+  async (_arg) => {
+    Token.drop();
+  }
+);
 
 export const registerUser = createAsyncThunk<
   void,
   FormData,
   { extra: ApiExtra }
 >(UserAction.RegisterUser, async (user, { extra }) => {
-  const { api, history } = extra;
-
-  const { data } = await api.post<UserRdo>(ApiRoute.UserRegister, user);
-  const userId = data.id;
-  const role = data.role;
-  if (role === UserRole.Sportsman) {
-    history.push(AppRoute.QuestionnaireUser.replace(':userId', userId));
-  }
+  const { api } = extra;
+  await api.post<UserRdo>(ApiRoute.UserRegister, user);
 });
 
-export const fillQuestionnaire = createAsyncThunk<
-  void,
-  { userId: string; questionnaire: Questionnaire },
+export const fillUserQuestionnaire = createAsyncThunk<
+  QuestionnaireUserRdo,
+  UserQuestionnaire,
   { extra: ApiExtra }
->(
-  UserAction.FillQuestionnaire,
-  async ({ userId, questionnaire }, { extra }) => {
-    const { api, history } = extra;
-    await api.put<QuestionnaireUserRdo>(
-      ApiRoute.Questionnaire.replace(':userId', userId),
-      questionnaire
-    );
-    history.push(AppRoute.Login);
-  }
-);
+>(UserAction.FillUserQuestionnaire, async (questionnaire, { extra }) => {
+  const { api } = extra;
+  const response = await api.put<QuestionnaireUserRdo>(
+    ApiRoute.QuestionnaireUser,
+    questionnaire
+  );
+  return response.data;
+});
+
+export const fillCoachQuestionnaire = createAsyncThunk<
+  QuestionnaireCoachRdo,
+  FormData,
+  { extra: ApiExtra }
+>(UserAction.FillCoachQuestionnaire, async (formData, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.put<QuestionnaireCoachRdo>(
+    ApiRoute.QuestionnaireCoach,
+    formData
+  );
+  return data;
+});
 
 export const getQuestionnaire = createAsyncThunk<
   QuestionnaireUserRdo,
@@ -145,14 +145,10 @@ export const loginUser = createAsyncThunk<
   UserLogin,
   { extra: ApiExtra }
 >(UserAction.LoginUser, async (login, { extra }) => {
-  const { api, history } = extra;
-
+  const { api } = extra;
   const { data } = await api.post<LoggedUserRdo>(ApiRoute.UserLogin, login);
   const { accessToken, refreshToken, ...user } = data;
-
   Token.save({ accessToken, refreshToken });
-  history.push(AppRoute.Catalog);
-
   return user;
 });
 

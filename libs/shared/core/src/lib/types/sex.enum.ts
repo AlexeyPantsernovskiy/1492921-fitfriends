@@ -15,4 +15,5 @@ export const SexNameForTraining = {
   [Sex.Female]: 'для женщин',
   [Sex.Empty]: 'для всех',
 } as const;
+
 export type Sex = (typeof Sex)[keyof typeof Sex];

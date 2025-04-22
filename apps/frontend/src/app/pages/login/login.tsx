@@ -3,20 +3,39 @@ import { FormEvent, JSX } from 'react';
 import { FilledButton, CustomInput, Logo } from '@frontend/components';
 import { useAppDispatch } from '@frontend/src/hooks';
 import { loginUser } from '@frontend/src/store/user-slice/user-action';
-import { UserLogin } from '@project/shared';
+import { UserLogin, UserRole } from '@project/shared';
 import { FormField } from '@frontend/types/component';
+import { AppRoute } from '@frontend/const';
+import history from '@frontend/src/history';
 
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data: UserLogin = {
       email: formData.get('email')?.toString() || '',
       password: formData.get('password')?.toString() || '',
     };
-    dispatch(loginUser(data));
+    try {
+      const user = await dispatch(loginUser(data)).unwrap();
+      if (user.questionnaire) {
+        if (user.role === UserRole.Sportsman) {
+          history.push(AppRoute.Main);
+        } else {
+          history.push(AppRoute.PersonalAccount);
+        }
+      } else {
+        if (user.role === UserRole.Sportsman) {
+          history.push(AppRoute.QuestionnaireUser);
+        } else {
+          history.push(AppRoute.QuestionnaireCoach);
+        }
+      }
+    } catch (error) {
+      throw new Error(`Ошибка при авторизации: ${error}`);
+    }
   };
 
   return (

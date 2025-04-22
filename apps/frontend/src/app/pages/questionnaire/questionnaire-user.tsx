@@ -1,5 +1,4 @@
 import { FormEvent, JSX, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 import {
   Logo,
@@ -14,9 +13,14 @@ import {
   Questionnaire,
   Specialization,
   Duration,
+  UserLimit,
+  LevelName,
+  DurationName,
 } from '@project/shared';
-import { fillQuestionnaire } from '@frontend/store';
+import { fillUserQuestionnaire } from '@frontend/store';
 import { useAppDispatch } from '@frontend/src/hooks';
+import history from '@frontend/src/history';
+import { AppRoute } from '@frontend/const';
 
 type InputCaloriesProps = {
   name: string;
@@ -40,25 +44,22 @@ const InputCalories = ({ name, caption }: InputCaloriesProps): JSX.Element => {
 };
 
 const QuestionnaireUser = (): JSX.Element => {
-  const params = useParams();
-  const { userId } = params;
-
   const dispatch = useAppDispatch();
 
   const [specialization, setSpecialization] = useState<Specialization[]>([]);
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!userId) {
-      throw new Error('userId не указан в маршруте');
-    }
-    if (specialization.length === 0) {
+    if (
+      specialization.length < UserLimit.Specialization.MinCount ||
+      specialization.length > UserLimit.Specialization.MaxCount
+    ) {
       const specializationFields = e.currentTarget.querySelector(
         '[name="specialization"]'
       ) as HTMLInputElement;
       specializationFields.setCustomValidity(
-        'Необходимо выбрать хотя бы одну специализацию'
+        `Необходимо выбрать от ${UserLimit.Specialization.MinCount} до ${UserLimit.Specialization.MaxCount} типов тренировок`
       );
       specializationFields.reportValidity();
       return;
@@ -79,7 +80,12 @@ const QuestionnaireUser = (): JSX.Element => {
       ),
       isReadyToTrain: false,
     };
-    dispatch(fillQuestionnaire({ userId, questionnaire }));
+    try {
+      await dispatch(fillUserQuestionnaire(questionnaire)).unwrap();
+      history.push(AppRoute.Main);
+    } catch (error) {
+      throw new Error(`Ошибка при сохранении опросника: ${error}`);
+    }
   };
 
   return (
@@ -109,14 +115,14 @@ const QuestionnaireUser = (): JSX.Element => {
                       classPrefix="questionnaire-user"
                       name="Duration"
                       caption="Сколько времени вы готовы уделять на тренировку в день"
-                      items={Duration}
+                      items={DurationName}
                       captionSize={ToggleRadioCaptionSize.Big}
                     />
                     <ToggleRadio
                       classPrefix="questionnaire-user"
                       name="level"
                       caption="Ваш уровень"
-                      items={Level}
+                      items={LevelName}
                       captionSize={ToggleRadioCaptionSize.Big}
                     />
                     <div className="questionnaire-user__block">

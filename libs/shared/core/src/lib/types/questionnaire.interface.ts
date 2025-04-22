@@ -1,11 +1,20 @@
 import { Level } from './level.enum';
 import { Specialization } from './specialization.enum';
 import { Duration } from './duration.enum';
-export interface Questionnaire {
+export interface BaseQuestionnaire {
   specialization: Specialization[];
-  duration: Duration;
   level: Level;
-  caloriesLose: number;
-  caloriesWaste: number;
   isReadyToTrain: boolean;
 }
+export interface UserQuestionnaire extends BaseQuestionnaire {
+  duration: Duration;
+  caloriesLose: number;
+  caloriesWaste: number;
+}
+
+export interface CoachQuestionnaire extends BaseQuestionnaire {
+  certificate: string;
+  achievements?: string;
+}
+
+export type Questionnaire = UserQuestionnaire | CoachQuestionnaire;

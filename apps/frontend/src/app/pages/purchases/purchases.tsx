@@ -1,13 +1,11 @@
 import BackButton from '../../components/back-button/back-button';
-//import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 
 function Purchases(): JSX.Element {
   return (
     <section className="my-purchases">
-      {/* <CustomHelmet pageTitle="Мои покупки" /> */}
       <div className="container">
         <div className="my-purchases__wrapper">
-          <BackButton baseClassName="my-purchases__back" />
+          <BackButton className="my-purchases__back" />
           <div className="my-purchases__title-wrapper">
             <h1 className="my-purchases__title">Мои покупки</h1>
             <div className="my-purchases__controls">

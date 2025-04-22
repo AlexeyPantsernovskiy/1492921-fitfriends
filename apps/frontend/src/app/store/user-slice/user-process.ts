@@ -2,10 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, StoreSlice } from '@frontend/src//const';
 import { UserProcess } from '@frontend/src/types/state';
-import { User } from '@project/shared';
+import {
+  Questionnaire,
+  QuestionnaireRdo,
+  User,
+  UserRdo,
+} from '@project/shared';
 
-import { getUserAuth, loginUser, logoutUser, updateUser } from './user-action';
-
+import {
+  fillCoachQuestionnaire,
+  fillUserQuestionnaire,
+  getUserAuth,
+  loginUser,
+  logoutUser,
+  updateUser,
+} from './user-action';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -13,9 +24,9 @@ const initialState: UserProcess = {
   saving: false,
 };
 
-const userAuth = (state: UserProcess, action: PayloadAction<User>) => {
+const userAuth = (state: UserProcess, action: PayloadAction<UserRdo>) => {
   state.authorizationStatus = AuthorizationStatus.Auth;
-  state.user = action.payload;
+  state.user = action.payload as User;
   state.saving = false;
 };
 
@@ -31,6 +42,15 @@ const startUpdateUser = (state: UserProcess) => {
 
 const endUpdateUser = (state: UserProcess) => {
   state.saving = false;
+};
+
+const setQuestionnaire = (
+  state: UserProcess,
+  action: PayloadAction<QuestionnaireRdo>
+) => {
+  if (state.user) {
+    state.user.questionnaire = action.payload as Questionnaire;
+  }
 };
 
 export const userProcess = createSlice({
@@ -50,7 +70,10 @@ export const userProcess = createSlice({
 
       .addCase(updateUser.pending, startUpdateUser)
       .addCase(updateUser.fulfilled, userAuth)
-      .addCase(updateUser.rejected, endUpdateUser);
+      .addCase(updateUser.rejected, endUpdateUser)
+
+      .addCase(fillUserQuestionnaire.fulfilled, setQuestionnaire)
+      .addCase(fillCoachQuestionnaire.fulfilled, setQuestionnaire);
   },
   selectors: {
     authorizationStatus: (state) => state.authorizationStatus,

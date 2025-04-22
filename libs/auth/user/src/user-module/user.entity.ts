@@ -7,9 +7,10 @@ import {
   Sex,
   UserRole,
   MongoEntity,
+  CoachQuestionnaire,
+  UserQuestionnaire,
+  SALT_ROUNDS,
 } from '@project/shared-core';
-
-import { SALT_ROUNDS } from './user.constant';
 
 export class UserEntity
   extends MongoEntity
@@ -55,7 +56,7 @@ export class UserEntity
   }
 
   public toPOJO(): UserAuth {
-    return {
+    const baseData = {
       id: this.id,
       email: this.email,
       name: this.name,
@@ -68,9 +69,22 @@ export class UserEntity
       photo2: this.photo2,
       registerDate: this.registerDate,
       role: this.role,
-      questionnaire: this.questionnaire,
       passwordHash: this.passwordHash,
     };
+
+    if (this.role === UserRole.Coach) {
+      return {
+        ...baseData,
+        role: UserRole.Coach,
+        questionnaire: this.questionnaire as CoachQuestionnaire,
+      };
+    } else {
+      return {
+        ...baseData,
+        role: UserRole.Sportsman,
+        questionnaire: this.questionnaire as UserQuestionnaire,
+      };
+    }
   }
 
   public async setPassword(password: string): Promise<UserEntity> {

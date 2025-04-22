@@ -1,12 +1,20 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 
 import {
-  FillQuestionnaireUserDto,
+  FillQuestionnaireDto,
+  QuestionnaireCoachRdo,
+  QuestionnaireRdo,
   QuestionnaireUserRdo,
+  UserErrorMessage,
+  UserRole,
 } from '@project/shared-core';
 
 import { UserRepository } from './user.repository';
-import { UserErrorMessage } from './user.constant';
 import { fillDto } from '@project/shared-helpers';
 
 @Injectable()
@@ -17,22 +25,32 @@ export class QuestionnaireUserService {
 
   public async fill(
     userId: string,
-    dto: FillQuestionnaireUserDto
-  ): Promise<QuestionnaireUserRdo> {
+    dto: FillQuestionnaireDto
+  ): Promise<QuestionnaireRdo> {
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new NotFoundException(UserErrorMessage.UserNotFound);
+    }
+    if (
+      (user.role === UserRole.Sportsman && !dto['duration']) ||
+      (user.role === UserRole.Coach && !dto['certificate'])
+    ) {
+      throw new BadRequestException(UserErrorMessage.QuestionnaireBad);
     }
     user.questionnaire = dto;
     const userEntity = await this.userRepository.update(user);
-    return fillDto(QuestionnaireUserRdo, userEntity.questionnaire);
+    return user.role === UserRole.Sportsman
+      ? fillDto(QuestionnaireUserRdo, userEntity.questionnaire)
+      : fillDto(QuestionnaireCoachRdo, userEntity.questionnaire);
   }
 
-  public async get(userId: string): Promise<QuestionnaireUserRdo | null> {
+  public async get(userId: string): Promise<QuestionnaireRdo | null> {
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new NotFoundException(UserErrorMessage.UserNotFound);
     }
-    return fillDto(QuestionnaireUserRdo, user.questionnaire);
+    return user.role === UserRole.Sportsman
+      ? fillDto(QuestionnaireUserRdo, user.questionnaire)
+      : fillDto(QuestionnaireCoachRdo, user.questionnaire);
   }
 }

@@ -11,20 +11,22 @@ import {
   Level,
   LEVELS,
   LOCATIONS,
-  Questionnaire,
-  QuestionnaireUserProperty,
   Sex,
   SEX,
   Specialization,
   SPECIALIZATIONS,
   Training,
+  TrainingLimit,
+  TrainingProperty,
   UserAuth,
+  UserLimit,
   UserRole,
 } from '@project/shared-core';
 import { UserEntity, UserSchema } from '@project/user';
 
 import { Command } from './command.interface';
 import {
+  MOCK_ACHIEVEMENTS,
   MOCK_TRAININGS,
   MOCK_USER_PASSWORD,
   MOCK_USERS,
@@ -43,16 +45,22 @@ export class GenerateCommand implements Command {
       ]) as Training;
       this.trainings.push({
         ...training,
-        image: `default/training-${faker.number.int({ min: 1, max: 4 })}.png`,
+        image: `default/training-${faker.number.int({ min: 1, max: 4 })}.jpg`,
         duration: faker.helpers.arrayElement([...DURATIONS]) as Duration,
-        price: training.price ?? faker.number.int({ min: 0, max: 1700 }),
+        price:
+          training.price ??
+          faker.number.int({ min: TrainingLimit.Price.Min, max: 1700 }),
         calories: faker.number.int({
-          min: QuestionnaireUserProperty.CaloriesLose.Validate.Min,
-          max: QuestionnaireUserProperty.CaloriesLose.Validate.Max,
+          min: TrainingLimit.Calories.Min,
+          max: TrainingLimit.Calories.Max,
         }),
         sex: faker.helpers.arrayElement(SEX) as Sex,
         video: `default/video.mp4`,
-        rating: faker.number.float({ min: 1, max: 5, fractionDigits: 1 }),
+        rating: faker.number.float({
+          min: TrainingProperty.Rating.Validate.Min,
+          max: TrainingProperty.Rating.Validate.Max,
+          fractionDigits: 1,
+        }),
         coachId: faker.helpers.arrayElement(
           this.users.filter((item) => item.role === UserRole.Coach)
         ).id,
@@ -67,19 +75,17 @@ export class GenerateCommand implements Command {
 
   private setUsers() {
     for (let i = 0; i < MOCK_USERS.length - 1; i++) {
-      // Генерация Опросника
-      const questionnaire: Questionnaire = {
+      const role = faker.helpers.arrayElement(Object.values(UserRole));
+
+      const questionnaire = {
         specialization: faker.helpers.arrayElements(SPECIALIZATIONS, {
-          min: 1,
-          max: 3,
+          min: UserLimit.Specialization.MinCount,
+          max: UserLimit.Specialization.MaxCount,
         }) as Specialization[],
-        duration: faker.helpers.arrayElement(DURATIONS) as Duration,
         level: faker.helpers.arrayElement(LEVELS) as Level,
-        caloriesLose: faker.number.int({ min: 1000, max: 5000 }),
-        caloriesWaste: faker.number.int({ min: 1000, max: 5000 }),
         isReadyToTrain: faker.datatype.boolean(),
       };
-      const role = faker.helpers.arrayElement(Object.values(UserRole));
+
       const user: UserAuth = {
         name: MOCK_USERS[i],
         email: faker.internet.email(),
@@ -100,10 +106,33 @@ export class GenerateCommand implements Command {
         role: role,
         passwordHash: '',
       };
-      this.users.push({
-        ...user,
-        questionnaire: questionnaire,
-      });
+      if (user.role === UserRole.Sportsman) {
+        this.users.push({
+          ...user,
+          questionnaire: {
+            ...questionnaire,
+            duration: faker.helpers.arrayElement(DURATIONS) as Duration,
+            caloriesLose: faker.number.int({
+              min: UserLimit.CaloriesLose.Min,
+              max: UserLimit.CaloriesLose.Max,
+            }),
+            caloriesWaste: faker.number.int({
+              min: UserLimit.CaloriesWaste.Min,
+              max: UserLimit.CaloriesWaste.Max,
+            }),
+          },
+        });
+      }
+      if (user.role === UserRole.Coach) {
+        this.users.push({
+          ...user,
+          questionnaire: {
+            ...questionnaire,
+            certificate: `default/certificate-${faker.number.int({ min: 1, max: 4 })}.pdf`,
+            achievements: faker.helpers.arrayElement(MOCK_ACHIEVEMENTS),
+          },
+        });
+      }
     }
   }
 

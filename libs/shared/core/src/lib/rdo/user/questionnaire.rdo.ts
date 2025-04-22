@@ -6,18 +6,20 @@ import { Specialization } from '../../types/specialization.enum';
 import { Duration } from '../../types/duration.enum';
 import { Level } from '../../types/level.enum';
 
-export class QuestionnaireUserRdo {
+export class QuestionnaireBaseRdo {
   @ApiProperty(QuestionnaireUserProperty.Specialization.Description)
   @Expose()
   specialization: Specialization[];
 
-  @ApiProperty(QuestionnaireUserProperty.Duration.Description)
-  @Expose()
-  duration: Duration;
-
   @ApiProperty(QuestionnaireUserProperty.Level.Description)
   @Expose()
   level: Level;
+}
+
+export class QuestionnaireUserRdo extends QuestionnaireBaseRdo {
+  @ApiProperty(QuestionnaireUserProperty.Duration.Description)
+  @Expose()
+  duration: Duration;
 
   @ApiProperty(QuestionnaireUserProperty.CaloriesLose.Description)
   @Expose()
@@ -31,3 +33,19 @@ export class QuestionnaireUserRdo {
   @Expose()
   isReadyToTrain: boolean;
 }
+
+export class QuestionnaireCoachRdo extends QuestionnaireBaseRdo {
+  @ApiProperty(QuestionnaireUserProperty.Certificate.Description)
+  @Expose()
+  public certificate: string;
+
+  @ApiProperty(QuestionnaireUserProperty.Achievements.Description)
+  @Expose()
+  achievements: string;
+
+  @ApiProperty(QuestionnaireUserProperty.IamReadyToTrain.Description)
+  @Expose()
+  isReadyToTrain: boolean;
+}
+
+export type QuestionnaireRdo = QuestionnaireUserRdo | QuestionnaireCoachRdo;

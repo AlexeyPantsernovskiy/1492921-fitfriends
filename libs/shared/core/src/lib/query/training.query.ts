@@ -14,6 +14,7 @@ export class TrainingQuery {
   @ApiProperty(CommonProperty.ItemsPerPage.Description)
   @IsOptional()
   @Transform(({ value }) => parseInt(value, 10))
+  @Min(0)
   public limit?: number;
 
   @ApiProperty(TrainingProperty.SortDirection.Description)
@@ -48,31 +49,30 @@ export class TrainingQuery {
   @ApiProperty(TrainingProperty.MinCalories.Description)
   @Transform(({ value }) => parseInt(value, 10))
   @IsInt()
-  @Min(1000)
-  @Max(5000)
+  @Min(TrainingProperty.MinCalories.Validate.Min)
+  @Max(TrainingProperty.MinCalories.Validate.Max)
   @IsOptional()
   public minCalories?: number;
 
   @ApiProperty(TrainingProperty.MaxCalories.Description)
   @Transform(({ value }) => parseInt(value, 10))
   @IsInt()
-  @Min(1000)
-  @Max(5000)
+  @Min(TrainingProperty.MaxCalories.Validate.Min)
+  @Max(TrainingProperty.MaxCalories.Validate.Max)
   @IsOptional()
   public maxCalories?: number;
 
   @ApiProperty(TrainingProperty.MinRating.Description)
-  @Transform(({ value }) => parseInt(value, 10))
   @Transform(({ value }) => parseFloat(value))
-  @Min(0)
-  @Max(5)
+  @Min(TrainingProperty.MinRating.Validate.Min)
+  @Max(TrainingProperty.MinRating.Validate.Max)
   @IsOptional()
   public minRating?: number;
 
   @ApiProperty(TrainingProperty.MaxRating.Description)
   @Transform(({ value }) => parseFloat(value))
-  @Min(0)
-  @Max(5)
+  @Min(TrainingProperty.MaxRating.Validate.Min)
+  @Max(TrainingProperty.MaxRating.Validate.Max)
   @IsOptional()
   public maxRating?: number;
 

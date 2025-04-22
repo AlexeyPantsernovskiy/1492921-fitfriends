@@ -27,9 +27,10 @@ import FormData from 'form-data';
 
 import {
   CommonResponse,
-  DefaultPhoto,
-  FillQuestionnaireUserDto,
+  DefaultFile,
+  FillUserQuestionnaireDto,
   LoginUserDto,
+  QuestionnaireUserProperty,
   QuestionnaireUserResponse,
   User,
   UserOperation,
@@ -53,6 +54,7 @@ import { MongoIdValidationPipe } from '@project/pipes';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { InjectUserIdInterceptor } from './interceptors/inject-user-id.interceptor';
 import { UpdateUserWithPhotoDto } from './dto/update-user-with-photo.dto';
+import { FillCoachQuestionnaireWithFileDto } from './dto/fill-coach-questionnaire-with-file.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -108,13 +110,10 @@ export class UsersController {
         );
       }
     }
-    // Пока нет интерфейса для загрузки фоток для карточки пользователя, загружаем дефолтные
-    dto['photo1'] = DefaultPhoto.UserCard1;
-    dto['photo2'] = DefaultPhoto.UserCard1;
 
     const userResponse = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Users}/register`,
-      dto
+      { ...dto, ...DefaultFile.UserCard[dto.role] }
     );
     return this.correctFilePath(userResponse.data);
   }
@@ -130,23 +129,7 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/login`,
       loginUserDto
     );
-    return this.correctFilePath(userResponse.data);
-  }
-
-  @Get(':userId')
-  @ApiOperation(UserOperation.GetUser)
-  @ApiResponse(UserResponse.UserFound)
-  @ApiResponse(UserResponse.UserNotFound)
-  @ApiResponse(CommonResponse.BadRequest)
-  @ApiParam(UserParam.UserId)
-  public async show(
-    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string
-  ) {
-    const userResponse = await this.httpService.axiosRef.get<UserRdo>(
-      `${ApplicationServiceURL.Users}/${userId}`,
-      {}
-    );
-    return this.correctFilePath(userResponse.data);
+    return this.correctFilePath(userResponse.data as User);
   }
 
   @Post('refresh')
@@ -186,41 +169,93 @@ export class UsersController {
     return data;
   }
 
-  @Put(':userId/questionnaire')
-  @ApiOperation(UserOperation.FillQuestionnaire)
+  @Put('/questionnaire-user')
+  @ApiOperation(UserOperation.FillUserQuestionnaire)
   @ApiResponse(QuestionnaireUserResponse.Created)
-  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
+  @ApiResponse(UserResponse.UserNotAuth)
   @ApiResponse(CommonResponse.BadRequest)
-  @ApiParam(UserParam.UserId)
+  @ApiBearerAuth('accessToken')
   @HttpCode(QuestionnaireUserResponse.Created.status)
-  public async fillQuestionnaire(
-    @Param(UserParam.UserId.name, MongoIdValidationPipe)
-    userId: string,
-    @Body() dto: FillQuestionnaireUserDto
+  @UseGuards(CheckAuthGuard)
+  public async fillUserQuestionnaire(
+    @Body() dto: FillUserQuestionnaireDto,
+    @Req() req: Request
   ) {
     const questionnaireResponse = await this.httpService.axiosRef.put(
-      `${ApplicationServiceURL.Users}/${userId}/questionnaire`,
+      `${ApplicationServiceURL.Users}/${req['user']['sub']}/questionnaire-user`,
       dto
     );
     return questionnaireResponse.data;
   }
 
-  @Get(':userId/questionnaire')
+  @Put('/questionnaire-coach')
+  @ApiOperation(UserOperation.FillCoachQuestionnaire)
+  @ApiResponse(QuestionnaireUserResponse.Created)
+  @ApiResponse(UserResponse.UserNotAuth)
+  @ApiResponse(CommonResponse.BadRequest)
+  @ApiBearerAuth('accessToken')
+  @HttpCode(QuestionnaireUserResponse.Created.status)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    UploadFileInterceptor(
+      QuestionnaireUserProperty.CertificateFile.Validate,
+      'certificateFile'
+    )
+  )
+  @UseGuards(CheckAuthGuard)
+  public async fillCoachQuestionnaire(
+    @Body() dto: FillCoachQuestionnaireWithFileDto,
+    @Req() req: Request,
+    @UploadedFile() certificateFile: Express.Multer.File
+  ) {
+    try {
+      const fileName = await this.uploadFile(certificateFile);
+      dto['certificate'] = createUrlForFile(
+        fileName,
+        ApplicationServiceURL.FileServe
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Не удалось загрузить файл с сертификатом на сервер по причине\n${error.message}\n${error?.errors}`
+      );
+    }
+
+    const questionnaireResponse = await this.httpService.axiosRef.put(
+      `${ApplicationServiceURL.Users}/${req['user']['sub']}/questionnaire-coach`,
+      dto
+    );
+    return questionnaireResponse.data;
+  }
+
+  @Get('questionnaire')
   @ApiOperation(UserOperation.GetQuestionnaire)
   @ApiResponse(QuestionnaireUserResponse.Get)
-  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
-  @ApiResponse(CommonResponse.BadRequest)
-  @ApiParam(UserParam.UserId)
+  @ApiResponse(UserResponse.UserNotAuth)
+  @ApiBearerAuth('accessToken')
   @HttpCode(QuestionnaireUserResponse.Get.status)
-  public async getQuestionnaire(
-    @Param(UserParam.UserId.name, MongoIdValidationPipe)
-    userId: string
-  ) {
+  @UseGuards(CheckAuthGuard)
+  public async getQuestionnaire(@Req() req: Request) {
     const questionnaireResponse = await this.httpService.axiosRef.get<UserRdo>(
-      `${ApplicationServiceURL.Users}/${userId}/questionnaire`,
+      `${ApplicationServiceURL.Users}/${req['user']['sub']}/questionnaire`,
       {}
     );
     return questionnaireResponse.data;
+  }
+
+  @Get(':userId')
+  @ApiOperation(UserOperation.GetUser)
+  @ApiResponse(UserResponse.UserFound)
+  @ApiResponse(UserResponse.UserNotFound)
+  @ApiResponse(CommonResponse.BadRequest)
+  @ApiParam(UserParam.UserId)
+  public async show(
+    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string
+  ) {
+    const userResponse = await this.httpService.axiosRef.get<UserRdo>(
+      `${ApplicationServiceURL.Users}/${userId}`,
+      {}
+    );
+    return this.correctFilePath(userResponse.data as User);
   }
 
   @Patch('update')
@@ -255,6 +290,6 @@ export class UsersController {
       `${ApplicationServiceURL.Users}/update`,
       dto
     );
-    return this.correctFilePath(updateResponse.data);
+    return this.correctFilePath(updateResponse.data as User);
   }
 }

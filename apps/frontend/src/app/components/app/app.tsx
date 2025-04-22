@@ -21,6 +21,7 @@ import {
   Main,
   NotFound,
   PersonalAccount,
+  QuestionnaireCoach,
   QuestionnaireUser,
   Registration,
   TrainingCard,
@@ -69,10 +70,21 @@ const App = (): JSX.Element => (
             path={AppRoute.QuestionnaireUser}
             element={
               <PrivateRoute
-                restrictedFor={AuthorizationStatus.Auth}
-                redirectTo={AppRoute.Root}
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Intro}
               >
                 <QuestionnaireUser />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.QuestionnaireCoach}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Intro}
+              >
+                <QuestionnaireCoach />
               </PrivateRoute>
             }
           />
@@ -84,6 +96,7 @@ const App = (): JSX.Element => (
               <PrivateRoute
                 restrictedFor={AuthorizationStatus.NoAuth}
                 redirectTo={AppRoute.Intro}
+                redirectCoach={AppRoute.PersonalAccount}
               >
                 <Main />
               </PrivateRoute>
@@ -106,6 +119,7 @@ const App = (): JSX.Element => (
               <PrivateRoute
                 restrictedFor={AuthorizationStatus.NoAuth}
                 redirectTo={AppRoute.Intro}
+                redirectCoach={AppRoute.PersonalAccount}
               >
                 <Main />
               </PrivateRoute>
@@ -128,6 +142,7 @@ const App = (): JSX.Element => (
               <PrivateRoute
                 restrictedFor={AuthorizationStatus.NoAuth}
                 redirectTo={AppRoute.Root}
+                redirectCoach={AppRoute.PersonalAccount}
               >
                 <TrainingCatalog />
               </PrivateRoute>

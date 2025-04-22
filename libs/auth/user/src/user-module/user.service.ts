@@ -20,6 +20,7 @@ import {
   UserRdo,
   UpdateUserDto,
   EMPTY_VALUE,
+  UserErrorMessage,
 } from '@project/shared-core';
 import { jwtConfig } from '@project/auth-config';
 import { createJWTPayload, fillDto } from '@project/shared-helpers';
@@ -27,7 +28,6 @@ import { createJWTPayload, fillDto } from '@project/shared-helpers';
 import { RefreshTokenService } from '../refresh-token-module/refresh-token.service';
 import { UserRepository } from './user.repository';
 import { UserEntity } from './user.entity';
-import { UserErrorMessage } from './user.constant';
 
 @Injectable()
 export class UserService {
@@ -73,7 +73,7 @@ export class UserService {
       },
     };
 
-    const updateUser = new UserEntity(newUser);
+    const updateUser = new UserEntity(newUser as User);
     await this.userRepository.update(updateUser);
     return fillDto(UserRdo, updateUser.toPOJO());
   }

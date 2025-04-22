@@ -1,5 +1,6 @@
 import { LOCATIONS, SEX } from '../../constants/data';
-import { QuestionnaireUserRdo } from '../../rdo/user/questionnaire-user.rdo';
+import { UserLimit } from '../../constants/user.constant';
+import { QuestionnaireUserRdo } from '../../rdo/user/questionnaire.rdo';
 import { UserRole } from '../../types/user-role.enum';
 
 export const UserProperty = {
@@ -25,9 +26,8 @@ export const UserProperty = {
       example: '123456',
     },
     Validate: {
-      MinLength: 6,
-      MaxLength: 12,
-      Message: 'Длина пароля должна быть от 6 до 12 символов',
+      ...UserLimit.Password,
+      Message: `Длина пароля должна быть от ${UserLimit.Password.MinLength} до ${UserLimit.Password.MaxLength} символов`,
     },
   },
   Name: {
@@ -36,9 +36,8 @@ export const UserProperty = {
       example: 'Катя Петрова',
     },
     Validate: {
-      MinLength: 1,
-      MaxLength: 15,
-      Message: 'Имя пользователя должно быть не более 15 символов',
+      ...UserLimit.Name,
+      Message: `Имя пользователя должно быть не более ${UserLimit.Name.MaxLength} символов`,
     },
   },
   Avatar: {
@@ -56,10 +55,8 @@ export const UserProperty = {
       required: false,
     },
     Validate: {
-      FileExtRegExp: /\.(jpg|jpeg|png)$/,
-      MaxSize: 1024 * 1024,
-      Message:
-        'Разрешено загружать фото в формате .jpg или .png размером не более 1 Mb',
+      ...UserLimit.AvatarFile,
+      Message: `Разрешено загружать фото в формате .jpg или .png размером не более ${UserLimit.AvatarFile.MaxSize / 1024 / 1024} Mb`,
     },
   },
   Sex: {
@@ -87,10 +84,8 @@ export const UserProperty = {
         'Привет! Я Катерина и мне 27 лет. Обожаю спорт и все, что с ним связанно.',
     },
     Validate: {
-      MinLength: 10,
-      MaxLength: 140,
-      Message:
-        'Длина текста с общей информацией должна быть от 10 до 140 символов',
+      ...UserLimit.Description,
+      Message: `Длина текста с общей информацией должна быть от ${UserLimit.Description.MinLength} до ${UserLimit.Description.MaxLength} символов`,
     },
   },
   Location: {
@@ -118,7 +113,6 @@ export const UserProperty = {
     },
     Validate: {
       FileExtRegExp: /\.(jpg|jpeg|png)$/,
-      //MaxSize: 1024* 1024,
       Message: 'Разрешено загружать фото в формате .jpg или .png',
     },
   },

@@ -1,11 +1,15 @@
 import { FormEvent, JSX, useState } from 'react';
 
 import { useAppDispatch } from '@frontend/src/hooks';
-import { registerUser } from '@frontend/src/store/user-slice/user-action';
+import {
+  loginUser,
+  registerUser,
+} from '@frontend/src/store/user-slice/user-action';
 import {
   LOCATIONS,
   PREFIX_LOCATION,
   SexName,
+  UserRole,
   UserRoleInfo,
 } from '@project/shared';
 import {
@@ -18,21 +22,43 @@ import {
   ToggleRadio,
 } from '@frontend/components';
 import { FormField } from '@frontend/types/component';
+import history from '@frontend/src/history';
+import { AppRoute } from '@frontend/const';
 
 const Registration = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
   const [location, setLocation] = useState('');
+  const [agreement, setAgreement] = useState(true);
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     if (selectedPhoto) {
       formData.append('avatarFile', selectedPhoto);
     }
     formData.set('location', location);
-    dispatch(registerUser(formData));
+    try {
+      await dispatch(registerUser(formData)).unwrap();
+    } catch (error) {
+      throw new Error(
+        `Ошибка при сохранении регистрации пользователя: ${error}`
+      );
+    }
+    // Автоматическая авторизация после успешной регистрации
+    const email = formData.get('email')?.toString() || '';
+    const password = formData.get('password')?.toString() || '';
+    try {
+      const user = await dispatch(loginUser({ email, password })).unwrap();
+      if (user.role === UserRole.Sportsman) {
+        history.push(AppRoute.QuestionnaireUser);
+      } else {
+        history.push(AppRoute.QuestionnaireCoach);
+      }
+    } catch (error) {
+      throw new Error(`Ошибка при авторизации: ${error}`);
+    }
   };
 
   return (
@@ -87,7 +113,7 @@ const Registration = (): JSX.Element => {
                     <h2 className="sign-up__legend">Выберите роль</h2>
                     <div className="role-selector sign-up__role-selector">
                       {Object.entries(UserRoleInfo).map(([key, value]) => (
-                        <div className="role-btn">
+                        <div className="role-btn" key={key}>
                           <label>
                             <input
                               className="visually-hidden"
@@ -121,8 +147,9 @@ const Registration = (): JSX.Element => {
                     }
                     value="user-agreement"
                     checked
+                    onChange={() => setAgreement(!agreement)}
                   />
-                  <FilledButton classPrefix="sign-up" />
+                  <FilledButton classPrefix="sign-up" disabled={!agreement} />
                 </div>
               </form>
             </div>

@@ -5,12 +5,14 @@ import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 import {
   EMPTY_VALUE,
   Level,
+  LevelName,
   LOCATIONS,
   PREFIX_LOCATION,
   Sex,
   SexName,
   Specialization,
   User,
+  UserLimit,
   UserRoleInfo,
 } from '@project/shared';
 import {
@@ -30,6 +32,8 @@ import {
   ButtonType,
   SpinnerText,
 } from '@frontend/types/component';
+import history from '@frontend/src/history';
+import { AppRoute } from '@frontend/const';
 
 type UserInfoProps = {
   user: User;
@@ -63,6 +67,7 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
     e.preventDefault();
     dispatch(logoutUser());
     setIsEdit(false);
+    history.push(AppRoute.Intro);
   };
 
   const handleDeleteButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -80,12 +85,15 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (specialization.length === 0) {
+    if (
+      specialization.length < UserLimit.Specialization.MinCount ||
+      specialization.length > UserLimit.Specialization.MaxCount
+    ) {
       const specializationFields = e.currentTarget.querySelector(
         '[name="specialization"]'
       ) as HTMLInputElement;
       specializationFields.setCustomValidity(
-        'Необходимо выбрать хотя бы одну специализацию'
+        `Необходимо выбрать от ${UserLimit.Specialization.MinCount} до ${UserLimit.Specialization.MaxCount} типов тренировок`
       );
       specializationFields.reportValidity();
       return;
@@ -243,7 +251,7 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
           onSelect={(value) => setSex(value as Sex)}
         />
         <CustomSelect
-          items={Level}
+          items={LevelName}
           caption="Уровень"
           value={level as string}
           disabled={!isEdit}

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 export type CustomTextareaProps = {
   classPrefix?: string;
   name: string;
-  caption: string;
+  caption?: string;
   value?: string;
   disabled?: boolean;
   required?: boolean;
@@ -31,15 +31,14 @@ const CustomTextarea = ({
       )}
     >
       <label>
-        <span className="custom-textarea__label">{caption}</span>
+        {caption && <span className="custom-textarea__label">{caption}</span>}
         <textarea
           name={name}
           placeholder=" "
           disabled={disabled}
           required={required}
-        >
-          {value}
-        </textarea>
+          defaultValue={value}
+        />
       </label>
     </div>
   );

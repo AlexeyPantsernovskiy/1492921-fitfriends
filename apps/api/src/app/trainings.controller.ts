@@ -1,26 +1,43 @@
 import 'multer';
 import * as url from 'node:url';
 import { HttpService } from '@nestjs/axios';
-import { Controller, Get, Param, Query, Req, UseFilters, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Param,
+  Query,
+  Req,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import qs from 'qs';
 
 import {
   CommonResponse,
   LimitQuery,
+  QuestionnaireDefault,
   SpecialForYouQuery,
   TrainingOperation,
   TrainingParam,
   TrainingQuery,
   TrainingResponse,
+  UserQuestionnaire,
   UserRdo,
+  UserRole,
 } from '@project/shared-core';
 
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { createUrlForFile } from '@project/shared-helpers';
 import { CheckAuthGuard } from './guards/check-auth.guard';
-
 
 @ApiTags('Trainings')
 @Controller('trainings')
@@ -59,19 +76,29 @@ export class TrainingsController {
   @ApiResponse(CommonResponse.BadRequest)
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
-  public async specialForYou(@Query() queryLimit: LimitQuery, @Req() req: Request) {
+  public async specialForYou(
+    @Query() queryLimit: LimitQuery,
+    @Req() req: Request
+  ) {
     const responseUser = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Users}/${req['user']['sub']}`,
       {}
     );
-    const user:UserRdo = responseUser.data;
-    const query:SpecialForYouQuery = {
+    const user: UserRdo = responseUser.data;
+    if (user.role !== UserRole.Sportsman) {
+      throw new BadRequestException(
+        'Запрос подходящих тренировок предусмотрен только для спортсмена'
+      );
+    }
+    const userQuestionnaire = (user.questionnaire ??
+      QuestionnaireDefault[user.sex]) as UserQuestionnaire;
+    const query: SpecialForYouQuery = {
       ...queryLimit,
-      specializations: user.questionnaire.specialization,
+      specializations: userQuestionnaire.specialization,
       sex: user.sex,
-      level: user.questionnaire.level,
-      duration: user.questionnaire.duration,
-      calories: user.questionnaire.caloriesWaste
+      level: userQuestionnaire.level,
+      duration: userQuestionnaire.duration,
+      calories: userQuestionnaire.caloriesWaste,
     };
     const queryString = qs.stringify(query, { arrayFormat: 'repeat' });
     const response = await this.httpService.axiosRef.get(
@@ -131,9 +158,8 @@ export class TrainingsController {
         name: '--Not found--',
         avatar: '--Not found--',
       };
-      console.error(
-        `Не удалось найти тренера (id = ${response.data.coachId}) для тренировки ${response.data.id}:`,
-        error
+      throw new Error(
+        `Не удалось найти тренера (id = ${response.data.coachId}) для тренировки ${response.data.id}: ${error}`
       );
     }
 

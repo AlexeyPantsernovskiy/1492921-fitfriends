@@ -20,7 +20,7 @@ function InputCalories({
         <input
           type="text"
           name={name}
-          defaultValue={value.toLocaleString('ru-RU')}
+          defaultValue={value ? value.toLocaleString('ru-RU') : ''}
           className=""
           disabled
         />

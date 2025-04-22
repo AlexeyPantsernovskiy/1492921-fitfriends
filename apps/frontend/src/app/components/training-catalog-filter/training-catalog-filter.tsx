@@ -195,12 +195,6 @@ function TrainingCatalogFilter({
 
   const handleSortChange = (value: SortValue) => {
     SetSortDirection(value);
-    // if (minPriceInput.current) {
-    //   setMinPrice(Number(minPriceInput.current.value));
-    // }
-    // if (maxPriceInput.current) {
-    //   setMaxPrice(Number(maxPriceInput.current.value));
-    // }
   };
 
   return (

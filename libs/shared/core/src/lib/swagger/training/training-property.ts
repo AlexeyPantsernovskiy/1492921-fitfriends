@@ -1,4 +1,5 @@
 import { DURATIONS, LEVELS, SEX, SPECIALIZATIONS } from '../../constants/data';
+import { TrainingLimit } from '../../constants/training.constant';
 import { SortDirection } from '../../types/sort-direction.enum';
 import { SortType } from '../../types/sort-type.enum';
 
@@ -15,8 +16,7 @@ export const TrainingProperty = {
       example: 'Утренний бег',
     },
     Validate: {
-      MinLength: 1,
-      MaxLength: 15,
+      ...TrainingLimit.Name,
       Message: 'Наименование тренировки (name) должно быть от 1 до 15 символов',
     },
   },
@@ -50,25 +50,24 @@ export const TrainingProperty = {
   Price: {
     Description: {
       description: 'Стоимость тренировки в рублях',
-      minimum: 0,
+      minimum: TrainingLimit.Price.Min,
       example: '700',
     },
     Validate: {
-      Min: 0,
-      Message: 'Стоимость тренировке не может быть отрицательной',
+      ...TrainingLimit.Price,
+      Message: `Стоимость тренировки должна быть не менее ${TrainingLimit.Price.Min}`,
     },
   },
   Calories: {
     Description: {
       description: 'Количество калорий',
-      minimum: 1000,
-      maximum: 5000,
+      minimum: TrainingLimit.Calories.Min,
+      maximum: TrainingLimit.Calories.Max,
       example: 1000,
     },
     Validate: {
-      Min: 1000,
-      Max: 5000,
-      Message: 'Количество калорий должно быть от 1000 до 5000 символов',
+      ...TrainingLimit.Calories,
+      Message: `Количество калорий должно быть от ${TrainingLimit.Calories.Min} до ${TrainingLimit.Calories.Max}`,
     },
   },
   Description: {
@@ -78,9 +77,8 @@ export const TrainingProperty = {
         'Интенсивная утренняя пробежка для заряда энергией на весь день.',
     },
     Validate: {
-      MinLength: 10,
-      MaxLength: 140,
-      Message: 'Описание тренировки должно быть от 10 до 140 символов',
+      ...TrainingLimit.Description,
+      Message: `Описание тренировки должно быть от ${TrainingLimit.Description.MinLength} до ${TrainingLimit.Description.MaxLength} символов`,
     },
   },
   Sex: {
@@ -97,17 +95,29 @@ export const TrainingProperty = {
       example: 'video.mp4',
     },
   },
+  VideoFile: {
+    Description: {
+      type: 'string',
+      description:
+        'Видео файл с демонстрацией тренировки в формате mov/avi/mp4',
+      example: '/uploads/default/video.mp4',
+      format: 'binary',
+    },
+    Validate: {
+      ...TrainingLimit.VideoFile,
+      Message: 'Разрешено загружать видео в формате mov/avi/mp4',
+    },
+  },
   Rating: {
     Description: {
       description: 'Рейтинг тренировки',
       example: '4.5',
-      minimum: 0,
-      maximum: 5,
+      minimum: TrainingLimit.Rating.Min,
+      maximum: TrainingLimit.Rating.Max,
     },
     Validate: {
-      Min: 0,
-      Max: 5,
-      Message: 'Рейтинг должен быть в диапазоне от 0 до 5',
+      ...TrainingLimit.Rating,
+      Message: `Рейтинг должен быть в диапазоне от ${TrainingLimit.Rating.Min} до ${TrainingLimit.Rating.Max}`,
     },
   },
   CoachId: {
@@ -169,83 +179,77 @@ export const TrainingProperty = {
   MinPrice: {
     Description: {
       description: 'Минимальная цена тренировки',
-      minimum: 0,
+      minimum: TrainingLimit.Price.Min,
       example: 200,
       required: false,
     },
     Validate: {
-      Min: 0,
-      Message: 'Минимальная цена тренировки не может быть отрицательной',
+      ...TrainingLimit.Price,
+      Message: `Минимальная цена тренировки должна быть не менее ${TrainingLimit.Price.Min}`,
     },
   },
   MaxPrice: {
     Description: {
       description: 'Максимальная цена тренировки',
-      minimum: 0,
+      minimum: TrainingLimit.Price.Min,
       example: 1300,
       required: false,
     },
     Validate: {
-      Min: 0,
-      Message: 'Максимальная цена тренировки не может быть отрицательной',
+      ...TrainingLimit.Price,
+      Message: `Максимальная цена тренировки должна быть не менее ${TrainingLimit.Price.Min}`,
     },
   },
   MinCalories: {
     Description: {
       description: 'Минимальное количество калорий',
-      minimum: 1000,
-      maximum: 5000,
+      minimum: TrainingLimit.Calories.Min,
+      maximum: TrainingLimit.Calories.Max,
       example: 2000,
       required: false,
     },
     Validate: {
-      Min: 1000,
-      Max: 5000,
-      Message:
-        'Минимальное количество калорий должно быть в диапазоне от 1000 до 5000',
+      ...TrainingLimit.Calories,
+      Message: `Минимальное количество калорий должно быть в диапазоне от ${TrainingLimit.Calories.Min} до ${TrainingLimit.Calories.Max}`,
     },
   },
   MaxCalories: {
     Description: {
       description: 'Максимальное количество калорий',
-      minimum: 1000,
-      maximum: 5000,
+      minimum: TrainingLimit.Calories.Min,
+      maximum: TrainingLimit.Calories.Max,
       example: 4000,
       required: false,
     },
     Validate: {
-      Min: 1000,
-      Max: 5000,
-      Message:
-        'Минимальное количество калорий должно быть в диапазоне от 1000 до 5000',
+      ...TrainingLimit.Calories,
+      Message: `Максимальное количество калорий должно быть в диапазоне от ${TrainingLimit.Calories.Min} до ${TrainingLimit.Calories.Max}`,
     },
   },
   MinRating: {
     Description: {
       description: 'Минимальный рейтинг',
-      minimum: 0,
-      maximum: 5,
+      minimum: TrainingLimit.Rating.Min,
+      maximum: TrainingLimit.Rating.Max,
       example: 3,
       required: false,
     },
     Validate: {
-      Min: 0,
-      Max: 5,
-      Message: 'Минимальный рейтинг должен быть в диапазоне от 0 до 5',
+      ...TrainingLimit.Rating,
+      Message: `Минимальный рейтинг должен быть в диапазоне от ${TrainingLimit.Rating.Min} до ${TrainingLimit.Rating.Max}`,
     },
   },
   MaxRating: {
     Description: {
       description: 'Максимальный рейтинг',
-      minimum: 0,
-      maximum: 5,
+      minimum: TrainingLimit.Rating.Min,
+      maximum: TrainingLimit.Rating.Max,
       example: 5,
       required: false,
     },
     Validate: {
-      Min: 0,
-      Max: 5,
-      Message: 'Максимальный рейтинг должен быть в диапазоне от 0 до 5',
+      ...TrainingLimit.Rating,
+      Message: `Максимальный рейтинг должен быть в диапазоне от ${TrainingLimit.Rating.Min} до ${TrainingLimit.Rating.Max}`,
     },
   },
   Specializations: {

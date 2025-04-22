@@ -1,7 +1,13 @@
 export const Level = {
-  beginner: 'Новичок',
-  amateur: 'Любитель',
-  professional: 'Профессионал',
+  Beginner: 'beginner',
+  Amateur: 'amateur',
+  Professional: 'professional',
 } as const;
 
-export type Level = keyof typeof Level;
+export const LevelName = {
+  [Level.Beginner]: 'Новичок',
+  [Level.Amateur]: 'Любитель',
+  [Level.Professional]: 'Профессионал',
+} as const;
+
+export type Level = (typeof Level)[keyof typeof Level];

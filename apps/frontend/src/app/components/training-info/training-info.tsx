@@ -43,7 +43,6 @@ function TrainingInfo(): JSX.Element {
 
   const handlePlayClick = () => {
     setIsPlaying(true);
-    // Если используете HTML5 video, можно запустить так:
     videoRef.current?.play();
   };
 

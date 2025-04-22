@@ -8,7 +8,7 @@ export const UserRoleInfo = {
     caption: 'Я хочу тренировать',
     readyCaption: 'Готов тренировать',
     isDefault: false,
-    isDisabled: true,
+    isDisabled: false,
   },
   [UserRole.Sportsman]: {
     caption: 'Я хочу тренироваться',

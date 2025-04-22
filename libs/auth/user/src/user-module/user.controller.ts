@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -24,22 +25,26 @@ import { fillDto } from '@project/shared-helpers';
 import {
   CommonResponse,
   CreateUserDto,
-  FillQuestionnaireUserDto,
+  FillCoachQuestionnaireDto,
+  FillQuestionnaireDto,
+  FillUserQuestionnaireDto,
   LoggedUserRdo,
   LoginUserDto,
+  QuestionnaireUserBody,
   QuestionnaireUserResponse,
+  RequestWithTokenPayload,
+  RequestWithUser,
   TokenPayloadRdo,
   UpdateUserDto,
+  User,
   UserOperation,
   UserParam,
   UserResponse,
 } from '@project/shared-core';
 
 import { UserService } from './user.service';
-import { RequestWithUser } from '../../../../shared/core/src/lib/interfaces/request-with-user.interface';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { RequestWithTokenPayload } from '../../../../shared/core/src/lib/interfaces/request-with-token-payload.interface';
 import { QuestionnaireUserService } from './questionnaire-user.service';
 
 @ApiTags('Users')
@@ -68,7 +73,7 @@ export class UserController {
   public async login(@Body() dto: LoginUserDto) {
     const user = await this.userService.verifyUser(dto);
     if (user) {
-      const userToken = await this.userService.createUserToken(user);
+      const userToken = await this.userService.createUserToken(user as User);
 
       return fillDto(LoggedUserRdo, { ...user, ...userToken });
     }
@@ -94,7 +99,7 @@ export class UserController {
   @ApiBearerAuth('refreshToken')
   @UseGuards(JwtRefreshGuard)
   public async refreshToken(@Req() { user }: RequestWithUser) {
-    return this.userService.createUserToken(user);
+    return this.userService.createUserToken(user as User);
   }
 
   @Post('check')
@@ -108,16 +113,32 @@ export class UserController {
     return fillDto(TokenPayloadRdo, payload);
   }
 
-  @Put(':userId/questionnaire')
-  @ApiOperation(UserOperation.FillQuestionnaire)
+  @Put(':userId/questionnaire-user')
+  @ApiOperation(UserOperation.FillUserQuestionnaire)
   @ApiResponse(QuestionnaireUserResponse.Created)
   @ApiResponse(QuestionnaireUserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
+  //@ApiBody(QuestionnaireUserBody.fill)
   @ApiParam(UserParam.UserId)
   @HttpCode(QuestionnaireUserResponse.Created.status)
-  public async fillQuestionnaire(
+  public async fillUserQuestionnaire(
     @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string,
-    @Body() dto: FillQuestionnaireUserDto
+    @Body() dto: FillUserQuestionnaireDto
+  ) {
+    return await this.questionnaireUserService.fill(userId, dto);
+  }
+
+  @Put(':userId/questionnaire-coach')
+  @ApiOperation(UserOperation.FillCoachQuestionnaire)
+  @ApiResponse(QuestionnaireUserResponse.Created)
+  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
+  @ApiResponse(CommonResponse.BadRequest)
+  //@ApiBody(QuestionnaireUserBody.fill)
+  @ApiParam(UserParam.UserId)
+  @HttpCode(QuestionnaireUserResponse.Created.status)
+  public async fillCoachQuestionnaire(
+    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string,
+    @Body() dto: FillCoachQuestionnaireDto
   ) {
     return await this.questionnaireUserService.fill(userId, dto);
   }
