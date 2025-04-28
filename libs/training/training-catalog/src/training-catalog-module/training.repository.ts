@@ -171,4 +171,23 @@ export class TrainingRepository extends BasePostgresRepository<
       return [];
     }
   }
+
+  public async insert(training: TrainingEntity): Promise<TrainingEntity> {
+    const pojoTraining = training.toPOJO();
+    const record = await this.client.training.create({
+      data: pojoTraining,
+    });
+    return this.createEntityFromDocument(record);
+    //return await this.findById(record.id);
+  }
+
+  public async update(training: TrainingEntity): Promise<TrainingEntity> {
+    const pojoEntity = training.toPOJO();
+    const record = await this.client.training.update({
+      where: { id: training.id },
+      data: pojoEntity,
+    });
+    return this.createEntityFromDocument(record);
+    //return await this.findById(record.id);
+  }
 }

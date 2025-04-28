@@ -2,7 +2,11 @@ import { MouseEvent, JSX, useState, useRef } from 'react';
 
 import { useAppSelector } from '@frontend/src/hooks';
 import { trainingSelectors } from '@frontend/store';
-import { Duration, SexNameForTraining, Specialization } from '@project/shared';
+import {
+  DurationName,
+  SexNameForTraining,
+  Specialization,
+} from '@project/shared';
 import { FilledButton, Spinner } from '@frontend/components';
 import { ButtonType } from '@frontend/types/component';
 
@@ -127,7 +131,7 @@ function TrainingInfo(): JSX.Element {
                   <HashTag text={Specialization[training.specialization]} />
                   <HashTag text={SexNameForTraining[training.sex]} />
                   <HashTag text={`${training.calories}ккал`} />
-                  <HashTag text={Duration[training.duration]} />
+                  <HashTag text={DurationName[training.duration]} />
                 </ul>
               </div>
               <div className="training-info__price-wrapper">

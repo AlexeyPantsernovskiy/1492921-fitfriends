@@ -67,6 +67,9 @@ export {
 export { LoginUserDto } from './lib/dto/user/login-user.dto';
 export { UpdateUserDto } from './lib/dto/user/update-user.dto';
 
+export { CreateTrainingDto } from './lib/dto/training/create-training.dto';
+export { UpdateTrainingDto } from './lib/dto/training/update-training.dto';
+
 export { LimitQuery } from './lib/query/limit.query';
 export { TrainingQuery } from './lib/query/training.query';
 export { SpecialForYouQuery } from './lib/query/special-for-you.query';

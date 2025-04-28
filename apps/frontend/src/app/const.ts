@@ -7,6 +7,7 @@ export const AppRoute = {
   Main: '/main',
   Intro: '/intro',
   PersonalAccount: '/personal-account',
+  CreateTraining: '/create-training',
   NotFound: '/404',
 
   Friends: '/friends',

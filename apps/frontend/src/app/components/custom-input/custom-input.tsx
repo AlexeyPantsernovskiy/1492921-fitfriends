@@ -6,7 +6,7 @@ import { InputType } from '@frontend/types/component';
 export type CustomInputProps = {
   classPrefix?: string;
   name: string;
-  caption: string;
+  caption?: string;
   value?: string;
   type?: InputType;
   rightText?: string;
@@ -32,6 +32,7 @@ const CustomInput = ({
   const addClass = classPrefix
     ? `${classPrefix}${addEditIntoClass}__input`
     : '';
+
   return (
     <div
       className={classNames(
@@ -42,7 +43,7 @@ const CustomInput = ({
       )}
     >
       <label>
-        <span className="custom-input__label">{caption}</span>
+        {caption && <span className="custom-input__label">{caption}</span>}
         <span className="custom-input__wrapper">
           <input
             type={type}

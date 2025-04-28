@@ -64,4 +64,7 @@ export class TrainingRdo implements Training {
   @ApiProperty(TrainingProperty.IsSpecialOffer.Description)
   @Expose()
   isSpecialOffer: boolean;
+
+  @ApiProperty(TrainingProperty.CreateDate.Description)
+  createDate?: Date;
 }

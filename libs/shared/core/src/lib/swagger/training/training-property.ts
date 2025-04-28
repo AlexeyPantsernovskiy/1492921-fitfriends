@@ -32,12 +32,18 @@ export const TrainingProperty = {
       enum: LEVELS,
       example: LEVELS[1],
     },
+    Validate: {
+      Message: `Уровень пользователя, на которого рассчитана тренировка должна быть одним из значений (${LEVELS.join(', ')})`,
+    },
   },
   Specialization: {
     Description: {
       description: 'Тип тренировки',
       enum: SPECIALIZATIONS,
       example: SPECIALIZATIONS[1],
+    },
+    Validate: {
+      Message: `Специализация должна быть одним из значений (${SPECIALIZATIONS.join(', ')})`,
     },
   },
   Duration: {
@@ -46,10 +52,13 @@ export const TrainingProperty = {
       enum: DURATIONS,
       example: DURATIONS[0],
     },
+    Validate: {
+      Message: `Длительность тренировки должна быть одним из значений (${DURATIONS.join(', ')})`,
+    },
   },
   Price: {
     Description: {
-      description: 'Стоимость тренировки в рублях',
+      description: `Стоимость тренировки в рублях`,
       minimum: TrainingLimit.Price.Min,
       example: '700',
     },
@@ -86,6 +95,9 @@ export const TrainingProperty = {
       description: 'Пол пользователя для которого предназначена тренировка',
       enum: SEX,
       example: SEX[0],
+    },
+    Validate: {
+      Message: `Пол пользователя для которого предназначена тренировка должен быть одним из значений (${SEX.join(', ')})`,
     },
   },
   Video: {
@@ -138,12 +150,12 @@ export const TrainingProperty = {
       example: 'true',
     },
   },
-  // CreateDate: {
-  //   Description: {
-  //     description: 'Дата создания тренировки',
-  //     example: new Date().toISOString().split('T')[0],
-  //   },
-  // },
+  CreateDate: {
+    Description: {
+      description: 'Дата создания тренировки',
+      example: new Date().toISOString().split('T')[0],
+    },
+  },
   // Coach: {
   //   Description: {
   //     description: 'Тренер, создатель тренировки',

@@ -16,6 +16,8 @@ const TrainingAction = {
   GetTrainings: 'trainings/get',
   SpecialForYou: 'trainings/special-for-you',
   GetTraining: 'training/get',
+  TrainingCreate: 'training/create',
+  TrainingUpdate: 'training/update',
 };
 
 export const getAllTrainings = createAsyncThunk<
@@ -91,4 +93,24 @@ export const getTraining = createAsyncThunk<
 
     return Promise.reject(error);
   }
+});
+
+export const createTraining = createAsyncThunk<
+  TrainingRdo,
+  FormData,
+  { extra: ApiExtra }
+>(TrainingAction.TrainingCreate, async (training, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.post<TrainingRdo>(ApiRoute.Trainings, training);
+  return data;
+});
+
+export const updateTraining = createAsyncThunk<
+  TrainingRdo,
+  FormData,
+  { extra: ApiExtra }
+>(TrainingAction.TrainingUpdate, async (training, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.patch<TrainingRdo>(ApiRoute.Trainings, training);
+  return data;
 });

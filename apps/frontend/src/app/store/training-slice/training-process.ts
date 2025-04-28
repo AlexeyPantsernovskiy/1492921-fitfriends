@@ -14,6 +14,7 @@ import {
   getTrainings,
   getSpecialForYou,
   getAllTrainings,
+  createTraining,
 } from './training-action';
 
 const initialState: TrainingProcess = {
@@ -25,6 +26,7 @@ const initialState: TrainingProcess = {
   isSpecialForYouLoading: false,
   training: null,
   isTrainingLoading: false,
+  isSavingTraining: false,
 
   // trainingComment: null,
   // isTrainingCommentLoading: false,
@@ -95,6 +97,14 @@ const errorLoadingTraining = (state: TrainingProcess) => {
   state.isTrainingLoading = false;
 };
 
+const startSavingTraining = (state: TrainingProcess) => {
+  state.isSavingTraining = true;
+};
+
+const endSavingTraining = (state: TrainingProcess) => {
+  state.isSavingTraining = false;
+};
+
 export const trainingProcess = createSlice({
   name: StoreSlice.TrainingProcess,
   initialState,
@@ -115,7 +125,11 @@ export const trainingProcess = createSlice({
 
       .addCase(getTraining.pending, startLoadingTraining)
       .addCase(getTraining.fulfilled, endLoadingTraining)
-      .addCase(getTraining.rejected, errorLoadingTraining);
+      .addCase(getTraining.rejected, errorLoadingTraining)
+
+      .addCase(createTraining.pending, startSavingTraining)
+      .addCase(createTraining.fulfilled, endSavingTraining)
+      .addCase(createTraining.rejected, endSavingTraining);
   },
   selectors: {
     isTrainingsLoading: (state) => state.isTrainingsLoading,

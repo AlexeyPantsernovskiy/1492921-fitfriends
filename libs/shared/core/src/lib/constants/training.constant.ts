@@ -8,6 +8,10 @@ export const TrainingSortDefault = {
   Type: SortType.Date,
 } as const;
 
+export const TrainingErrorMessage = {
+  ChangeCoach: 'Запрещено менять тренера, создавшего тренировку',
+} as const;
+
 export const TrainingParamWeight = {
   Specialization: 0.4,
   Sex: 0.3,

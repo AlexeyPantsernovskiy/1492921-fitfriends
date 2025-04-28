@@ -17,6 +17,7 @@ export type TrainingProcess = {
   isTrainingLoading: boolean;
   trainingCatalog: TrainingWithPaginationRdo | null;
   isTrainingCatalogLoading: boolean;
+  isSavingTraining: boolean;
   // trainingComment: TrainingCommentWithPagination | null;
   // isTrainingCommentLoading: boolean;
   // isSuccessAddTrainingComment: boolean;

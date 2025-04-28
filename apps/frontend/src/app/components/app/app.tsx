@@ -27,6 +27,7 @@ import {
   TrainingCard,
   TrainingCatalog,
 } from '@frontend/src/pages';
+import CreateTraining from '@frontend/src/pages/create-training/create-training';
 
 const App = (): JSX.Element => (
   <HistoryRouter history={historyBrowser}>
@@ -156,6 +157,17 @@ const App = (): JSX.Element => (
                 redirectTo={AppRoute.Root}
               >
                 <TrainingCard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.CreateTraining}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <CreateTraining />
               </PrivateRoute>
             }
           />

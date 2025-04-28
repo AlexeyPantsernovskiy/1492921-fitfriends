@@ -1,13 +1,23 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 import {
   CommonResponse,
+  CreateTrainingDto,
   SpecialForYouQuery,
   TrainingOperation,
   TrainingParam,
   TrainingQuery,
   TrainingResponse,
+  UpdateTrainingDto,
 } from '@project/shared-core';
 
 import { TrainingService } from './training.service';
@@ -39,5 +49,26 @@ export class TrainingController {
   @ApiParam(TrainingParam.TrainingId)
   public async show(@Param('trainingId') trainingId: number) {
     return await this.trainingService.getTraining(trainingId);
+  }
+
+  @Post('')
+  @ApiOperation(TrainingOperation.Create)
+  @ApiResponse(TrainingResponse.TrainingCreated)
+  @ApiResponse(CommonResponse.BadRequest)
+  public async create(@Body() dto: CreateTrainingDto) {
+    return await this.trainingService.createTraining(dto);
+  }
+
+  @Patch(':trainingId')
+  @ApiOperation(TrainingOperation.Update)
+  @ApiResponse(TrainingResponse.TrainingUpdating)
+  @ApiResponse(TrainingResponse.ForbiddenUpdate)
+  @ApiResponse(CommonResponse.BadRequest)
+  @ApiParam(TrainingParam.TrainingId)
+  public async update(
+    @Param('trainingId') trainingId: number,
+    @Body() dto: UpdateTrainingDto
+  ) {
+    return await this.trainingService.updateTraining(trainingId, dto);
   }
 }

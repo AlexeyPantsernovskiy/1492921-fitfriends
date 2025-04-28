@@ -3,22 +3,32 @@ import * as url from 'node:url';
 import { HttpService } from '@nestjs/axios';
 import {
   BadRequestException,
+  Body,
   Controller,
+  ForbiddenException,
   Get,
+  InternalServerErrorException,
   Param,
+  Patch,
+  Post,
   Query,
   Req,
+  UploadedFile,
   UseFilters,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiConsumes,
   ApiOperation,
   ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import qs from 'qs';
+import { faker } from '@faker-js/faker/locale/ru';
+import FormData from 'form-data';
 
 import {
   CommonResponse,
@@ -27,17 +37,26 @@ import {
   SpecialForYouQuery,
   TrainingOperation,
   TrainingParam,
+  TrainingProperty,
   TrainingQuery,
   TrainingResponse,
   UserQuestionnaire,
   UserRdo,
+  UserResponse,
   UserRole,
 } from '@project/shared-core';
 
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
-import { createUrlForFile } from '@project/shared-helpers';
+import {
+  createUrlForFile,
+  multerFileToFormData,
+} from '@project/shared-helpers';
 import { CheckAuthGuard } from './guards/check-auth.guard';
+import { CreateTrainingWithVideoDto } from './dto/create-training-with-video.dto';
+import { UploadFileInterceptor } from '@project/interceptors';
+import { UploadedFileRdo } from '@project/file-uploader';
+import { UpdateTrainingWithVideoDto } from './dto/update-training-with-video.dto';
 
 @ApiTags('Trainings')
 @Controller('trainings')
@@ -45,10 +64,24 @@ import { CheckAuthGuard } from './guards/check-auth.guard';
 export class TrainingsController {
   constructor(private readonly httpService: HttpService) {}
 
+  private async uploadFile(file: Express.Multer.File): Promise<string | null> {
+    const form = new FormData();
+    if (file) {
+      multerFileToFormData(form, file, 'file');
+      const { data } = await this.httpService.axiosRef.post<UploadedFileRdo>(
+        `${ApplicationServiceURL.Files}/upload`,
+        form
+      );
+      return `${data.subDirectory}/${data.hashName}`;
+    }
+    return null;
+  }
+
   @Get('')
   @ApiOperation(TrainingOperation.Catalog)
   @ApiResponse(TrainingResponse.Trainings)
   @ApiResponse(CommonResponse.BadRequest)
+  @ApiResponse(UserResponse.UserNotAuth)
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
   public async catalog(@Query() query: TrainingQuery, @Req() req: Request) {
@@ -74,6 +107,7 @@ export class TrainingsController {
   @ApiOperation(TrainingOperation.SpecialForYou)
   @ApiResponse(TrainingResponse.Trainings)
   @ApiResponse(CommonResponse.BadRequest)
+  @ApiResponse(UserResponse.UserNotAuth)
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
   public async specialForYou(
@@ -122,6 +156,7 @@ export class TrainingsController {
   @ApiOperation(TrainingOperation.View)
   @ApiResponse(TrainingResponse.TrainingFound)
   @ApiResponse(TrainingResponse.TrainingNotFound)
+  @ApiResponse(UserResponse.UserNotAuth)
   @ApiParam(TrainingParam.TrainingId)
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
@@ -164,5 +199,82 @@ export class TrainingsController {
     }
 
     return response.data;
+  }
+
+  @Post('')
+  @ApiOperation(TrainingOperation.Create)
+  @ApiResponse(TrainingResponse.TrainingCreated)
+  @ApiResponse(CommonResponse.BadRequest)
+  @ApiResponse(TrainingResponse.ForbiddenCreate)
+  @ApiConsumes('multipart/form-data')
+  @ApiBearerAuth('accessToken')
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(
+    UploadFileInterceptor(TrainingProperty.VideoFile.Validate, 'videoFile')
+  )
+  public async create(
+    @Body() dto: CreateTrainingWithVideoDto,
+    @Req() req: Request,
+    @UploadedFile() videoFile?: Express.Multer.File
+  ) {
+    if (req['user']['role'] !== UserRole.Coach) {
+      new ForbiddenException(TrainingResponse.ForbiddenCreate.description);
+    }
+    try {
+      dto['video'] = await this.uploadFile(videoFile);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Не удалось загрузить фото на сервер по причине\n${error.message}\n${error?.errors}`
+      );
+    }
+
+    dto['coachId'] = req['user']['sub'];
+    dto['image'] =
+      `default/training-${faker.number.int({ min: 1, max: 4 })}.jpg`;
+    dto['isSpecialOffer'] = false;
+
+    const responseTraining = await this.httpService.axiosRef.post(
+      ApplicationServiceURL.Trainings,
+      dto
+    );
+    return await responseTraining.data;
+  }
+
+  @Patch(`:${TrainingParam.TrainingId.name}`)
+  @ApiOperation(TrainingOperation.Update)
+  @ApiResponse(TrainingResponse.TrainingUpdating)
+  @ApiResponse(TrainingResponse.ForbiddenUpdate)
+  @ApiResponse(CommonResponse.BadRequest)
+  @ApiParam(TrainingParam.TrainingId)
+  @ApiConsumes('multipart/form-data')
+  @ApiBearerAuth('accessToken')
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(
+    UploadFileInterceptor(TrainingProperty.VideoFile.Validate, 'videoFile')
+  )
+  public async update(
+    @Param(TrainingParam.TrainingId.name) trainingId: string,
+    @Body() dto: UpdateTrainingWithVideoDto,
+    @Req() req: Request,
+    @UploadedFile() videoFile?: Express.Multer.File
+  ) {
+    if (req['user']['role'] !== UserRole.Coach) {
+      new ForbiddenException(TrainingResponse.ForbiddenUpdate.description);
+    }
+    if (videoFile) {
+      try {
+        dto['video'] = await this.uploadFile(videoFile);
+      } catch (error) {
+        throw new InternalServerErrorException(
+          `Не удалось загрузить фото на сервер по причине\n${error.message}\n${error?.errors}`
+        );
+      }
+    }
+    dto['coachId'] = req['user']['sub'];
+    const responseTraining = await this.httpService.axiosRef.patch(
+      `${ApplicationServiceURL.Trainings}/${trainingId}`,
+      dto
+    );
+    return await responseTraining.data;
   }
 }

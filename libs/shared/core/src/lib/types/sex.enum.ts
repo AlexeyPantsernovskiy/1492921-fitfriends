@@ -11,6 +11,12 @@ export const SexName = {
 } as const;
 
 export const SexNameForTraining = {
+  [Sex.Man]: 'Мужчинам',
+  [Sex.Female]: 'Женщинам',
+  [Sex.Empty]: 'Всем',
+} as const;
+
+export const SexNameForTrainingCard = {
   [Sex.Man]: 'для мужчин',
   [Sex.Female]: 'для женщин',
   [Sex.Empty]: 'для всех',
