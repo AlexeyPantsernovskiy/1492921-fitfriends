@@ -86,6 +86,24 @@ export const QuestionnaireUserProperty = {
         'Признак готовности тренировать должен быть обязательно заполнен (true или false)',
     },
   },
+  Certificates: {
+    Description: {
+      description: 'Дипломы и сертификаты тренера',
+      isArray: true,
+      example: ['documents/certificate-1.pdf', 'documents/certificate-2.pdf'],
+    },
+    Validate: {
+      ...UserLimit.Certificates,
+      Message: `У тренера должны быть дипломы или сертификаты (не менее: ${UserLimit.Certificates.MinCount})`,
+    },
+  },
+  IndexCertificate: {
+    Description: {
+      description: 'Порядковый номер сертификата',
+      example: 1,
+      required: true,
+    },
+  },
   Certificate: {
     Description: {
       description: 'Путь к файлу с сертификатом',

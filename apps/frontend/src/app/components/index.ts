@@ -37,6 +37,8 @@ import TrainingInfo from './training-info/training-info';
 import SliderRange from './slider-range/slider-range';
 import TrainingCatalogFilter from './training-catalog-filter/training-catalog-filter';
 import InputRange from './input-range/input-range';
+import CertificateCard from './certificate-card/certificate-card';
+import Certificates from './certificates/certificates';
 
 export {
   App,
@@ -78,5 +80,7 @@ export {
   SliderRange,
   InputRange,
   TrainingCatalogFilter,
+  CertificateCard,
+  Certificates,
 };
 export type { CustomInputProps };

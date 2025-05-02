@@ -44,6 +44,18 @@ export const Icon = {
     width: 14,
     height: 16,
   },
+  RefreshCertificate: {
+    caption: 'Обновить сертификат',
+    name: 'icon-change',
+    width: 16,
+    height: 16,
+  },
+  DeleteCertificate: {
+    caption: 'Удалить сертификат',
+    name: 'icon-trash',
+    width: 14,
+    height: 16,
+  },
   Exit: { caption: 'Выход', name: 'arrow-right', width: 16, height: 16 },
   Edit: {
     caption: 'Редактировать',
@@ -103,6 +115,12 @@ export const Icon = {
     caption: 'Next',
     name: 'arrow-right',
     width: 16,
+    height: 14,
+  },
+  Load: {
+    caption: 'Загрузить',
+    name: 'icon-import',
+    width: 14,
     height: 14,
   },
 } as const;

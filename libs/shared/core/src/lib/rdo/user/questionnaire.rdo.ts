@@ -35,9 +35,9 @@ export class QuestionnaireUserRdo extends QuestionnaireBaseRdo {
 }
 
 export class QuestionnaireCoachRdo extends QuestionnaireBaseRdo {
-  @ApiProperty(QuestionnaireUserProperty.Certificate.Description)
+  @ApiProperty(QuestionnaireUserProperty.Certificates.Description)
   @Expose()
-  public certificate: string;
+  public certificates: string[];
 
   @ApiProperty(QuestionnaireUserProperty.Achievements.Description)
   @Expose()

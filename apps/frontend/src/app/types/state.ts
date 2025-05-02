@@ -31,6 +31,7 @@ export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   user: User | null;
   saving: boolean;
+  savingCertificate: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

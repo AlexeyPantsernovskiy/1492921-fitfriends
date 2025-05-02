@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayMaxSize,
   ArrayMinSize,
   IsArray,
   IsBoolean,
@@ -25,13 +26,15 @@ import { Specialization } from '../../types/specialization.enum';
 import { Duration } from '../../types/duration.enum';
 import { Level } from '../../types/level.enum';
 import { Transform } from 'class-transformer';
+import { UserLimit } from '../../constants/user.constant';
 
 export class FillQuestionnaireBaseDto implements BaseQuestionnaire {
   @ApiProperty(QuestionnaireUserProperty.Specialization.Description)
   @IsNotEmpty()
   @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
-  @ArrayMinSize(1)
+  @ArrayMinSize(UserLimit.Specialization.MinCount)
+  @ArrayMaxSize(UserLimit.Specialization.MaxCount)
   @IsEnum(SPECIALIZATIONS, {
     each: true,
     message: QuestionnaireUserProperty.Specialization.Validate.Message,
@@ -85,9 +88,14 @@ export class FillCoachQuestionnaireDto
   extends FillQuestionnaireBaseDto
   implements CoachQuestionnaire
 {
-  @ApiProperty(QuestionnaireUserProperty.Certificate.Description)
-  @IsString()
-  public certificate: string;
+  @ApiProperty(QuestionnaireUserProperty.Certificates.Description)
+  @IsNotEmpty()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @ArrayMinSize(UserLimit.Certificates.MinCount, {
+    message: QuestionnaireUserProperty.Certificates.Validate.Message,
+  })
+  public certificates: string[];
 
   @ApiProperty(QuestionnaireUserProperty.Achievements.Description)
   @IsString()

@@ -27,6 +27,7 @@ import { UserEntity, UserSchema } from '@project/user';
 import { Command } from './command.interface';
 import {
   MOCK_ACHIEVEMENTS,
+  MOCK_CERTIFICATE_COUNT,
   MOCK_TRAININGS,
   MOCK_USER_PASSWORD,
   MOCK_USERS,
@@ -128,7 +129,16 @@ export class GenerateCommand implements Command {
           ...user,
           questionnaire: {
             ...questionnaire,
-            certificate: `default/certificate-${faker.number.int({ min: 1, max: 4 })}.pdf`,
+            certificates: Array.from(
+              {
+                length: faker.number.int({
+                  min: 1,
+                  max: MOCK_CERTIFICATE_COUNT,
+                }),
+              },
+              () =>
+                `default/certificate-${faker.number.int({ min: 1, max: MOCK_CERTIFICATE_COUNT })}.pdf`
+            ),
             achievements: faker.helpers.arrayElement(MOCK_ACHIEVEMENTS),
           },
         });

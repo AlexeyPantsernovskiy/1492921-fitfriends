@@ -153,3 +153,5 @@ export const MOCK_TRAININGS = [
     level: 'professional',
   },
 ];
+
+export const MOCK_CERTIFICATE_COUNT = 4;

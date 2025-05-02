@@ -13,7 +13,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -26,11 +25,9 @@ import {
   CommonResponse,
   CreateUserDto,
   FillCoachQuestionnaireDto,
-  FillQuestionnaireDto,
   FillUserQuestionnaireDto,
   LoggedUserRdo,
   LoginUserDto,
-  QuestionnaireUserBody,
   QuestionnaireUserResponse,
   RequestWithTokenPayload,
   RequestWithUser,
@@ -116,9 +113,8 @@ export class UserController {
   @Put(':userId/questionnaire-user')
   @ApiOperation(UserOperation.FillUserQuestionnaire)
   @ApiResponse(QuestionnaireUserResponse.Created)
-  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
+  @ApiResponse(UserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
-  //@ApiBody(QuestionnaireUserBody.fill)
   @ApiParam(UserParam.UserId)
   @HttpCode(QuestionnaireUserResponse.Created.status)
   public async fillUserQuestionnaire(
@@ -131,9 +127,8 @@ export class UserController {
   @Put(':userId/questionnaire-coach')
   @ApiOperation(UserOperation.FillCoachQuestionnaire)
   @ApiResponse(QuestionnaireUserResponse.Created)
-  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
+  @ApiResponse(UserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
-  //@ApiBody(QuestionnaireUserBody.fill)
   @ApiParam(UserParam.UserId)
   @HttpCode(QuestionnaireUserResponse.Created.status)
   public async fillCoachQuestionnaire(
@@ -145,11 +140,11 @@ export class UserController {
 
   @Get(':userId/questionnaire')
   @ApiOperation(UserOperation.GetQuestionnaire)
-  @ApiResponse(QuestionnaireUserResponse.Get)
-  @ApiResponse(QuestionnaireUserResponse.UserNotFound)
+  @ApiResponse(QuestionnaireUserResponse.Found)
+  @ApiResponse(UserResponse.UserNotFound)
   @ApiResponse(CommonResponse.BadRequest)
   @ApiParam(UserParam.UserId)
-  @HttpCode(QuestionnaireUserResponse.Get.status)
+  @HttpCode(QuestionnaireUserResponse.Found.status)
   public async getQuestionnaire(
     @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string
   ) {

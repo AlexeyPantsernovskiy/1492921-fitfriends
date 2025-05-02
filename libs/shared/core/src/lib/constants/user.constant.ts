@@ -52,6 +52,9 @@ export const UserLimit = {
     MinLength: 10,
     MaxLength: 140,
   },
+  Certificates: {
+    MinCount: 1,
+  },
 };
 
 export const QuestionnaireDefault = {

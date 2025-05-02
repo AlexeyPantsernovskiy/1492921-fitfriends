@@ -76,12 +76,7 @@ function PopularTrainings(): JSX.Element {
                 key={`SwiperSlide-${training.id}`}
                 className="popular-trainings__item"
               >
-                <li
-                  className="popular-trainings__item"
-                  key={`popular-trainings__item-${training.id}`}
-                >
-                  <TrainingCard training={training} />
-                </li>
+                <TrainingCard training={training} />
               </SwiperSlide>
             ))}
           </Swiper>

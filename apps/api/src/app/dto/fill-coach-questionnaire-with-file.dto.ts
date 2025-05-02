@@ -7,7 +7,7 @@ import {
 
 export class FillCoachQuestionnaireWithFileDto extends OmitType(
   FillCoachQuestionnaireDto,
-  ['certificate']
+  ['certificates']
 ) {
   @ApiProperty(QuestionnaireUserProperty.CertificateFile.Description)
   public certificateFile: Express.Multer.File;

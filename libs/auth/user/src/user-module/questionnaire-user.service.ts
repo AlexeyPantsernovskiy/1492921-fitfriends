@@ -33,7 +33,7 @@ export class QuestionnaireUserService {
     }
     if (
       (user.role === UserRole.Sportsman && !dto['duration']) ||
-      (user.role === UserRole.Coach && !dto['certificate'])
+      (user.role === UserRole.Coach && !dto['certificates'])
     ) {
       throw new BadRequestException(UserErrorMessage.QuestionnaireBad);
     }

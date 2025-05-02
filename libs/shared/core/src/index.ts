@@ -6,7 +6,7 @@ export { CommonResponse } from './lib/swagger/common-response';
 export { CommonProperty } from './lib/swagger/common-property';
 export { QuestionnaireUserProperty } from './lib/swagger/user/questionnaire-user-property';
 export { QuestionnaireUserResponse } from './lib/swagger/user/questionnaire-user-response';
-export { QuestionnaireUserBody } from './lib/swagger/user/questionnaire-user-request';
+export { QuestionnaireParam } from './lib/swagger/user/questionnaire-param';
 export { UserProperty } from './lib/swagger/user/user-property';
 export { UserParam } from './lib/swagger/user/user-param';
 export { UserResponse } from './lib/swagger/user/user-response';

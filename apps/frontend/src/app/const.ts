@@ -26,9 +26,9 @@ export const ApiRoute = {
   Questionnaire: '/api/users/questionnaire',
   QuestionnaireUser: '/api/users/questionnaire-user',
   QuestionnaireCoach: '/api/users/questionnaire-coach',
+  UpdateCertificates: '/api/users/certificates',
   UserUpdate: '/api/users/update',
   UserGetInfo: '/api/users/:userId',
-  UserAvatar: '/api/users/avatar',
   Trainings: '/api/trainings',
   SpecialForYou: '/api/trainings/special-for-you',
 } as const;
@@ -60,6 +60,10 @@ export const LimitTrainingCard = {
   SliderSpecialOffers: 3,
   SliderPopular: 4,
   SliderFriends: 4,
+} as const;
+
+export const LimitPersonalAccount = {
+  SliderCertificate: 3,
 } as const;
 
 // Размер скидки которая применяется при установки флага "Специальное предложение"

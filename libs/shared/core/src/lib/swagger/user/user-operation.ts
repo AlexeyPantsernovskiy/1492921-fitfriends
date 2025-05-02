@@ -10,4 +10,8 @@ export const UserOperation = {
   Update: { summary: 'Изменение данных о пользователе' },
   DeleteAvatar: { summary: 'Удаление аватара пользователя' },
   UpdateAvatar: { summary: 'Изменение аватара пользователя' },
+  GetCertificates: { summary: 'Получение сертификатов и дипломов тренера' },
+  AddCertificate: { summary: 'Добавление сертификата/диплома тренера' },
+  UpdateCertificate: { summary: 'Изменение сертификата/диплома тренера' },
+  DeleteCertificate: { summary: 'Удаление сертификата/диплома тренера' },
 } as const;

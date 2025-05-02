@@ -1,19 +1,35 @@
 import { HttpStatus } from '@nestjs/common';
-import { QuestionnaireUserRdo } from '../../rdo/user/questionnaire.rdo';
+import {
+  QuestionnaireCoachRdo,
+  QuestionnaireUserRdo,
+} from '../../rdo/user/questionnaire.rdo';
 
 export const QuestionnaireUserResponse = {
-  UserNotFound: {
-    status: HttpStatus.NOT_FOUND,
-    description: 'Пользователь не найден',
-  },
   Created: {
     type: QuestionnaireUserRdo,
     status: HttpStatus.CREATED,
     description: 'Опросник был успешно сохранен',
   },
-  Get: {
+  Found: {
     type: QuestionnaireUserRdo,
     status: HttpStatus.OK,
     description: 'Опросник получен',
+  },
+  NotFound: {
+    status: HttpStatus.NOT_FOUND,
+    description: 'Опросник не найден',
+  },
+  // GetCertificates: {
+  //   status: HttpStatus.OK,
+  //   description: 'Сертификаты и дипломы тренера получены',
+  // },
+  UpdateCertificates: {
+    type: QuestionnaireCoachRdo,
+    status: HttpStatus.OK,
+    description: 'Сертификаты и дипломы тренера обновлены',
+  },
+  ForbiddenUpdateCertificates: {
+    status: HttpStatus.FORBIDDEN,
+    description: 'Обновлять свои сертификаты и дипломы может только тренер',
   },
 } as const;

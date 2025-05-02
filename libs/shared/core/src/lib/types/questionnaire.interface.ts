@@ -13,7 +13,7 @@ export interface UserQuestionnaire extends BaseQuestionnaire {
 }
 
 export interface CoachQuestionnaire extends BaseQuestionnaire {
-  certificate: string;
+  certificates: string[];
   achievements?: string;
 }
 

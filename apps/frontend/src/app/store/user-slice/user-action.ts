@@ -26,6 +26,9 @@ const UserAction = {
   FillCoachQuestionnaire: 'user/fill-coach-questionnaire',
   GetQuestionnaire: 'user/get-questionnaire',
   UpdateUser: 'user/update',
+  AddCertificate: 'user/add-certificate',
+  UpdateCertificate: 'user/update-certificate',
+  DeleteCertificate: 'user/delete-certificate',
 };
 
 export const getUserAuth = createAsyncThunk<
@@ -161,6 +164,47 @@ export const updateUser = createAsyncThunk<
   const { data } = await api.patch<LoggedUserRdo>(
     ApiRoute.UserUpdate,
     formData
+  );
+  return data;
+});
+
+export const addCertificate = createAsyncThunk<
+  QuestionnaireCoachRdo,
+  FormData,
+  { extra: ApiExtra }
+>(UserAction.AddCertificate, async (formData, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.post<QuestionnaireCoachRdo>(
+    ApiRoute.UpdateCertificates,
+    formData
+  );
+  return data;
+});
+
+export const updateCertificate = createAsyncThunk<
+  QuestionnaireCoachRdo,
+  { indexCertificate: number; formData: FormData },
+  { extra: ApiExtra }
+>(
+  UserAction.UpdateCertificate,
+  async ({ indexCertificate, formData }, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.patch<QuestionnaireCoachRdo>(
+      `${ApiRoute.UpdateCertificates}/${indexCertificate}`,
+      formData
+    );
+    return data;
+  }
+);
+
+export const deleteCertificate = createAsyncThunk<
+  QuestionnaireCoachRdo,
+  number,
+  { extra: ApiExtra }
+>(UserAction.DeleteCertificate, async (indexCertificate, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.delete<QuestionnaireCoachRdo>(
+    `${ApiRoute.UpdateCertificates}/${indexCertificate}`
   );
   return data;
 });

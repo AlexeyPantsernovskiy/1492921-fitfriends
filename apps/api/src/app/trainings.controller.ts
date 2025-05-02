@@ -224,7 +224,7 @@ export class TrainingsController {
       dto['video'] = await this.uploadFile(videoFile);
     } catch (error) {
       throw new InternalServerErrorException(
-        `Не удалось загрузить фото на сервер по причине\n${error.message}\n${error?.errors}`
+        `Не удалось загрузить фото на сервер по причине: ${error.message}`
       );
     }
 
@@ -266,7 +266,7 @@ export class TrainingsController {
         dto['video'] = await this.uploadFile(videoFile);
       } catch (error) {
         throw new InternalServerErrorException(
-          `Не удалось загрузить фото на сервер по причине\n${error.message}\n${error?.errors}`
+          `Не удалось загрузить фото на сервер по причине: ${error.message}`
         );
       }
     }

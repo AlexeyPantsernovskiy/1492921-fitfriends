@@ -1,20 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 
 import { AuthorizationStatus, StoreSlice } from '@frontend/src//const';
 import { UserProcess } from '@frontend/src/types/state';
 import {
+  CoachQuestionnaire,
   Questionnaire,
   QuestionnaireRdo,
   User,
   UserRdo,
+  UserRole,
 } from '@project/shared';
 
 import {
+  addCertificate,
+  deleteCertificate,
   fillCoachQuestionnaire,
   fillUserQuestionnaire,
   getUserAuth,
   loginUser,
   logoutUser,
+  updateCertificate,
   updateUser,
 } from './user-action';
 
@@ -22,6 +28,7 @@ const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
   user: null,
   saving: false,
+  savingCertificate: false,
 };
 
 const userAuth = (state: UserProcess, action: PayloadAction<UserRdo>) => {
@@ -43,6 +50,14 @@ const startUpdateUser = (state: UserProcess) => {
 const endUpdateUser = (state: UserProcess) => {
   state.saving = false;
 };
+
+// const startSaveCertificate = (state: UserProcess) => {
+//   state.savingCertificate = true;
+// };
+
+// const endSaveCertificate = (state: UserProcess) => {
+//   state.savingCertificate = false;
+// };
 
 const setQuestionnaire = (
   state: UserProcess,
@@ -73,7 +88,11 @@ export const userProcess = createSlice({
       .addCase(updateUser.rejected, endUpdateUser)
 
       .addCase(fillUserQuestionnaire.fulfilled, setQuestionnaire)
-      .addCase(fillCoachQuestionnaire.fulfilled, setQuestionnaire);
+      .addCase(fillCoachQuestionnaire.fulfilled, setQuestionnaire)
+
+      .addCase(addCertificate.fulfilled, setQuestionnaire)
+      .addCase(updateCertificate.fulfilled, setQuestionnaire)
+      .addCase(deleteCertificate.fulfilled, setQuestionnaire);
   },
   selectors: {
     authorizationStatus: (state) => state.authorizationStatus,
@@ -82,3 +101,17 @@ export const userProcess = createSlice({
     saving: (state) => state.saving,
   },
 });
+
+export const userSelectors = {
+  ...userProcess.selectors,
+  questionnaireCoach: createSelector(userProcess.selectors.user, (user) =>
+    user?.role === UserRole.Coach
+      ? (user?.questionnaire as CoachQuestionnaire)
+      : null
+  ),
+  certificates: createSelector(userProcess.selectors.user, (user) =>
+    user?.role === UserRole.Coach
+      ? (user.questionnaire as CoachQuestionnaire).certificates
+      : []
+  ),
+};

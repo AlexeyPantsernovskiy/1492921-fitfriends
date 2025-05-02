@@ -6,7 +6,7 @@ import history from '@frontend/src/history';
 import { getUserAuth } from './user-slice/user-action';
 import { rootReducer } from './root-reducer';
 import { userProcess } from './user-slice/user-process';
-import { siteProcess } from './site-process/site-process';
+// import { siteProcess } from './site-process/site-process';
 
 const api = createAPI();
 const store = configureStore({
@@ -26,10 +26,10 @@ store.dispatch(getUserAuth());
 
 export default store;
 
-export const userSelectors = userProcess.selectors;
+export { userSelectors } from './user-slice/user-process';
 export const { logout } = userProcess.actions;
-export const { setSorting } = siteProcess.actions;
-export const getSorting = siteProcess.selectors.sorting;
+// export const { setSorting } = siteProcess.actions;
+// export const getSorting = siteProcess.selectors.sorting;
 export { trainingSelectors } from './training-slice/training-process';
 
 export * from './user-slice/user-action';

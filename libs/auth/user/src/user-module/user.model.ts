@@ -52,7 +52,7 @@ export class CoachQuestionnaireSchema extends BaseQuestionnaireSchema {
     type: String,
     required: true,
   })
-  certificate: string;
+  certificates: string[];
 
   @Prop({
     type: String,
@@ -129,7 +129,6 @@ export class UserModel extends Document implements UserAuthBase {
         if (!role && this.getUpdate?.()?.$set?.role) {
           role = this.getUpdate().$set.role;
         }
-
         if (role === UserRole.Sportsman) {
           return (
             value.duration &&
@@ -138,7 +137,7 @@ export class UserModel extends Document implements UserAuthBase {
           );
         }
         if (role === UserRole.Coach) {
-          return value.certificate;
+          return value.certificates;
         }
         return false;
       },
