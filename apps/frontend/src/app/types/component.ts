@@ -1,4 +1,6 @@
 import { CustomInputProps } from '@frontend/components';
+import { DISCOUNT } from '@frontend/const';
+import { FileLoading } from '@project/shared';
 
 export const SpinnerText = {
   Loading: 'Загрузка...',
@@ -123,6 +125,30 @@ export const Icon = {
     width: 14,
     height: 14,
   },
+  LoadFile: {
+    caption: 'Загрузить файл',
+    name: 'icon-import',
+    width: 20,
+    height: 20,
+  },
+  LoadVideo: {
+    caption: 'Загрузить видео',
+    name: 'icon-import-video',
+    width: 20,
+    height: 20,
+  },
+  Discount: {
+    caption: `Сделать скидку ${DISCOUNT * 100} %`,
+    name: 'icon-discount',
+    width: 14,
+    height: 14,
+  },
+  DiscountUndo: {
+    caption: 'Отменить скидку',
+    name: 'icon-discount',
+    width: 14,
+    height: 14,
+  },
 } as const;
 export type IconAttr = (typeof Icon)[keyof typeof Icon];
 export type IconName = (typeof Icon)[keyof typeof Icon]['name'];
@@ -156,3 +182,22 @@ export const TextAlign = {
   Right: 'right',
 } as const;
 export type TextAlign = (typeof TextAlign)[keyof typeof TextAlign];
+
+export const FileLoadingInput = {
+  Video: {
+    ...FileLoading.Video,
+    Icon: Icon.LoadVideo,
+  },
+  Certificate: {
+    ...FileLoading.Certificate,
+    Icon: Icon.LoadFile,
+  },
+  Avatar: {
+    ...FileLoading.Avatar,
+    Icon: Icon.LoadFile,
+  },
+  Photo: {
+    ...FileLoading.Photo,
+    Icon: Icon.LoadFile,
+  },
+} as const;

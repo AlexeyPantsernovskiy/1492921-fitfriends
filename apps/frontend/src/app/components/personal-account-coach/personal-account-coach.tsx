@@ -7,7 +7,7 @@ function PersonalAccountCoach(): JSX.Element {
   return (
     <div className="personal-account-coach">
       <div className="personal-account-coach__navigation">
-        <ThumbnailLink link={AppRoute.Main} icon={Icon.MyTraining} />
+        <ThumbnailLink link={AppRoute.MyTraining} icon={Icon.MyTraining} />
         <ThumbnailLink link={AppRoute.CreateTraining} icon={Icon.AddTrain} />
         <ThumbnailLink link={AppRoute.Friends} icon={Icon.Friends} />
         <ThumbnailLink link={AppRoute.Main} icon={Icon.MyOrders} />

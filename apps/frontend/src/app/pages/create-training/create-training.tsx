@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 import { useAppDispatch } from '@frontend/src/hooks';
 import { createTraining } from '@frontend/store';
@@ -7,10 +7,10 @@ import {
   CustomInput,
   CustomSelect,
   CustomTextarea,
+  CustomToggleRadio,
   FilledButton,
-  ToggleRadio,
+  InputFile,
 } from '@frontend/components';
-import InputFile from '@frontend/src/components/input-file/input-file';
 import {
   Duration,
   DurationName,
@@ -19,6 +19,7 @@ import {
   SexNameForTraining,
   Specialization,
 } from '@project/shared';
+import { FileLoadingInput } from '@frontend/types/component';
 
 function CreateTraining(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -26,8 +27,6 @@ function CreateTraining(): JSX.Element {
   const [specialization, setSpecialization] = useState<Specialization | null>();
   const [level, setLevel] = useState<Level | null>();
   const [duration, setDuration] = useState<Duration | null>();
-
-  //const [sex, setSex] = useState();
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -112,7 +111,7 @@ function CreateTraining(): JSX.Element {
                         addClassNames="create-training"
                         onSelect={(value) => setLevel(value as Level)}
                       />
-                      <ToggleRadio
+                      <CustomToggleRadio
                         name="gender"
                         caption="Кому подойдет тренировка"
                         classPrefix="create-training"
@@ -135,8 +134,7 @@ function CreateTraining(): JSX.Element {
                     </h2>
                     <InputFile
                       classPrefix="questionnaire-coach"
-                      fileMask=".mov, .avi, .mp4"
-                      placeholder="Загрузите сюда файлы формата MOV, AVI или MP4"
+                      fileType={FileLoadingInput.Video}
                       onChange={setVideo}
                     />
                   </div>

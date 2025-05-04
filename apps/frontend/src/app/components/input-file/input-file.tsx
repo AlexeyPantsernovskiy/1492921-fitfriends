@@ -1,21 +1,21 @@
 import { JSX, useRef, useState } from 'react';
 
+import { FileTypeLoading } from '@frontend/types/types';
+
 type InputFileProps = {
   classPrefix?: string;
-  placeholder: string;
-  fileMask: string;
+  fileType: FileTypeLoading;
   //disabled?: boolean;
   onChange: (file: File | null) => void;
 };
 
 const InputFile = ({
   classPrefix,
-  placeholder,
-  fileMask,
+  fileType,
   //disabled = false,
   onChange,
 }: InputFileProps): JSX.Element => {
-  const [fileName, setFileName] = useState<string>(placeholder);
+  const [fileName, setFileName] = useState<string>(fileType.Placeholder);
   const fileNameRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ const InputFile = ({
       }
     } else {
       onChange(null);
-      setFileName(placeholder);
+      setFileName(fileType.Placeholder);
       if (fileNameRef.current) {
         fileNameRef.current.style = '';
       }
@@ -37,19 +37,25 @@ const InputFile = ({
   };
 
   return (
-    <div className={`drag-and-drop ${classPrefix}__drag-and-drop`}>
+    <div
+      className={`drag-and-drop ${classPrefix ? `${classPrefix}__drag-and-drop` : ''}`}
+    >
       <label>
         <span className="drag-and-drop__label" tabIndex={0} ref={fileNameRef}>
           {fileName}
-          <svg width="20" height="20" aria-hidden="true">
-            <use xlinkHref="#icon-import"></use>
+          <svg
+            width={fileType.Icon.width}
+            height={fileType.Icon.height}
+            aria-hidden="true"
+          >
+            <use xlinkHref={`#${fileType.Icon.name}`}></use>
           </svg>
         </span>
         <input
           type="file"
           name="import"
           tabIndex={-1}
-          accept={fileMask}
+          accept={fileType.Accept}
           className="visually-hidden"
           onChange={handleFileChange}
           required

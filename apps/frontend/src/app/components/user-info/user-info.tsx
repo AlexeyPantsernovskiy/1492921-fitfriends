@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 
-import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
+import { useAppDispatch } from '@frontend/src/hooks';
 import {
   EMPTY_VALUE,
   Level,
@@ -25,13 +25,8 @@ import {
   ChecklistButton,
   CustomTextarea,
 } from '@frontend/components';
-import { logoutUser, updateUser, userSelectors } from '@frontend/store';
-import {
-  Icon,
-  FormField,
-  ButtonType,
-  SpinnerText,
-} from '@frontend/types/component';
+import { logoutUser, updateUser } from '@frontend/store';
+import { Icon, FormField, ButtonType } from '@frontend/types/component';
 import history from '@frontend/src/history';
 import { AppRoute } from '@frontend/const';
 
@@ -41,8 +36,6 @@ type UserInfoProps = {
 
 function UserInfo({ user }: UserInfoProps): JSX.Element {
   const dispatch = useAppDispatch();
-
-  const saving = useAppSelector(userSelectors.saving);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [selectedPhoto, setSelectedPhoto] = useState<File | null | undefined>(
@@ -82,9 +75,8 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
     avatarElement?.click();
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (
       specialization.length < UserLimit.Specialization.MinCount ||
       specialization.length > UserLimit.Specialization.MaxCount
@@ -117,15 +109,16 @@ function UserInfo({ user }: UserInfoProps): JSX.Element {
     formData.set('location', location);
     formData.set('sex', sex);
     formData.set('level', level as string);
-    dispatch(updateUser(formData));
-    setIsEdit(false);
+    try {
+      await dispatch(updateUser(formData)).unwrap();
+      setIsEdit(false);
+    } catch (error) {
+      throw new Error(`Ошибка при сохранении данных: ${error}`);
+    }
   };
 
   if (!user) {
     return <Spinner />;
-  }
-  if (saving) {
-    return <Spinner text={SpinnerText.Saving} />;
   }
 
   return (

@@ -6,6 +6,7 @@ import {
   registerUser,
 } from '@frontend/src/store/user-slice/user-action';
 import {
+  FileLoading,
   LOCATIONS,
   PREFIX_LOCATION,
   SexName,
@@ -19,7 +20,7 @@ import {
   CustomInput,
   Logo,
   CustomSelect,
-  ToggleRadio,
+  CustomToggleRadio,
 } from '@frontend/components';
 import { FormField } from '@frontend/types/component';
 import history from '@frontend/src/history';
@@ -87,7 +88,7 @@ const Registration = (): JSX.Element => {
                         Загрузите фото профиля
                       </h2>
                       <span className="sign-up__text">
-                        JPG, PNG, оптимальный размер 100×100 px
+                        {FileLoading.Avatar.Placeholder}
                       </span>
                     </div>
                   </div>
@@ -103,7 +104,7 @@ const Registration = (): JSX.Element => {
                       onSelect={setLocation}
                     />
                     <CustomInput {...FormField.Password} />
-                    <ToggleRadio
+                    <CustomToggleRadio
                       {...FormField.Sex}
                       classPrefix="sign-up"
                       items={SexName}

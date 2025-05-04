@@ -8,13 +8,13 @@ export const AppRoute = {
   Intro: '/intro',
   PersonalAccount: '/personal-account',
   CreateTraining: '/create-training',
+  Catalog: '/catalog',
+  MyTraining: '/my-training',
+  TrainingCard: '/training/:id',
   NotFound: '/404',
 
   Friends: '/friends',
-
   Purchases: '/purchases',
-  Catalog: '/catalog',
-  TrainingCard: '/training/:id',
 } as const;
 
 export const ApiRoute = {
@@ -60,6 +60,7 @@ export const LimitTrainingCard = {
   SliderSpecialOffers: 3,
   SliderPopular: 4,
   SliderFriends: 4,
+  MyTraining: 6,
 } as const;
 
 export const LimitPersonalAccount = {
@@ -67,7 +68,7 @@ export const LimitPersonalAccount = {
 } as const;
 
 // Размер скидки которая применяется при установки флага "Специальное предложение"
-export const discount = 0.2;
+export const DISCOUNT = 0.1;
 
 export const ToggleRange = {
   Min: 'min',

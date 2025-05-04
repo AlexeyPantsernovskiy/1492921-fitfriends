@@ -17,10 +17,16 @@ function TrainingCard({ training }: TrainingCardProps): JSX.Element {
           </picture>
         </div>
         <p className="thumbnail-training__price">
-          <span className="thumbnail-training__price-value">
-            {training.price}
-          </span>
-          <span>₽</span>
+          {training.price === 0 ? (
+            'Бесплатно'
+          ) : (
+            <>
+              <span className="thumbnail-training__price-value">
+                {training.price}
+              </span>
+              <span>₽</span>
+            </>
+          )}
         </p>
         <h3 className="thumbnail-training__title">{training.name}</h3>
         <div className="thumbnail-training__info">

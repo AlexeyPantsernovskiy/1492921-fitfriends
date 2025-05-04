@@ -1,4 +1,5 @@
 import { LOCATIONS, SEX } from '../../constants/data';
+import { FileLoading } from '../../constants/file-vault.constant';
 import { UserLimit } from '../../constants/user.constant';
 import { QuestionnaireUserRdo } from '../../rdo/user/questionnaire.rdo';
 import { UserRole } from '../../types/user-role.enum';
@@ -112,7 +113,7 @@ export const UserProperty = {
       format: 'binary',
     },
     Validate: {
-      FileExtRegExp: /\.(jpg|jpeg|png)$/,
+      FileExtRegExp: FileLoading.Avatar.FileExtRegExp,
       Message: 'Разрешено загружать фото в формате .jpg или .png',
     },
   },

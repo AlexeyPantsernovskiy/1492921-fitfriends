@@ -1,9 +1,9 @@
 import {
+  BackButton,
   FilledButton,
   Spinner,
   ThumbnailNearest,
   TrainingCard,
-  TrainingCatalogFilter,
 } from '@frontend/components';
 import { LimitTrainingCard } from '@frontend/const';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
@@ -12,7 +12,23 @@ import { ButtonType } from '@frontend/types/component';
 import { TrainingQuery } from '@project/shared';
 import { useEffect, useState } from 'react';
 
-function TrainingCatalog(): JSX.Element {
+type TrainingCatalogProps = {
+  caption: string;
+  classPrefixForm: string;
+  classPrefixCatalog: string;
+  isDivInnerPageContent?: boolean;
+  formFilter: React.ComponentType<{
+    handleFilterApply: (params: TrainingQuery) => void;
+  }>;
+};
+
+function TrainingCatalog({
+  caption,
+  classPrefixForm,
+  classPrefixCatalog,
+  isDivInnerPageContent,
+  formFilter: FormFilterComponent,
+}: TrainingCatalogProps): JSX.Element {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(trainingSelectors.isTrainingCatalogLoading);
   const trainings = useAppSelector(trainingSelectors.trainingCatalog);
@@ -41,69 +57,74 @@ function TrainingCatalog(): JSX.Element {
     });
   };
 
+  function Catalog(): JSX.Element {
+    return (
+      <div className={classPrefixCatalog}>
+        {isLoading && <Spinner />}
+        {!isLoading && trainings?.totalItems === 0 && (
+          <ThumbnailNearest text="По заданным условиям ни чего не найдено" />
+        )}
+        {!isLoading && trainings && trainings.totalItems > 0 && (
+          <>
+            <ul className={`${classPrefixCatalog}__list`}>
+              {trainings.entities.map((training) => (
+                <li
+                  className={`${classPrefixCatalog}__item`}
+                  key={`${classPrefixCatalog}__item-${training.id}`}
+                >
+                  <TrainingCard training={training} />
+                </li>
+              ))}
+            </ul>
+            <div className={`show-more ${classPrefixCatalog}__show-more`}>
+              {trainings && trainings.totalPages > trainings.currentPage && (
+                <FilledButton
+                  classPrefix="show-more"
+                  addClasses="show-more__button--more"
+                  type={ButtonType.Button}
+                  caption="Показать еще"
+                  onClick={handleButtonMoreClick}
+                />
+              )}
+              {trainings &&
+                trainings.itemsPerPage > LimitTrainingCard.Catalog &&
+                trainings.totalPages === trainings.currentPage && (
+                  <FilledButton
+                    classPrefix="show-more"
+                    type={ButtonType.Button}
+                    caption="Вернуться в начало"
+                    onClick={handleButtonToTopClick}
+                  />
+                )}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
+
   return (
     <section className="inner-page">
       <div className="container">
         <div className="inner-page__wrapper">
-          <h1 className="visually-hidden">Каталог тренировок</h1>
-          <div className="gym-catalog-form">
+          <h1 className="visually-hidden">{caption}</h1>
+          <div className={classPrefixForm}>
             <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
-            <div className="gym-catalog-form__wrapper">
-              <button
-                className="btn-flat btn-flat--underlined gym-catalog-form__btnback"
-                type="button"
-              >
-                <svg width="14" height="10" aria-hidden="true">
-                  <use xlinkHref="#arrow-left"></use>
-                </svg>
-                <span>Назад</span>
-              </button>
-              <h3 className="gym-catalog-form__title">Фильтры</h3>
-              <TrainingCatalogFilter handleFilterApply={setFilterParam} />
+            <div className={`${classPrefixForm}__wrapper`}>
+              <BackButton
+                className={`btn-flat btn-flat--underlined ${classPrefixForm}__btnback`}
+              />
+              <h3 className={`${classPrefixForm}__title`}>Фильтры</h3>
+              <FormFilterComponent handleFilterApply={setFilterParam} />
             </div>
           </div>
-          <div className="training-catalog">
-            {isLoading && <Spinner />}
-            {!isLoading && trainings?.totalItems === 0 && (
-              <ThumbnailNearest text="По заданным условиям ни чего не найдено" />
-            )}
-            {!isLoading && trainings && trainings.totalItems > 0 && (
-              <>
-                <ul className="training-catalog__list">
-                  {trainings.entities.map((training) => (
-                    <li
-                      className="training-catalog__item"
-                      key={`training-catalog__item-${training.id}`}
-                    >
-                      <TrainingCard training={training} />
-                    </li>
-                  ))}
-                </ul>
-                <div className="show-more training-catalog__show-more">
-                  {trainings &&
-                    trainings.totalPages > trainings.currentPage && (
-                      <FilledButton
-                        classPrefix="show-more"
-                        addClasses="show-more__button--more"
-                        type={ButtonType.Button}
-                        caption="Показать еще"
-                        onClick={handleButtonMoreClick}
-                      />
-                    )}
-                  {trainings &&
-                    trainings.itemsPerPage > LimitTrainingCard.Catalog &&
-                    trainings.totalPages === trainings.currentPage && (
-                      <FilledButton
-                        classPrefix="show-more"
-                        type={ButtonType.Button}
-                        caption="Вернуться в начало"
-                        onClick={handleButtonToTopClick}
-                      />
-                    )}
-                </div>
-              </>
-            )}
-          </div>
+          {isDivInnerPageContent ? (
+            <div className="inner-page__content">
+              <Catalog />
+            </div>
+          ) : (
+            <Catalog />
+          )}
         </div>
       </div>
     </section>

@@ -12,6 +12,9 @@ import {
   Min,
   ValidateIf,
 } from 'class-validator';
+
+import { currencyParser } from '@project/shared-helpers';
+
 import { Training } from '../../types/training.interface';
 import { TrainingProperty } from '../../swagger/training/training-property';
 import { DURATIONS, LEVELS, SEX, SPECIALIZATIONS } from '../../constants/data';
@@ -59,7 +62,7 @@ export class CreateTrainingDto
 
   @ApiProperty(TrainingProperty.Price.Description)
   @ValidateIf((o) => o.price)
-  @Transform(({ value }) => +value)
+  @Transform(({ value }) => currencyParser(value))
   @IsNumber({ maxDecimalPlaces: 0 })
   @Min(TrainingProperty.Price.Validate.Min, {
     message: TrainingProperty.Price.Validate.Message,

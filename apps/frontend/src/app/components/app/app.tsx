@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import {
   PrivateRoute,
+  TrainingCatalogFilter,
   Wrapper,
   WrapperHeaderMain,
   WrapperMain,
@@ -28,6 +29,7 @@ import {
   TrainingCatalog,
 } from '@frontend/src/pages';
 import CreateTraining from '@frontend/src/pages/create-training/create-training';
+import MyTrainingFilter from '../my-training-filter/my-training-filter';
 
 const App = (): JSX.Element => (
   <HistoryRouter history={historyBrowser}>
@@ -145,7 +147,29 @@ const App = (): JSX.Element => (
                 redirectTo={AppRoute.Root}
                 redirectCoach={AppRoute.PersonalAccount}
               >
-                <TrainingCatalog />
+                <TrainingCatalog
+                  caption="Каталог тренировок"
+                  classPrefixForm="gym-catalog-form"
+                  classPrefixCatalog="training-catalog"
+                  formFilter={TrainingCatalogFilter}
+                />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.MyTraining}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <TrainingCatalog
+                  caption="Мои тренировки"
+                  classPrefixForm="my-training-form"
+                  classPrefixCatalog="my-trainings"
+                  isDivInnerPageContent
+                  formFilter={MyTrainingFilter}
+                />
               </PrivateRoute>
             }
           />

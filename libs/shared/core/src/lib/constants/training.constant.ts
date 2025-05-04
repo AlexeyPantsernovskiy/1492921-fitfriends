@@ -1,7 +1,8 @@
 import { SortDirection } from '../types/sort-direction.enum';
 import { SortType } from '../types/sort-type.enum';
+import { FileLoading } from './file-vault.constant';
 
-export const NO_UPDATE_PHOTO = '~~no-update-file~~';
+//export const NO_UPDATE_FILE = '~~no-update-file~~';
 
 export const TrainingSortDefault = {
   Direction: SortDirection.Desc,
@@ -28,7 +29,7 @@ export const TrainingLimit = {
     Min: 0,
   },
   VideoFile: {
-    FileExtRegExp: /\.(mov|avi|mp4)$/,
+    FileExtRegExp: FileLoading.Video.FileExtRegExp,
   },
   Description: {
     MinLength: 10,

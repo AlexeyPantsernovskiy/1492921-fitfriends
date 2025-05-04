@@ -2,6 +2,7 @@ import { Duration } from '../types/duration.enum';
 import { Level } from '../types/level.enum';
 import { Sex } from '../types/sex.enum';
 import { SPECIALIZATIONS } from './data';
+import { FileLoading } from './file-vault.constant';
 
 export const SALT_ROUNDS = 10;
 
@@ -23,11 +24,11 @@ export const UserLimit = {
     MaxLength: 12,
   },
   AvatarFile: {
-    FileExtRegExp: /\.(jpg|jpeg|png)$/,
+    FileExtRegExp: FileLoading.Avatar.FileExtRegExp,
     MaxSize: 1024 * 1024,
   },
   PhotoFile: {
-    FileExtRegExp: /\.(jpg|jpeg|png)$/,
+    FileExtRegExp: FileLoading.Photo.FileExtRegExp,
   },
   Description: {
     MinLength: 10,
@@ -46,7 +47,7 @@ export const UserLimit = {
     Max: 5000,
   },
   CertificateFile: {
-    FileExtRegExp: /\.pdf$/,
+    FileExtRegExp: FileLoading.Certificate.FileExtRegExp,
   },
   Achievements: {
     MinLength: 10,
@@ -83,3 +84,5 @@ export const QuestionnaireDefault = {
     isReadyToTrain: true,
   },
 } as const;
+
+export const AVATAR_DEFAULT = 'default/avatars/default-avatar.svg';

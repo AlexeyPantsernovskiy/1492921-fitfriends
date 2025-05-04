@@ -11,12 +11,6 @@ function PersonalAccount(): JSX.Element {
     return <Spinner />;
   }
 
-  if (!user.questionnaire) {
-    alert(`У пользователя ${user.name} не найден заполненный опросник.`);
-    history.back();
-    return <></>;
-  }
-
   return (
     <section className="inner-page">
       <div className="container">

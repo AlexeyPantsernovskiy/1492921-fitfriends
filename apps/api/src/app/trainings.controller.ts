@@ -31,6 +31,7 @@ import { faker } from '@faker-js/faker/locale/ru';
 import FormData from 'form-data';
 
 import {
+  AVATAR_DEFAULT,
   CommonResponse,
   LimitQuery,
   QuestionnaireDefault,
@@ -182,7 +183,7 @@ export class TrainingsController {
       const coachInfo = {
         name: userResponse.data.name,
         avatar: createUrlForFile(
-          userResponse.data.avatar,
+          userResponse.data.avatar || AVATAR_DEFAULT,
           ApplicationServiceURL.FileServe
         ),
       };
@@ -275,6 +276,10 @@ export class TrainingsController {
       `${ApplicationServiceURL.Trainings}/${trainingId}`,
       dto
     );
-    return await responseTraining.data;
+    responseTraining.data.video = createUrlForFile(
+      responseTraining.data.video,
+      ApplicationServiceURL.FileServe
+    );
+    return responseTraining.data;
   }
 }

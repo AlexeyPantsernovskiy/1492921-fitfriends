@@ -3,7 +3,7 @@ import { FormEvent, JSX, useState } from 'react';
 import {
   Logo,
   FilledButton,
-  ToggleRadio,
+  CustomToggleRadio,
   CustomInput,
   ChecklistButton,
 } from '@frontend/components';
@@ -111,14 +111,14 @@ const QuestionnaireUser = (): JSX.Element => {
                         onChange={setSpecialization}
                       />
                     </div>
-                    <ToggleRadio
+                    <CustomToggleRadio
                       classPrefix="questionnaire-user"
                       name="Duration"
                       caption="Сколько времени вы готовы уделять на тренировку в день"
                       items={DurationName}
                       captionSize={ToggleRadioCaptionSize.Big}
                     />
-                    <ToggleRadio
+                    <CustomToggleRadio
                       classPrefix="questionnaire-user"
                       name="level"
                       caption="Ваш уровень"

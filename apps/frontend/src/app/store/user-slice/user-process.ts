@@ -27,37 +27,17 @@ import {
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
   user: null,
-  saving: false,
-  savingCertificate: false,
 };
 
 const userAuth = (state: UserProcess, action: PayloadAction<UserRdo>) => {
   state.authorizationStatus = AuthorizationStatus.Auth;
   state.user = action.payload as User;
-  state.saving = false;
 };
 
 const userNoAuth = (state: UserProcess) => {
   state.authorizationStatus = AuthorizationStatus.NoAuth;
   state.user = null;
-  state.saving = false;
 };
-
-const startUpdateUser = (state: UserProcess) => {
-  state.saving = true;
-};
-
-const endUpdateUser = (state: UserProcess) => {
-  state.saving = false;
-};
-
-// const startSaveCertificate = (state: UserProcess) => {
-//   state.savingCertificate = true;
-// };
-
-// const endSaveCertificate = (state: UserProcess) => {
-//   state.savingCertificate = false;
-// };
 
 const setQuestionnaire = (
   state: UserProcess,
@@ -80,12 +60,8 @@ export const userProcess = createSlice({
       .addCase(getUserAuth.rejected, userNoAuth)
 
       .addCase(loginUser.fulfilled, userAuth)
-
       .addCase(logoutUser.fulfilled, userNoAuth)
-
-      .addCase(updateUser.pending, startUpdateUser)
       .addCase(updateUser.fulfilled, userAuth)
-      .addCase(updateUser.rejected, endUpdateUser)
 
       .addCase(fillUserQuestionnaire.fulfilled, setQuestionnaire)
       .addCase(fillCoachQuestionnaire.fulfilled, setQuestionnaire)
@@ -98,7 +74,6 @@ export const userProcess = createSlice({
     authorizationStatus: (state) => state.authorizationStatus,
     user: (state) => state.user,
     isLogged: (state) => state.authorizationStatus === AuthorizationStatus.Auth,
-    saving: (state) => state.saving,
   },
 });
 

@@ -1,14 +1,33 @@
 import { MouseEvent, JSX, useState, useRef } from 'react';
 
-import { useAppSelector } from '@frontend/src/hooks';
-import { trainingSelectors } from '@frontend/store';
+import { currencyParser } from '@frontend/src/utils';
+import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
+import {
+  trainingSelectors,
+  updateTraining,
+  userSelectors,
+} from '@frontend/store';
 import {
   DurationName,
   SexNameForTraining,
   Specialization,
 } from '@project/shared';
-import { FilledButton, Spinner } from '@frontend/components';
-import { ButtonType } from '@frontend/types/component';
+import {
+  FilledButton,
+  FlatButton,
+  InputFile,
+  Spinner,
+} from '@frontend/components';
+import {
+  ButtonType,
+  Icon,
+  IconPosition,
+  InputType,
+  FileLoadingInput,
+} from '@frontend/types/component';
+import classNames from 'classnames';
+import { DISCOUNT } from '@frontend/const';
+import { privateDecrypt } from 'node:crypto';
 
 export type HashTagProps = {
   text: string;
@@ -25,39 +44,141 @@ function HashTag({ text }: HashTagProps): JSX.Element {
 }
 
 function TrainingInfo(): JSX.Element {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const dispatch = useAppDispatch();
+  const [newVideo, setVideo] = useState<File | null | undefined>(undefined);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const priceRef = useRef<HTMLInputElement>(null);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const training = useAppSelector(trainingSelectors.training);
-  if (!training) {
+  const user = useAppSelector(userSelectors.user);
+  const [price, setPrice] = useState(training?.price);
+  const [isSpecialOffer, setIsSpecialOffer] = useState(
+    training?.isSpecialOffer
+  );
+
+  if (!training || !user) {
     return <Spinner />;
   }
-  const HandleClickPurchaseButton = (e: MouseEvent<HTMLButtonElement>) => {
+
+  const isMyTraining = user.id === training.coachId;
+
+  const formatDisplayValue = (value: string | number) => {
+    const number = currencyParser(value);
+    return new Intl.NumberFormat('ru-RU').format(number);
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = currencyParser(e.target.value);
+    setPrice(newValue);
+  };
+
+  const handlePriceKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key.length !== 1 || e.ctrlKey || e.metaKey) {
+      return;
+    }
+    if (!/[0-9,.\s]/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  const HandlePurchaseButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     alert('Пока не готово!');
   };
-  const HandleClickStartButton = (e: MouseEvent<HTMLButtonElement>) => {
+  const HandleStartButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     alert('Пока не готово!');
   };
-  const HandleClickEndButton = (e: MouseEvent<HTMLButtonElement>) => {
+  const HandleEndButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     alert('Пока не готово!');
   };
 
-  const handlePlayClick = () => {
-    setIsPlaying(true);
-    videoRef.current?.play();
+  const handleEditButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsEdit(true);
   };
 
-  const handleCloseVideo = () => {
-    setIsPlaying(false);
-    videoRef.current?.pause();
-    videoRef.current!.currentTime = 0;
+  const handleSaveButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!formRef.current) {
+      return;
+    }
+    const formData = new FormData();
+    const formDataCurrent = new FormData(formRef.current);
+
+    formData.append('name', formDataCurrent.get('training')?.toString() || '');
+    formData.append(
+      'description',
+      formDataCurrent.get('description')?.toString() || ''
+    );
+    formData.append('price', formDataCurrent.get('price')?.toString() || '');
+    formData.append('isSpecialOffer', isSpecialOffer ? 'true' : 'false');
+
+    const trainingId = training.id.toString();
+    dispatch(updateTraining({ trainingId, formData }));
+
+    let oldSrc = '';
+    if (newVideo) {
+      oldSrc = URL.createObjectURL(newVideo);
+      URL.revokeObjectURL(oldSrc);
+    }
+
+    setIsEdit(false);
+    setVideo(undefined);
+
+    if (priceRef.current && price) {
+      priceRef.current.value = `${formatDisplayValue(price)} ₽`;
+    }
+    if (videoRef.current && training.video !== oldSrc) {
+      videoRef.current.load();
+    }
+  };
+
+  const HandleVideoSaveButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
+    if (!newVideo) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append('videoFile', newVideo);
+    const trainingId = training.id.toString();
+    dispatch(updateTraining({ trainingId, formData }));
+    setVideo(undefined);
+  };
+
+  const HandleVideoDeleteButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    setVideo(null);
+  };
+
+  const handleIsSpecialOfferClick = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    setIsSpecialOffer(!isSpecialOffer);
+    if (price) {
+      const newPrice = isSpecialOffer
+        ? Math.round(price * (1 - DISCOUNT))
+        : Math.round(price / (1 - DISCOUNT));
+      setPrice(newPrice);
+      if (priceRef.current && price) {
+        priceRef.current.value = `${formatDisplayValue(newPrice)} ₽`;
+      }
+    }
   };
 
   return (
-    <div className="training-card">
+    <div
+      className={classNames('training-card', { 'training-card--edit': isEdit })}
+    >
       <div className="training-info">
         <h2 className="visually-hidden">Информация о тренировке</h2>
         <div className="training-info__header">
@@ -78,9 +199,18 @@ function TrainingInfo(): JSX.Element {
               <span className="training-info__name">{training.coach.name}</span>
             </div>
           </div>
+          {isMyTraining && (
+            <FlatButton
+              className={`btn-flat--light training-info__edit training-info__edit--${isEdit ? 'save' : 'edit'}`}
+              caption={isEdit ? 'Сохранить' : 'Редактировать'}
+              icon={Icon.Edit}
+              isUnderline
+              onClick={isEdit ? handleSaveButtonClick : handleEditButtonClick}
+            />
+          )}
         </div>
         <div className="training-info__main-content">
-          <form action="#" method="get">
+          <form action="#" method="get" ref={formRef}>
             <div className="training-info__form-wrapper">
               <div className="training-info__info-wrapper">
                 <div className="training-info__input training-info__input--training">
@@ -92,7 +222,7 @@ function TrainingInfo(): JSX.Element {
                       type="text"
                       name="training"
                       defaultValue={training.name}
-                      disabled
+                      disabled={!isEdit}
                     />
                   </label>
                   <div className="training-info__error">Обязательное поле</div>
@@ -104,7 +234,7 @@ function TrainingInfo(): JSX.Element {
                     </span>
                     <textarea
                       name="description"
-                      disabled
+                      disabled={!isEdit}
                       defaultValue={training.description}
                     />
                   </label>
@@ -139,20 +269,39 @@ function TrainingInfo(): JSX.Element {
                   <label>
                     <span className="training-info__label">Стоимость</span>
                     <input
-                      type="text"
+                      ref={priceRef}
+                      type={InputType.Text}
                       name="price"
-                      defaultValue={`${training.price || 0} ₽`}
-                      disabled
+                      defaultValue={`${formatDisplayValue(training.price)} ₽`}
+                      disabled={!isEdit}
+                      onChange={handlePriceChange}
+                      onKeyDown={handlePriceKeyDown}
                     />
                   </label>
                   <div className="training-info__error">Введите число</div>
                 </div>
-                <FilledButton
-                  caption="Купить"
-                  type={ButtonType.Button}
-                  addClasses="training-info__buy"
-                  onClick={HandleClickPurchaseButton}
-                />
+                {isMyTraining && isEdit && (
+                  <FlatButton
+                    className="btn-flat--light training-info__discount"
+                    icon={isSpecialOffer ? Icon.DiscountUndo : Icon.Discount}
+                    isUnderline={isEdit}
+                    iconPosition={IconPosition.Left}
+                    onClick={handleIsSpecialOfferClick}
+                  />
+                )}
+                {isMyTraining && !isEdit && training.isSpecialOffer && (
+                  <span
+                    style={{ color: 'white' }}
+                  >{`Предоставлена скидка ${DISCOUNT * 100} %`}</span>
+                )}
+                {!isMyTraining && (
+                  <FilledButton
+                    caption="Купить"
+                    type={ButtonType.Button}
+                    addClasses="training-info__buy"
+                    onClick={HandlePurchaseButtonClick}
+                  />
+                )}
               </div>
             </div>
           </form>
@@ -160,8 +309,9 @@ function TrainingInfo(): JSX.Element {
       </div>
       <div className="training-video">
         <h2 className="training-video__title">Видео</h2>
-        <div className="training-video__video">
-          {isPlaying ? (
+
+        {newVideo !== null && (
+          <div className="training-video__video">
             <div className="training-video__player">
               <video
                 ref={videoRef}
@@ -170,63 +320,75 @@ function TrainingInfo(): JSX.Element {
                 height="auto"
                 className="training-video__video-element"
               >
-                <source src={training.video} type="video/mp4" />
+                <source
+                  src={
+                    newVideo ? URL.createObjectURL(newVideo) : training.video
+                  }
+                  type="video/mp4"
+                />
                 Ваш браузер не поддерживает видео
               </video>
-              <button
-                className="training-video__close-button btn-reset"
-                onClick={handleCloseVideo}
-              >
-                <svg width="24" height="24" aria-hidden="true">
-                  <use xlinkHref="#icon-close"></use>
-                </svg>
-              </button>
             </div>
-          ) : (
-            <>
-              <div className="training-video__thumbnail">
-                <picture>
-                  <source
-                    type="image/webp"
-                    srcSet="/img/content/training-video/video-thumbnail.webp, /img/content/training-video/video-thumbnail@2x.webp 2x"
-                  />
-                  <img
-                    src="/img/content/training-video/video-thumbnail.png"
-                    srcSet="/img/content/training-video/video-thumbnail@2x.png 2x"
-                    width="922"
-                    height="566"
-                    alt="Обложка видео"
-                  />
-                </picture>
+          </div>
+        )}
+        {newVideo === null && (
+          <div
+            className="training-video__drop-files"
+            style={{
+              display: 'flex',
+              paddingTop: '180px',
+              paddingBottom: '180px',
+            }}
+          >
+            <form action="#" method="post">
+              <div className="training-video__form-wrapper">
+                <InputFile
+                  fileType={FileLoadingInput.Video}
+                  onChange={setVideo}
+                />
               </div>
-              <button
-                className="training-video__play-button btn-reset"
-                onClick={handlePlayClick}
-              >
-                <svg width="18" height="30" aria-hidden="true">
-                  <use xlinkHref="#icon-arrow"></use>
-                </svg>
-              </button>
+            </form>
+          </div>
+        )}
+        <div className="training-video__buttons-wrapper">
+          {isMyTraining && (
+            <div className="training-video__edit-buttons">
+              <FilledButton
+                caption="Сохранить"
+                addClasses="training-video__button--start"
+                type={ButtonType.Button}
+                disabled={!newVideo}
+                onClick={HandleVideoSaveButtonClick}
+              />
+              <FilledButton
+                caption="Удалить"
+                addClasses="btn--outlined"
+                type={ButtonType.Button}
+                disabled={newVideo === null}
+                onClick={HandleVideoDeleteButtonClick}
+              />
+            </div>
+          )}
+          {!isMyTraining && (
+            <>
+              <FilledButton
+                caption="Приступить"
+                classPrefix="training-video"
+                addClasses="training-video__button--start"
+                type={ButtonType.Button}
+                disabled
+                onClick={HandleStartButtonClick}
+              />
+              <FilledButton
+                caption="Закончить"
+                classPrefix="training-video"
+                addClasses="training-video__button--stop"
+                type={ButtonType.Button}
+                disabled
+                onClick={HandleEndButtonClick}
+              />
             </>
           )}
-        </div>
-        <div className="training-video__buttons-wrapper">
-          <FilledButton
-            caption="Приступить"
-            classPrefix="training-video"
-            addClasses="training-video__button--start"
-            type={ButtonType.Button}
-            disabled
-            onClick={HandleClickStartButton}
-          />
-          <FilledButton
-            caption="Закончить"
-            classPrefix="training-video"
-            addClasses="training-video__button--stop"
-            type={ButtonType.Button}
-            disabled
-            onClick={HandleClickEndButton}
-          />
         </div>
       </div>
     </div>

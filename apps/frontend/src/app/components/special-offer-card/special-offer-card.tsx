@@ -1,4 +1,4 @@
-import { discount } from '@frontend/const';
+import { DISCOUNT } from '@frontend/const';
 import { Training } from '@project/shared';
 
 interface SpecialOfferCardProps {
@@ -15,7 +15,7 @@ function SpecialOfferCard({
   slideIndex = 0,
 }: SpecialOfferCardProps): JSX.Element {
   const { image, name, description, price } = training;
-  const oldPrice = Math.round(price / (1 - discount));
+  const oldPrice = Math.round(price / (1 - DISCOUNT));
 
   const handleDotClick = (index: number) => {
     if (onDotClick) {

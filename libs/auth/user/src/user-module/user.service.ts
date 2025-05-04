@@ -21,9 +21,10 @@ import {
   UpdateUserDto,
   EMPTY_VALUE,
   UserErrorMessage,
+  TokenPayload,
 } from '@project/shared-core';
 import { jwtConfig } from '@project/auth-config';
-import { createJWTPayload, fillDto } from '@project/shared-helpers';
+import { fillDto } from '@project/shared-helpers';
 
 import { RefreshTokenService } from '../refresh-token-module/refresh-token.service';
 import { UserRepository } from './user.repository';
@@ -40,6 +41,15 @@ export class UserService {
     private readonly jwtOptions: ConfigType<typeof jwtConfig>,
     private readonly refreshTokenService: RefreshTokenService
   ) {}
+
+  private createJWTPayload(user: User): TokenPayload {
+    return {
+      sub: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    };
+  }
 
   public async register(dto: CreateUserDto): Promise<UserRdo> {
     if (await this.userRepository.findByEmail(dto.email)) {
@@ -108,7 +118,7 @@ export class UserService {
   }
 
   public async createUserToken(user: User): Promise<UserTokenRdo> {
-    const accessTokenPayload = createJWTPayload(user);
+    const accessTokenPayload = this.createJWTPayload(user);
     const refreshTokenPayload = {
       ...accessTokenPayload,
       tokenId: crypto.randomUUID(),

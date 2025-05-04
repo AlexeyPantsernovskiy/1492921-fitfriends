@@ -99,6 +99,14 @@ export class TrainingRepository extends BasePostgresRepository<
       where.specialization = { in: query.specializations };
     }
 
+    if (query.durations?.length) {
+      where.duration = { in: query.durations };
+    }
+
+    if (query.coachId) {
+      where.coachId = query.coachId;
+    }
+
     if (query?.sortBy) {
       orderBy[query.sortBy] = query.sortDirection;
     }

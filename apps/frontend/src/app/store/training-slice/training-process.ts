@@ -15,6 +15,7 @@ import {
   getSpecialForYou,
   getAllTrainings,
   createTraining,
+  updateTraining,
 } from './training-action';
 
 const initialState: TrainingProcess = {
@@ -105,6 +106,19 @@ const endSavingTraining = (state: TrainingProcess) => {
   state.isSavingTraining = false;
 };
 
+const endUpdatingTraining = (
+  state: TrainingProcess,
+  action: PayloadAction<TrainingRdo>
+) => {
+  if (state.training) {
+    state.training = {
+      ...state.training,
+      ...action.payload,
+    };
+  }
+  state.isTrainingLoading = false;
+};
+
 export const trainingProcess = createSlice({
   name: StoreSlice.TrainingProcess,
   initialState,
@@ -129,7 +143,11 @@ export const trainingProcess = createSlice({
 
       .addCase(createTraining.pending, startSavingTraining)
       .addCase(createTraining.fulfilled, endSavingTraining)
-      .addCase(createTraining.rejected, endSavingTraining);
+      .addCase(createTraining.rejected, endSavingTraining)
+
+      .addCase(updateTraining.pending, startSavingTraining)
+      .addCase(updateTraining.fulfilled, endUpdatingTraining)
+      .addCase(updateTraining.rejected, endSavingTraining);
   },
   selectors: {
     isTrainingsLoading: (state) => state.isTrainingsLoading,

@@ -3,12 +3,15 @@ import { FormEvent, JSX, useState } from 'react';
 import {
   Logo,
   FilledButton,
-  ToggleRadio,
   ChecklistButton,
   CustomTextarea,
   CheckboxIcon,
+  CustomToggleRadio,
 } from '@frontend/components';
-import { ToggleRadioCaptionSize } from '@frontend/types/component';
+import {
+  ToggleRadioCaptionSize,
+  FileLoadingInput,
+} from '@frontend/types/component';
 import { LevelName, Specialization, UserLimit } from '@project/shared';
 import { fillCoachQuestionnaire } from '@frontend/store';
 import { useAppDispatch } from '@frontend/src/hooks';
@@ -53,7 +56,12 @@ const QuestionnaireCoach = (): JSX.Element => {
         ? 'true'
         : 'false'
     );
+    formData.append(
+      'achievements',
+      formData.get('description')?.toString() || ''
+    );
     formData.delete('individual-training');
+    formData.delete('description');
     try {
       await dispatch(fillCoachQuestionnaire(formData)).unwrap();
       history.push(AppRoute.PersonalAccount);
@@ -85,7 +93,7 @@ const QuestionnaireCoach = (): JSX.Element => {
                         onChange={setSpecialization}
                       />
                     </div>
-                    <ToggleRadio
+                    <CustomToggleRadio
                       classPrefix="questionnaire-coach"
                       name="level"
                       caption="Ваш уровень"
@@ -99,8 +107,7 @@ const QuestionnaireCoach = (): JSX.Element => {
                       </span>
                       <InputFile
                         classPrefix="questionnaire-coach"
-                        fileMask=".pdf"
-                        placeholder="Загрузите сюда файл формата PDF"
+                        fileType={FileLoadingInput.Certificate}
                         onChange={setSelectedCertificate}
                       />
                     </div>
@@ -121,8 +128,8 @@ const QuestionnaireCoach = (): JSX.Element => {
                         checked={true}
                       />
                     </div>
-                    <FilledButton classPrefix="questionnaire-coach" />
                   </div>
+                  <FilledButton classPrefix="questionnaire-coach" />
                 </div>
               </form>
             </div>

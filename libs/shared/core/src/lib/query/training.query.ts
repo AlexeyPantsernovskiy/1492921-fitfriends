@@ -1,14 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsInt, IsOptional, Max, Min } from 'class-validator';
+import {
+  IsArray,
+  IsIn,
+  IsInt,
+  IsMongoId,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+  ValidateIf,
+} from 'class-validator';
 
 import { CommonProperty } from '../swagger/common-property';
 import { TrainingSortDefault } from '../constants/training.constant';
 import { TrainingProperty } from '../swagger/training/training-property';
 import { SortDirection } from '../types/sort-direction.enum';
 import { SortType } from '../types/sort-type.enum';
-import { SPECIALIZATIONS } from '../constants/data';
+import { DURATIONS, SPECIALIZATIONS } from '../constants/data';
 import { Specialization } from '../types/specialization.enum';
+import { Duration } from '../types/duration.enum';
 
 export class TrainingQuery {
   @ApiProperty(CommonProperty.ItemsPerPage.Description)
@@ -82,4 +93,18 @@ export class TrainingQuery {
   @IsIn(SPECIALIZATIONS, { each: true })
   @IsOptional()
   public specializations?: Specialization[];
+
+  @ApiProperty(TrainingProperty.Durations.Description)
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @IsIn(DURATIONS, { each: true })
+  @IsOptional()
+  public durations?: Duration[];
+
+  @ApiProperty({ ...TrainingProperty.CoachId.Description, required: false })
+  @IsString()
+  @ValidateIf((o) => o.coachId !== '')
+  @IsMongoId()
+  @IsOptional()
+  public coachId?: string;
 }

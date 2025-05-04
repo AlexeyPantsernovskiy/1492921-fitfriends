@@ -273,6 +273,15 @@ export const TrainingProperty = {
       required: false,
     },
   },
+  Durations: {
+    Description: {
+      description: 'Возможные длительности тренировки',
+      enum: DURATIONS,
+      isArray: true,
+      example: [DURATIONS[1], DURATIONS[3]],
+      required: false,
+    },
+  },
   MaxAllPrice: {
     Description: {
       description: 'Максимальная цена из всех тренировок',

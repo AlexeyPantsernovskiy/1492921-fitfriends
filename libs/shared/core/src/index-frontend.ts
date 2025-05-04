@@ -1,4 +1,5 @@
 export * from './lib/constants/data';
+export * from './lib/constants/file-vault.constant';
 export * from './lib/constants/user.constant';
 export * from './lib/constants/training.constant';
 

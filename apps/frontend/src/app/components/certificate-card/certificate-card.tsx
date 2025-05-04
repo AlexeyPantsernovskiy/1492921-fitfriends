@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { Icon } from '@frontend/types/component';
 import { FlatButton, IconButton } from '@frontend/components';
+import { FileLoading } from '@project/shared';
 
 type CertificateCardProps = {
   certificate: string;
@@ -66,7 +67,7 @@ function CertificateCard({
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept=".pdf"
+        accept={FileLoading.Certificate.Accept}
         style={{ display: 'none' }}
         id="certificate-upload"
       />

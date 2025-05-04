@@ -20,6 +20,7 @@ import {
 } from '@frontend/components';
 
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
+import { FileLoading } from '@project/shared';
 
 function Certificates(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -81,7 +82,7 @@ function Certificates(): JSX.Element {
           type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
-          accept=".pdf,application/pdf"
+          accept={FileLoading.Certificate.Accept}
           style={{ display: 'none' }}
           multiple
         />

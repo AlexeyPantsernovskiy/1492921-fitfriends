@@ -2,7 +2,7 @@ import { ToggleRadioCaptionSize } from '@frontend/types/component';
 import classNames from 'classnames';
 import { JSX } from 'react';
 
-type ToggleRadioProps = {
+type CustomToggleRadioProps = {
   classPrefix: string;
   name: string;
   items: object;
@@ -11,14 +11,14 @@ type ToggleRadioProps = {
   captionSize?: ToggleRadioCaptionSize;
 };
 
-const ToggleRadio = ({
+const CustomToggleRadio = ({
   classPrefix,
   name,
   items,
   caption,
   value,
   captionSize = ToggleRadioCaptionSize.Normal,
-}: ToggleRadioProps): JSX.Element => {
+}: CustomToggleRadioProps): JSX.Element => {
   return (
     <div className={`${classPrefix}__${captionSize.classDiv}`}>
       <span className={`${classPrefix}__${captionSize.classCaption}`}>
@@ -51,4 +51,4 @@ const ToggleRadio = ({
   );
 };
 
-export default ToggleRadio;
+export default CustomToggleRadio;

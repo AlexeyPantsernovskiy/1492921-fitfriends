@@ -107,10 +107,16 @@ export const createTraining = createAsyncThunk<
 
 export const updateTraining = createAsyncThunk<
   TrainingRdo,
-  FormData,
+  { trainingId: string; formData: FormData },
   { extra: ApiExtra }
->(TrainingAction.TrainingUpdate, async (training, { extra }) => {
-  const { api } = extra;
-  const { data } = await api.patch<TrainingRdo>(ApiRoute.Trainings, training);
-  return data;
-});
+>(
+  TrainingAction.TrainingUpdate,
+  async ({ trainingId, formData }, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.patch<TrainingRdo>(
+      `${ApiRoute.Trainings}/${trainingId}`,
+      formData
+    );
+    return data;
+  }
+);

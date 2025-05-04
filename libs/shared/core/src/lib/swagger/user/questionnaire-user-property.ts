@@ -121,7 +121,7 @@ export const QuestionnaireUserProperty = {
     },
     Validate: {
       ...UserLimit.CertificateFile,
-      Message: 'Разрешено загружать фото в формате .pdf',
+      Message: 'Разрешено загружать файл в формате .pdf',
     },
   },
   Achievements: {

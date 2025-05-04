@@ -70,7 +70,11 @@ export class TrainingService {
       throw new BadRequestException('Поле ID не должно быть в теле запроса');
     }
     for (const [key, value] of Object.entries(dto)) {
-      if (value && value !== undefined && existTraining[key] !== value) {
+      if (
+        ((value && value !== undefined) ||
+          typeof existTraining[key] === 'boolean') &&
+        existTraining[key] !== value
+      ) {
         existTraining[key] = value;
       }
     }

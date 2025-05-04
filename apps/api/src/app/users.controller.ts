@@ -7,7 +7,6 @@ import {
   ForbiddenException,
   Get,
   HttpCode,
-  HttpStatus,
   InternalServerErrorException,
   NotFoundException,
   Param,
@@ -24,13 +23,10 @@ import {
 import {
   ApiBearerAuth,
   ApiConsumes,
-  ApiExtraModels,
-  ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiResponse,
   ApiTags,
-  getSchemaPath,
 } from '@nestjs/swagger';
 import FormData from 'form-data';
 
@@ -44,7 +40,6 @@ import {
   QuestionnaireParam,
   QuestionnaireRdo,
   QuestionnaireUserProperty,
-  QuestionnaireUserRdo,
   QuestionnaireUserResponse,
   User,
   UserOperation,
@@ -452,7 +447,6 @@ export class UsersController {
       ...questionnaire.certificates.slice(0, index),
       ...questionnaire.certificates.slice(index + 1),
     ];
-    console.log('updatedCertificates', updatedCertificates);
     const { data: newQuestionnaire } = await this.httpService.axiosRef.put(
       `${ApplicationServiceURL.Users}/${userId}/questionnaire-coach`,
       { ...questionnaire, certificates: updatedCertificates }

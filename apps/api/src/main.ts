@@ -6,8 +6,6 @@ import {
   BearerAuth,
   BearerAuthOption,
   DefaultPort,
-  QuestionnaireCoachRdo,
-  QuestionnaireUserRdo,
 } from '@project/shared-core';
 
 import { AppModule } from './app/app.module';

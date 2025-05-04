@@ -1,5 +1,7 @@
 import { JSX } from 'react';
 
+import { FileLoading } from '@project/shared';
+
 type AvatarProps = {
   photo: string | undefined;
   disabled?: boolean;
@@ -29,7 +31,7 @@ const Avatar = ({
           className="visually-hidden"
           type="file"
           id="avatar"
-          accept="image/png, image/jpeg"
+          accept={FileLoading.Avatar.Accept}
           disabled={disabled}
           onChange={handleFileChange}
         />

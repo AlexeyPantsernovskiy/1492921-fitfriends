@@ -91,7 +91,7 @@ export const getUser = createAsyncThunk<UserRdo, string, { extra: ApiExtra }>(
 
 export const logoutUser = createAsyncThunk<void, undefined>(
   UserAction.LogoutUser,
-  async (_arg) => {
+  async () => {
     Token.drop();
   }
 );

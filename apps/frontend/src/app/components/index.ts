@@ -8,7 +8,6 @@ import Logo from './logo/logo';
 import Password from './password/password';
 import PrivateRoute from './private-route/private-route';
 import CustomSelect from './custom-select/custom-select';
-import ToggleRadio from './toggle-radio/toggle-radio';
 import Spinner from './spinner/spinner';
 import Wrapper from './wrapper/wrapper';
 import WrapperMain from './wrapper/wrapper-main';
@@ -39,6 +38,10 @@ import TrainingCatalogFilter from './training-catalog-filter/training-catalog-fi
 import InputRange from './input-range/input-range';
 import CertificateCard from './certificate-card/certificate-card';
 import Certificates from './certificates/certificates';
+import CustomToggleRadio from './custom-toggle-radio/custom-toggle-radio';
+import CustomToggle from './custom-toggle/custom-toggle';
+import CustomToggleList from './custom-toggle-list/custom-toggle-list';
+import InputFile from './input-file/input-file';
 
 export {
   App,
@@ -52,15 +55,17 @@ export {
   CustomInput,
   CustomTextarea,
   Logo,
+  Header,
   Password,
   PrivateRoute,
   CustomSelect,
-  ToggleRadio,
+  CustomToggleRadio,
+  CustomToggle,
+  CustomToggleList,
   Spinner,
   Wrapper,
   WrapperMain,
   WrapperHeaderMain,
-  Header,
   PersonalAccountUser,
   PersonalAccountCoach,
   UserInfo,
@@ -82,5 +87,6 @@ export {
   TrainingCatalogFilter,
   CertificateCard,
   Certificates,
+  InputFile,
 };
 export type { CustomInputProps };

@@ -10,79 +10,32 @@ import {
 import { useAppSelector } from '@frontend/src/hooks';
 import { trainingSelectors } from '@frontend/store';
 
-import { InputRange, SliderRange } from '@frontend/components';
+import { CustomToggleList, InputRange } from '@frontend/components';
 import { RangeValue } from '@frontend/types/types';
 
 type SortValue = SortDirection | null;
 
-export type SpecializationCheckBoxProps = {
+type SortElementProps = {
   caption: string;
-  value: string;
   checked: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function SpecializationCheckBox({
+function SortElement({
   caption,
-  value,
   checked,
   onChange,
-}: SpecializationCheckBoxProps): JSX.Element {
+}: SortElementProps): JSX.Element {
   return (
-    <div className="custom-toggle custom-toggle--checkbox">
-      <label>
-        <input
-          type="checkbox"
-          name="type"
-          value={value}
-          defaultChecked={checked}
-          onChange={onChange}
-        />
-        <span className="custom-toggle__icon">
-          <svg width="9" height="6" aria-hidden="true">
-            <use xlinkHref="#arrow-check"></use>
-          </svg>
-        </span>
-        <span className="custom-toggle__label">{caption}</span>
-      </label>
-    </div>
-  );
-}
-
-type SpecializationCheckListProps = {
-  value: Specialization[];
-  onChange: (selectedItems: Specialization[]) => void;
-};
-
-function SpecializationCheckList({
-  value,
-  onChange,
-}: SpecializationCheckListProps): JSX.Element {
-  const handleTypeChange = (key: Specialization) => {
-    const updateValue = value.includes(key)
-      ? value.filter((item) => item !== key)
-      : [...value, key];
-    onChange(updateValue);
-  };
-
-  return (
-    <div className="gym-catalog-form__block gym-catalog-form__block--type">
-      <h4 className="gym-catalog-form__block-title">Тип</h4>
-      <ul className="gym-catalog-form__check-list">
-        {Object.entries(Specialization).map(([key, item]) => (
-          <li className="gym-catalog-form__check-list-item" key={key}>
-            <SpecializationCheckBox
-              caption={item}
-              value={key}
-              checked={value.includes(key as Specialization)}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleTypeChange(key as Specialization)
-              }
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <label>
+      <input
+        type="radio"
+        name="sort"
+        defaultChecked={checked}
+        onChange={onChange}
+      />
+      <span className="btn-radio-sort__label">{caption}</span>
+    </label>
   );
 }
 
@@ -118,30 +71,6 @@ function SortElementList({
         />
       </div>
     </div>
-  );
-}
-
-type SortElementProps = {
-  caption: string;
-  checked: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-};
-
-function SortElement({
-  caption,
-  checked,
-  onChange,
-}: SortElementProps): JSX.Element {
-  return (
-    <label>
-      <input
-        type="radio"
-        name="sort"
-        defaultChecked={checked}
-        onChange={onChange}
-      />
-      <span className="btn-radio-sort__label">{caption}</span>
-    </label>
   );
 }
 
@@ -200,6 +129,7 @@ function TrainingCatalogFilter({
   return (
     <form className="gym-catalog-form__form">
       <InputRange
+        classPrefix="gym-catalog"
         caption="Цена, ₽"
         classNameSlider="filter-range"
         rangeName="price"
@@ -209,6 +139,7 @@ function TrainingCatalogFilter({
         onChange={setPriceRange}
       />
       <InputRange
+        classPrefix="gym-catalog"
         caption="Калории"
         classNameSlider="filter-range"
         rangeName="calories"
@@ -220,17 +151,22 @@ function TrainingCatalogFilter({
         step={100}
         onChange={setCaloriesRange}
       />
-      <div className="gym-catalog-form__block gym-catalog-form__block--rating">
-        <h4 className="gym-catalog-form__block-title">Рейтинг</h4>
-        <SliderRange
-          className="filter-raiting"
-          minRangeValue={TrainingProperty.Rating.Validate.Min}
-          maxRangeValue={TrainingProperty.Rating.Validate.Max}
-          isShowValues={true}
-          onChange={setRatingRange}
-        />
-      </div>
-      <SpecializationCheckList
+      <InputRange
+        classPrefix="gym-catalog"
+        classNameSlider="filter-raiting"
+        caption="Рейтинг"
+        rangeName="rating"
+        minRangeValue={TrainingProperty.Rating.Validate.Min}
+        maxRangeValue={TrainingProperty.Rating.Validate.Max}
+        step={1}
+        isOnlySlider={true}
+        onChange={setRatingRange}
+      />
+      <CustomToggleList
+        classPrefix="gym-catalog"
+        name="type"
+        caption="Тип"
+        items={Specialization}
         value={specialization}
         onChange={setSpecialization}
       />

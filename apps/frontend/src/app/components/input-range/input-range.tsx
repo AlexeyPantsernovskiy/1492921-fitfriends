@@ -9,6 +9,7 @@ const DEBOUNCE_TIME = 500;
 const STEPS_COUNT = 50;
 
 export type InputRangeProps = {
+  classPrefix: string;
   caption: string;
   classNameSlider: string;
   rangeName: string;
@@ -18,10 +19,12 @@ export type InputRangeProps = {
   minValue?: number;
   maxValue?: number;
   step?: number;
+  isOnlySlider?: boolean;
   onChange: (values: RangeValue) => void;
 };
 
 function InputRange({
+  classPrefix,
   caption,
   classNameSlider,
   rangeName,
@@ -31,6 +34,7 @@ function InputRange({
   minValue = minRangeValue,
   maxValue = maxRangeValue,
   step,
+  isOnlySlider = false,
   onChange,
 }: InputRangeProps) {
   const [displayMin, setDisplayMin] = useState(String(minValue));
@@ -117,39 +121,41 @@ function InputRange({
 
   return (
     <div
-      className={`gym-catalog-form__block gym-catalog-form__block--${rangeName}`}
+      className={`${classPrefix}-form__block ${classPrefix}-form__block--${rangeName}`}
     >
-      <h4 className="gym-catalog-form__block-title">{caption}</h4>
-      <div className={`filter-${rangeName}`}>
-        <div
-          className={`filter-${rangeName}__input-text filter-${rangeName}__input-text--min`}
-        >
-          <input
-            type="number"
-            id={minName}
-            name={minName}
-            value={displayMin}
-            onChange={handleInputChange(ToggleRange.Min)}
-            onBlur={handleBlur}
-            onFocus={() => setIsEditing(true)}
-          />
-          <label htmlFor={minName}>от</label>
+      <h4 className={`${classPrefix}-form__block-title`}>{caption}</h4>
+      {!isOnlySlider && (
+        <div className={`filter-${rangeName}`}>
+          <div
+            className={`filter-${rangeName}__input-text filter-${rangeName}__input-text--min`}
+          >
+            <input
+              type="number"
+              id={minName}
+              name={minName}
+              value={displayMin}
+              onChange={handleInputChange(ToggleRange.Min)}
+              onBlur={handleBlur}
+              onFocus={() => setIsEditing(true)}
+            />
+            <label htmlFor={minName}>от</label>
+          </div>
+          <div
+            className={`filter-${rangeName}__input-text filter-${rangeName}__input-text--max`}
+          >
+            <input
+              type="number"
+              id={maxName}
+              name={maxName}
+              value={displayMax}
+              onChange={handleInputChange(ToggleRange.Max)}
+              onBlur={handleBlur}
+              onFocus={() => setIsEditing(true)}
+            />
+            <label htmlFor={maxName}>до</label>
+          </div>
         </div>
-        <div
-          className={`filter-${rangeName}__input-text filter-${rangeName}__input-text--max`}
-        >
-          <input
-            type="number"
-            id={maxName}
-            name={maxName}
-            value={displayMax}
-            onChange={handleInputChange(ToggleRange.Max)}
-            onBlur={handleBlur}
-            onFocus={() => setIsEditing(true)}
-          />
-          <label htmlFor={maxName}>до</label>
-        </div>
-      </div>
+      )}
       <SliderRange
         className={classNameSlider}
         minRangeValue={minRangeValue}
@@ -157,7 +163,7 @@ function InputRange({
         minValue={sliderMin}
         maxValue={sliderMax}
         step={sliderStep}
-        isShowValues={false}
+        isShowValues={isOnlySlider}
         onChange={({ min, max }) => {
           const { min: validMin, max: validMax } = validateValues(min, max);
           setDisplayMin(String(validMin));
