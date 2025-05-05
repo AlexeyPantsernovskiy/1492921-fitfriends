@@ -1,10 +1,12 @@
 import { DefaultPort } from '@project/shared-core';
 
 export const ApplicationServiceURL = {
+  Api: `http://localhost:${DefaultPort.Api}/api`,
   Users: `http://localhost:${DefaultPort.Auth}/api/users`,
   Files: `http://localhost:${DefaultPort.FileVault}/api/files`,
   FileServe: `http://localhost:${DefaultPort.FileVault}/static`,
   Trainings: `http://localhost:${DefaultPort.Trainings}/api/trainings`,
+  Orders: `http://localhost:${DefaultPort.Trainings}/api/orders`,
 } as const;
 
 export const ClientConfig = {

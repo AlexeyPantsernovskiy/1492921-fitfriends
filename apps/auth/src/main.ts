@@ -13,8 +13,8 @@ import {
 
 async function bootstrap() {
   const GLOBAL_PREFIX = 'api';
-  const app = await NestFactory.create(AppModule);
 
+  const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('The User service')
     .setDescription('User service API')

@@ -19,10 +19,6 @@ export const QuestionnaireUserResponse = {
     status: HttpStatus.NOT_FOUND,
     description: 'Опросник не найден',
   },
-  // GetCertificates: {
-  //   status: HttpStatus.OK,
-  //   description: 'Сертификаты и дипломы тренера получены',
-  // },
   UpdateCertificates: {
     type: QuestionnaireCoachRdo,
     status: HttpStatus.OK,

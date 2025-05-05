@@ -7,7 +7,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import {
   CommonResponse,
@@ -22,12 +22,13 @@ import {
 
 import { TrainingService } from './training.service';
 
+@ApiTags('Тренировки')
 @Controller('trainings')
 export class TrainingController {
   constructor(private readonly trainingService: TrainingService) {}
 
   @Get('')
-  @ApiOperation(TrainingOperation.Catalog)
+  @ApiOperation(TrainingOperation.Trainings)
   @ApiResponse(TrainingResponse.Trainings)
   @ApiResponse(CommonResponse.BadRequest)
   public async catalog(@Query() query: TrainingQuery) {

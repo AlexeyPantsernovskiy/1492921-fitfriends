@@ -1,7 +1,7 @@
 export const PaymentType = {
-  visa: 'visa',
-  mir: 'mir',
-  umoney: 'umoney',
+  Visa: 'visa',
+  Mir: 'mir',
+  Umoney: 'umoney',
 } as const;
 
-export type PaymentType = keyof typeof PaymentType;
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType];

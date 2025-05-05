@@ -52,7 +52,6 @@ export class TrainingCommentService {
 
     const newComment = TrainingCommentFactory.composeFromCreateCommentDto(dto);
     await this.trainingCommentRepository.save(newComment);
-    //await this.trainingPostService.updateCommentCount(trainingId, 1);
 
     return newComment;
   }

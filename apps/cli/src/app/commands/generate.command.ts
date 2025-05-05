@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { faker } from '@faker-js/faker/locale/ru';
 import { Logger } from '@nestjs/common';
 
-import { PrismaClient } from '@prisma/client';
+import { PaymentType, PrismaClient } from '@prisma/client';
 
 import {
   Duration,
@@ -11,12 +11,14 @@ import {
   Level,
   LEVELS,
   LOCATIONS,
+  OrderType,
   Sex,
   SEX,
   Specialization,
   SPECIALIZATIONS,
   Training,
   TrainingLimit,
+  TrainingOrder,
   TrainingProperty,
   UserAuth,
   UserLimit,
@@ -38,6 +40,7 @@ import { getErrorMessage } from '@project/shared-helpers';
 export class GenerateCommand implements Command {
   private users: UserAuth[] = [];
   private trainings: Training[] = [];
+  private orders: TrainingOrder[] = [];
 
   private setTrainings(count: number) {
     for (let i = 0; i < count; i++) {
@@ -146,6 +149,60 @@ export class GenerateCommand implements Command {
     }
   }
 
+  private setOrders(count: number) {
+    const randomCountTraining = faker.number.int({ min: 1, max: count });
+    const sportsmans = this.users.filter(
+      (item) => item.role === UserRole.Sportsman
+    );
+    let id = 1;
+    for (let i = 0; i < randomCountTraining; i++) {
+      const training = faker.helpers.arrayElement(this.trainings) as Training;
+      const randomCountUsers = faker.number.int({
+        min: 1,
+        max: sportsmans.length,
+      });
+      for (let j = 0; j < randomCountUsers; j++) {
+        const user = faker.helpers.arrayElement(sportsmans) as UserAuth;
+        if (
+          !this.orders.find(
+            (item) => item.userId === user.id && item.trainingId === training.id
+          )
+        ) {
+          const quantity = faker.number.int({
+            min: TrainingLimit.Quantity.Min,
+            max: TrainingLimit.Quantity.Max,
+          });
+          const doneCount = faker.number.int({
+            min: 0,
+            max: quantity,
+          });
+          this.orders.push({
+            id,
+            type: faker.helpers.arrayElement(
+              Object.values(OrderType)
+            ) as OrderType,
+            trainingId: training.id,
+            userId: user.id,
+            price: training.price,
+            quantity,
+            amount: quantity * training.price,
+            paymentType: faker.helpers.arrayElement(
+              Object.values(PaymentType)
+            ) as PaymentType,
+            isStarted: faker.datatype.boolean(),
+            doneCount,
+            isDone: quantity === doneCount,
+            createDate: faker.date.between({
+              from: training.createDate,
+              to: new Date(),
+            }),
+          });
+          id = id + 1;
+        }
+      }
+    }
+  }
+
   private async createUsers(connectionString: string) {
     await mongoose.connect(connectionString);
     const userModel = mongoose.model('users', UserSchema);
@@ -170,10 +227,28 @@ export class GenerateCommand implements Command {
     await prismaClient.training.deleteMany();
     try {
       for (const training of this.trainings) {
-        await prismaClient.training.create({ data: training });
+        const newTraining = await prismaClient.training.create({
+          data: training,
+        });
+        training.id = newTraining.id;
       }
       console.info(
         `🤘️ ${chalk.green(`В базу данных успешно добавлено ${this.trainings.length} тренировок`)}`
+      );
+    } finally {
+      await prismaClient.$disconnect();
+    }
+  }
+
+  private async createOrders(connectionString: string) {
+    const prismaClient = new PrismaClient({ datasourceUrl: connectionString });
+    await prismaClient.order.deleteMany();
+    try {
+      for (const order of this.orders) {
+        await prismaClient.order.create({ data: order });
+      }
+      console.info(
+        `🤘️ ${chalk.green(`В базу данных успешно добавлены заказы - ${this.orders.length} шт.`)}`
       );
     } finally {
       await prismaClient.$disconnect();
@@ -208,10 +283,20 @@ export class GenerateCommand implements Command {
     try {
       this.setTrainings(countRecords);
       await this.createTrainings(connectionPostgres);
+    } catch (error: unknown) {
+      Logger.error(
+        `\nПроизошла ошибка при попытке создать тренировки\n${chalk.white('Причина: ')}${chalk.yellow(getErrorMessage(error))}`
+      );
+      process.exit(1);
+    }
+    // Создание заказов
+    try {
+      this.setOrders(countRecords);
+      await this.createOrders(connectionPostgres);
       process.exit(0);
     } catch (error: unknown) {
       Logger.error(
-        `\nПроизошла ошибка при попытке создать товары\n${chalk.white('Причина: ')}${chalk.yellow(getErrorMessage(error))}`
+        `\nПроизошла ошибка при попытке создать заказы тренировок\n${chalk.white('Причина: ')}${chalk.yellow(getErrorMessage(error))}`
       );
       process.exit(1);
     }

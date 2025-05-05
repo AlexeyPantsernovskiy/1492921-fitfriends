@@ -6,8 +6,9 @@ import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
   const GLOBAL_PREFIX = 'api';
+
+  const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('The «Training» service')
     .setDescription('Training service API')

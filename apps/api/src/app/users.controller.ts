@@ -67,7 +67,7 @@ import { UpdateUserWithPhotoDto } from './dto/update-user-with-photo.dto';
 import { FillCoachQuestionnaireWithFileDto } from './dto/fill-coach-questionnaire-with-file.dto';
 import { LoadFileCertificateDto } from './dto/load-file-certificate.dto';
 
-@ApiTags('Users')
+@ApiTags('Пользователи')
 @Controller('users')
 @UseFilters(AxiosExceptionFilter)
 export class UsersController {

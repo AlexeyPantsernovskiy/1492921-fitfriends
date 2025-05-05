@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 import { PrismaClientService } from '@project/training-models';
 import { BasePostgresRepository } from '@project/data-access';
@@ -13,8 +14,6 @@ import {
 } from '@project/shared-core';
 
 import { TrainingEntity } from './training.entity';
-
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { TrainingFactory } from './training.factory';
 
 @Injectable()
@@ -180,19 +179,19 @@ export class TrainingRepository extends BasePostgresRepository<
     }
   }
 
-  public async insert(training: TrainingEntity): Promise<TrainingEntity> {
-    const pojoTraining = training.toPOJO();
+  public async insert(entity: TrainingEntity): Promise<TrainingEntity> {
+    const pojoEntity = entity.toPOJO();
     const record = await this.client.training.create({
-      data: pojoTraining,
+      data: pojoEntity,
     });
     return this.createEntityFromDocument(record);
     //return await this.findById(record.id);
   }
 
-  public async update(training: TrainingEntity): Promise<TrainingEntity> {
-    const pojoEntity = training.toPOJO();
+  public async update(entity: TrainingEntity): Promise<TrainingEntity> {
+    const pojoEntity = entity.toPOJO();
     const record = await this.client.training.update({
-      where: { id: training.id },
+      where: { id: entity.id },
       data: pojoEntity,
     });
     return this.createEntityFromDocument(record);

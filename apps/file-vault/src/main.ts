@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const GLOBAL_PREFIX = 'api';
+
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix(GLOBAL_PREFIX);
 

@@ -5,6 +5,7 @@ import { ClientConfig } from './app.config';
 import { UsersController } from './users.controller';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { TrainingsController } from './trainings.controller';
+import { OrderController } from './orders.controller';
 @Module({
   imports: [
     HttpModule.register({
@@ -12,7 +13,7 @@ import { TrainingsController } from './trainings.controller';
       maxRedirects: ClientConfig.HttpMaxRedirects,
     }),
   ],
-  controllers: [UsersController, TrainingsController],
+  controllers: [UsersController, TrainingsController, OrderController],
   providers: [CheckAuthGuard],
 })
 export class AppModule {}

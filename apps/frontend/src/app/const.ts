@@ -61,6 +61,7 @@ export const LimitTrainingCard = {
   SliderPopular: 4,
   SliderFriends: 4,
   MyTraining: 6,
+  MyOrders: 4,
 } as const;
 
 export const LimitPersonalAccount = {

@@ -59,7 +59,7 @@ import { UploadFileInterceptor } from '@project/interceptors';
 import { UploadedFileRdo } from '@project/file-uploader';
 import { UpdateTrainingWithVideoDto } from './dto/update-training-with-video.dto';
 
-@ApiTags('Trainings')
+@ApiTags('Тренировки')
 @Controller('trainings')
 @UseFilters(AxiosExceptionFilter)
 export class TrainingsController {
@@ -79,13 +79,13 @@ export class TrainingsController {
   }
 
   @Get('')
-  @ApiOperation(TrainingOperation.Catalog)
+  @ApiOperation(TrainingOperation.Trainings)
   @ApiResponse(TrainingResponse.Trainings)
   @ApiResponse(CommonResponse.BadRequest)
   @ApiResponse(UserResponse.UserNotAuth)
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
-  public async catalog(@Query() query: TrainingQuery, @Req() req: Request) {
+  public async catalog(@Query() _query: TrainingQuery, @Req() req: Request) {
     const queryString = url.parse(req.url).query;
     const response = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Trainings}?${queryString}`,
@@ -207,6 +207,7 @@ export class TrainingsController {
   @ApiResponse(TrainingResponse.TrainingCreated)
   @ApiResponse(CommonResponse.BadRequest)
   @ApiResponse(TrainingResponse.ForbiddenCreate)
+  @ApiResponse(UserResponse.UserNotAuth)
   @ApiConsumes('multipart/form-data')
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
@@ -246,6 +247,7 @@ export class TrainingsController {
   @ApiResponse(TrainingResponse.TrainingUpdating)
   @ApiResponse(TrainingResponse.ForbiddenUpdate)
   @ApiResponse(CommonResponse.BadRequest)
+  @ApiResponse(UserResponse.UserNotAuth)
   @ApiParam(TrainingParam.TrainingId)
   @ApiConsumes('multipart/form-data')
   @ApiBearerAuth('accessToken')

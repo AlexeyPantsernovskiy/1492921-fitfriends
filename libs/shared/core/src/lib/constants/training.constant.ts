@@ -2,8 +2,6 @@ import { SortDirection } from '../types/sort-direction.enum';
 import { SortType } from '../types/sort-type.enum';
 import { FileLoading } from './file-vault.constant';
 
-//export const NO_UPDATE_FILE = '~~no-update-file~~';
-
 export const TrainingSortDefault = {
   Direction: SortDirection.Desc,
   Type: SortType.Date,
@@ -42,5 +40,9 @@ export const TrainingLimit = {
   Rating: {
     Min: 0,
     Max: 5,
+  },
+  Quantity: {
+    Min: 1,
+    Max: 50,
   },
 };

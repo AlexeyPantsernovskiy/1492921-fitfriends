@@ -48,7 +48,7 @@ POST http://localhost:3000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "Averukyan54@yandex.ru",
+  "email": "Khariton_Blinov@yahoo.com",
   "password": "123456"
 }
 
@@ -86,7 +86,7 @@ Content-Type: application/json
 # Get questionnaire
 GET http://localhost:3000/api/users/questionnaire HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODAwMDFiNmJlZTgxZjcxMGQzMDZhMTQiLCJlbWFpbCI6ImFAYTEucnUiLCJuYW1lIjoiQWxleCIsInJvbGUiOiJjb2FjaCIsImlhdCI6MTc0NTEyMjU5OCwiZXhwIjoxNzQ1MTIzNDk4fQ.X56G591vbSucwu6tJq6avd37fDVuYMbBZcp7RAMK1u4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODE4NGIzMTQ0OGMyMjFhZjI4YjUwOWYiLCJlbWFpbCI6IktoYXJpdG9uX0JsaW5vdkB5YWhvby5jb20iLCJuYW1lIjoi0JLQuNC60YLQvtGAINCh0LjQu9Cw0LXQsiIsInJvbGUiOiJzcG9ydHNtYW4iLCJpYXQiOjE3NDY0MjQxNzksImV4cCI6MTc0NjQyNTA3OX0.yiVslZl8Nrc1fNkgGFV17wRgLrFCSePuEdrJ555xcr0
 
 
 ###
@@ -173,4 +173,9 @@ Content-Disposition: form-data; name="videoFile"; filename="video.mp4"
 
 ###
 
+# Get orders
+GET http://localhost:3000/api/orders HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODE4NGIzMTQ0OGMyMjFhZjI4YjUwOWYiLCJlbWFpbCI6IktoYXJpdG9uX0JsaW5vdkB5YWhvby5jb20iLCJuYW1lIjoi0JLQuNC60YLQvtGAINCh0LjQu9Cw0LXQsiIsInJvbGUiOiJzcG9ydHNtYW4iLCJpYXQiOjE3NDY0MjUxNjksImV4cCI6MTc0NjQyNjA2OX0.a2PrO_grAUzQ77V5Sn3zgCJwK1yCjN6Qrp3U3GPf16Y
 
+###

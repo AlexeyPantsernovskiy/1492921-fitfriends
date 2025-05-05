@@ -137,10 +137,17 @@ export const TrainingProperty = {
       description: 'Идентификатор тренера, создателя тренировки',
       example: '67e1672733fbb513353d7f18',
     },
+    Validate: {
+      Message: 'Идентификатор тренера должен быть корректным MongoID',
+    },
   },
   Coach: {
     Description: {
       description: 'Информация о тренере',
+      example: {
+        name: 'Иван',
+        avatar: 'http://localhost:5000/static/avatar-1.jpg',
+      },
     },
   },
   IsSpecialOffer: {
@@ -156,13 +163,6 @@ export const TrainingProperty = {
       example: new Date().toISOString().split('T')[0],
     },
   },
-  // Coach: {
-  //   Description: {
-  //     description: 'Тренер, создатель тренировки',
-  //     type: UserRdo,
-  //     example: `user object`,
-  //   },
-  // },
   TrainingCatalog: {
     Description: {
       description: 'Каталог тренировок',

@@ -14,23 +14,23 @@ export class TrainingWithPaginationRdo implements TrainingWithPagination {
   @Expose()
   public entities: TrainingRdo[];
 
-  @Expose()
   @ApiProperty(CommonProperty.TotalPages.Description)
+  @Expose()
   public totalPages: number;
 
-  @Expose()
   @ApiProperty(CommonProperty.TotalItems.Description)
+  @Expose()
   public totalItems: number;
 
-  @Expose()
   @ApiProperty(CommonProperty.CurrentPage.Description)
+  @Expose()
   public currentPage: number;
 
-  @Expose()
   @ApiProperty(CommonProperty.ItemsPerPage.Description)
+  @Expose()
   public itemsPerPage: number;
 
-  @Expose()
   @ApiProperty(TrainingProperty.MaxAllPrice.Description)
+  @Expose()
   public maxAllPrice: number;
 }

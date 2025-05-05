@@ -44,6 +44,10 @@ enum PaymentType {
   umoney
 }
 
+enum OrderType {
+  ticket
+  promo
+}
 model Training {
   id             Int       @id @default(autoincrement())
   name           String
@@ -72,7 +76,7 @@ model Comment {
   trainingId     Int       @map("training_id")
   rating         Int
   message        String
-  createdAt      DateTime  @default(now()) @map("created_at")
+  createDate     DateTime  @default(now()) @map("create_date")
   training       Training  @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([trainingId, userId])
@@ -80,14 +84,20 @@ model Comment {
 }
 
 model Order {
-  id             Int       @id @default(autoincrement())
-  trainingId     Int       @map("training_id")
-  userId         String    @map("user_id")
+  id             Int            @id @default(autoincrement())
+  type           OrderType
+  trainingId     Int            @map("training_id")
+  userId         String         @map("user_id")
   price          Int
   quantity       Int
-  paymentType    String    @map("payment_type")
-  createdAt      DateTime  @default(now()) @map("created_at")
-  training       Training  @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  amount         Int
+  paymentType    PaymentType    @map("payment_type")
+  isStarted      Boolean        @map("is_started")
+  doneCount      Int            @map("done_count")
+  isDone         Boolean        @map("is_done")
+  createDate     DateTime       @default(now()) @map("create_date")
+  training       Training       @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("orders")
 }
+

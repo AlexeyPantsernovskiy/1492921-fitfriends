@@ -104,7 +104,7 @@ export class TrainingQuery {
   @ApiProperty({ ...TrainingProperty.CoachId.Description, required: false })
   @IsString()
   @ValidateIf((o) => o.coachId !== '')
-  @IsMongoId()
+  @IsMongoId({ message: TrainingProperty.CoachId.Validate.Message })
   @IsOptional()
   public coachId?: string;
 }
