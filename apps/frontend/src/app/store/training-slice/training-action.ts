@@ -8,6 +8,8 @@ import {
   TrainingQuery,
   TrainingWithCoachRdo,
   TrainingRdo,
+  TrainingMyOrderTotalWithPaginationRdo,
+  TrainingMyOrderQuery,
 } from '@project/shared';
 import { ApiExtra } from '@frontend/src/types/types';
 
@@ -18,6 +20,7 @@ const TrainingAction = {
   GetTraining: 'training/get',
   TrainingCreate: 'training/create',
   TrainingUpdate: 'training/update',
+  GetOrders: 'trainings/orders',
 };
 
 export const getAllTrainings = createAsyncThunk<
@@ -120,3 +123,32 @@ export const updateTraining = createAsyncThunk<
     return data;
   }
 );
+
+export const getOrders = createAsyncThunk<
+  TrainingMyOrderTotalWithPaginationRdo,
+  TrainingMyOrderQuery,
+  { extra: ApiExtra }
+>(TrainingAction.GetOrders, async (query, { extra }) => {
+  const { api } = extra;
+
+  const queryStrings: string[] = [];
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            queryStrings.push(`${key}=${String(item)}`);
+          });
+        } else {
+          queryStrings.push(`${key}=${String(value)}`);
+        }
+      }
+    });
+  }
+
+  const { data } = await api.get<TrainingMyOrderTotalWithPaginationRdo>(
+    `${ApiRoute.Orders}?${queryStrings.join('&')}`
+  );
+
+  return data;
+});

@@ -26,11 +26,17 @@ export type {
 export type { TokenPayloadRdo } from './lib/rdo/user/token-payload.rdo';
 
 export type { Training } from './lib/types/training.interface';
+export type { TrainingMyOrderTotal } from './lib/types/training-my-order-total.interface';
 export type { TrainingWithPagination } from './lib/types/training-with-pagination.type';
+
 export type { TrainingQuery } from './lib/query/training.query';
+export type { TrainingMyOrderQuery } from './lib/query/training-order.query';
+
 export type { TrainingWithPaginationRdo } from './lib/rdo/training/training-with-pagination.rdo';
 export type { TrainingWithCoachRdo } from './lib/rdo/training/training-with-coach.rdo';
 export type { TrainingRdo } from './lib/rdo/training/training.rdo';
+export type { TrainingMyOrderTotalRdo } from './lib/rdo/training/training-order-total.rdo';
+export type { TrainingMyOrderTotalWithPaginationRdo } from './lib/rdo/training/training-order-total-with-pagination.rdo';
 
 export { SortType } from './lib/types/sort-type.enum';
 export { SortDirection } from './lib/types/sort-direction.enum';

@@ -2,6 +2,7 @@ import store from '@frontend/store';
 import { AuthorizationStatus } from '@frontend/src/const';
 import {
   SortType,
+  TrainingMyOrderTotalWithPaginationRdo,
   TrainingRdo,
   TrainingWithCoachRdo,
   TrainingWithPaginationRdo,
@@ -18,6 +19,8 @@ export type TrainingProcess = {
   trainingCatalog: TrainingWithPaginationRdo | null;
   isTrainingCatalogLoading: boolean;
   isSavingTraining: boolean;
+  orders: TrainingMyOrderTotalWithPaginationRdo | null;
+  isOrdersLoading: boolean;
   // trainingComment: TrainingCommentWithPagination | null;
   // isTrainingCommentLoading: boolean;
   // isSuccessAddTrainingComment: boolean;

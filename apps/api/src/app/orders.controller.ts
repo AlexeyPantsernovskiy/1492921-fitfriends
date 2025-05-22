@@ -24,7 +24,7 @@ import * as url from 'node:url';
 import {
   CommonResponse,
   TrainingOperation,
-  TrainingOrderQuery,
+  TrainingMyOrderQuery,
   TrainingOrderRdo,
   TrainingOrderResponse,
   TrainingRdo,
@@ -88,18 +88,18 @@ export class OrderController {
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
   @Get('')
-  public async show(@Query() query: TrainingOrderQuery, @Req() req: Request) {
+  public async show(@Query() query: TrainingMyOrderQuery, @Req() req: Request) {
     const userId = req['user']?.sub;
     const userRole = req['user']?.role;
-    if (query.role) {
+    if (query['role']) {
       new BadRequestException('Параметр role запрещено указывать в запросе');
     }
-    if (query.userId) {
+    if (query['userId']) {
       new BadRequestException('Параметр userId запрещено указывать в запросе');
     }
     const queryString = url.parse(req.url).query;
     const { data: orders } = await this.httpService.axiosRef.get(
-      `${ApplicationServiceURL.Orders}${userRole === UserRole.Coach ? '/total' : ''}?${queryString}&userId=${userId}`,
+      `${ApplicationServiceURL.Orders}${userRole === UserRole.Coach ? '/total' : ''}?${queryString}&userId=${userId}&role=${userRole}`,
       {}
     );
 

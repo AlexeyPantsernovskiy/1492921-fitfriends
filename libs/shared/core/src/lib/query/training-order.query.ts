@@ -2,13 +2,13 @@ import { Transform } from 'class-transformer';
 import {
   IsIn,
   IsMongoId,
-  IsNumber,
+  //IsNumber,
   IsOptional,
   IsString,
   Min,
   ValidateIf,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { OmitType, ApiProperty } from '@nestjs/swagger';
 
 import { TrainingSortDefault } from '../constants/training.constant';
 import { CommonProperty } from '../swagger/common-property';
@@ -44,7 +44,7 @@ export class TrainingOrderQuery {
   @ApiProperty(TrainingOrderProperty.OnlyActive.Description)
   @Transform(({ value }) => value === 'true' || value === true)
   @IsOptional()
-  public activeOnly: boolean;
+  public activeOnly?: boolean;
 
   @ApiProperty({ ...UserProperty.Id.Description, required: false })
   @IsString()
@@ -56,11 +56,16 @@ export class TrainingOrderQuery {
   @ApiProperty({ ...UserProperty.Role.Description, required: false })
   @ValidateIf((o) => o.role !== '')
   @IsIn(Object.values(UserRole))
-  public role: UserRole;
+  public role?: UserRole;
 
-  @ApiProperty({ ...TrainingProperty.Id.Description, required: false })
-  @Transform(({ value }) => parseInt(value, 10))
-  @IsNumber()
-  @IsOptional()
-  public trainingId?: number;
+  // @ApiProperty({ ...TrainingProperty.Id.Description, required: false })
+  // @Transform(({ value }) => parseInt(value, 10))
+  // @IsNumber()
+  // @IsOptional()
+  // public trainingId?: number;
 }
+
+export class TrainingMyOrderQuery extends OmitType(TrainingOrderQuery, [
+  'role',
+  'userId',
+]) {}

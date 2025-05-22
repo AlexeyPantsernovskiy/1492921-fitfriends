@@ -80,9 +80,9 @@ export class TrainingOrderRepository extends BasePostgresRepository<
       where.isDone = false;
     }
 
-    if (query.trainingId) {
-      where.trainingId = query.trainingId;
-    }
+    // if (query.trainingId) {
+    //   where.trainingId = query.trainingId;
+    // }
 
     if (query?.sortBy) {
       orderBy[query.sortBy] = query.sortDirection;

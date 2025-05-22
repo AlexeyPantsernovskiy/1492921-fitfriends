@@ -27,6 +27,7 @@ export { Training } from './lib/types/training.interface';
 export { TrainingWithPagination } from './lib/types/training-with-pagination.type';
 export { TrainingOrder } from './lib/types/training-order.interface';
 export { TrainingOrderTotal } from './lib/types/training-order-total.interface';
+export { TrainingMyOrderTotal } from './lib/types/training-my-order-total.interface';
 export { TrainingOrderWithPagination } from './lib/types/training-order-with-pagination.type';
 export { PaymentType } from './lib/types/payment-type.enum';
 export { OrderType } from './lib/types/order-type.enum';
@@ -83,6 +84,8 @@ export { UpdateOrderStateDto } from './lib/dto/training/update-order-state.dto';
 export { LimitQuery } from './lib/query/limit.query';
 export { TrainingQuery } from './lib/query/training.query';
 export { TrainingOrderQuery } from './lib/query/training-order.query';
+export { TrainingMyOrderQuery } from './lib/query/training-order.query';
+
 export { SpecialForYouQuery } from './lib/query/special-for-you.query';
 
 export { TokenPayloadRdo } from './lib/rdo/user/token-payload.rdo';
@@ -99,5 +102,11 @@ export { TrainingRdo } from './lib/rdo/training/training.rdo';
 export { TrainingWithCoachRdo } from './lib/rdo/training/training-with-coach.rdo';
 export { TrainingOrderRdo } from './lib/rdo/training/training-order.rdo';
 export { TrainingOrderWithPaginationRdo } from './lib/rdo/training/training-order-with-pagination.rdo';
-export { TrainingOrderTotalRdo } from './lib/rdo/training/training-order-total.rdo';
-export { TrainingOrderTotalWithPaginationRdo } from './lib/rdo/training/training-order-total-with-pagination.rdo';
+export {
+  TrainingOrderTotalRdo,
+  TrainingMyOrderTotalRdo,
+} from './lib/rdo/training/training-order-total.rdo';
+export {
+  TrainingOrderTotalWithPaginationRdo,
+  TrainingMyOrderTotalWithPaginationRdo,
+} from './lib/rdo/training/training-order-total-with-pagination.rdo';

@@ -10,6 +10,7 @@ export const AppRoute = {
   CreateTraining: '/create-training',
   Catalog: '/catalog',
   MyTraining: '/my-training',
+  MyOrders: '/my-orders',
   TrainingCard: '/training/:id',
   NotFound: '/404',
 
@@ -31,6 +32,7 @@ export const ApiRoute = {
   UserGetInfo: '/api/users/:userId',
   Trainings: '/api/trainings',
   SpecialForYou: '/api/trainings/special-for-you',
+  Orders: '/api/orders',
 } as const;
 
 export enum AuthorizationStatus {

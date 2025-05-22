@@ -8,6 +8,7 @@ import {
   TrainingOrderQuery,
   TrainingOrderResponse,
   UpdateOrderStateDto,
+  UserRole,
 } from '@project/shared-core';
 
 import { TrainingOrderService } from './training-order.service';
@@ -40,18 +41,20 @@ export class TrainingOrderController {
   @ApiResponse(CommonResponse.BadRequest)
   @Get('')
   public async show(@Query() query: TrainingOrderQuery) {
-    console.log('query', query);
-    const orders = await this.trainingOrderService.getOrders(query);
+    const orders =
+      query.role === UserRole.Coach
+        ? await this.trainingOrderService.getOrders(query)
+        : await this.trainingOrderService.getOrdersTotal(query);
     return orders;
   }
 
-  @ApiOperation(TrainingOperation.UpdateOrderState)
-  @ApiResponse(TrainingOrderResponse.OrderUpdating)
-  @ApiResponse(TrainingOrderResponse.ForbiddenUpdate)
-  @ApiResponse(CommonResponse.BadRequest)
-  @Put('')
-  public async updateTrainingState(@Body() dto: UpdateOrderStateDto) {
-    const order = await this.trainingOrderService.updateState(dto);
-    return order;
-  }
+  // @ApiOperation(TrainingOperation.UpdateOrderState)
+  // @ApiResponse(TrainingOrderResponse.OrderUpdating)
+  // @ApiResponse(TrainingOrderResponse.ForbiddenUpdate)
+  // @ApiResponse(CommonResponse.BadRequest)
+  // @Put('')
+  // public async updateTrainingState(@Body() dto: UpdateOrderStateDto) {
+  //   const order = await this.trainingOrderService.updateState(dto);
+  //   return order;
+  // }
 }
