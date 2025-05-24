@@ -10,6 +10,7 @@ import TrainingCard from './training-card/training-card';
 import TrainingCatalog from './training-catalog/training-catalog';
 import QuestionnaireCoach from './questionnaire/questionnaire-coach';
 import MyOrders from './my-orders/my-orders';
+import MyPurchases from './my-purchases/my-purchases';
 
 export {
   Main,
@@ -24,4 +25,5 @@ export {
   TrainingCard,
   TrainingCatalog,
   MyOrders,
+  MyPurchases,
 };

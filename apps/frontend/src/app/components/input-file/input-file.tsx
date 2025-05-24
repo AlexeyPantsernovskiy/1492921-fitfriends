@@ -5,14 +5,12 @@ import { FileTypeLoading } from '@frontend/types/types';
 type InputFileProps = {
   classPrefix?: string;
   fileType: FileTypeLoading;
-  //disabled?: boolean;
   onChange: (file: File | null) => void;
 };
 
 const InputFile = ({
   classPrefix,
   fileType,
-  //disabled = false,
   onChange,
 }: InputFileProps): JSX.Element => {
   const [fileName, setFileName] = useState<string>(fileType.Placeholder);

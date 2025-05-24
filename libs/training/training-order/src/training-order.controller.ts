@@ -43,8 +43,8 @@ export class TrainingOrderController {
   public async show(@Query() query: TrainingOrderQuery) {
     const orders =
       query.role === UserRole.Coach
-        ? await this.trainingOrderService.getOrders(query)
-        : await this.trainingOrderService.getOrdersTotal(query);
+        ? await this.trainingOrderService.getOrdersTotal(query)
+        : await this.trainingOrderService.getOrders(query);
     return orders;
   }
 

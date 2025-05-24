@@ -18,6 +18,7 @@ import {
   createTraining,
   updateTraining,
   getOrders,
+  getPurchases,
 } from './training-action';
 
 const initialState: TrainingProcess = {
@@ -171,7 +172,11 @@ export const trainingProcess = createSlice({
 
       .addCase(getOrders.pending, startLoadingOrders)
       .addCase(getOrders.fulfilled, endLoadingOrders)
-      .addCase(getOrders.rejected, errorLoadingOrders);
+      .addCase(getOrders.rejected, errorLoadingOrders)
+
+      .addCase(getPurchases.pending, startLoadingTrainings)
+      .addCase(getPurchases.fulfilled, endLoadingTrainings)
+      .addCase(getPurchases.rejected, errorLoadingTrainings);
   },
   selectors: {
     isTrainingsLoading: (state) => state.isTrainingsLoading,

@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 
 import { ApiRoute, AppRoute, LimitTrainingCard } from '@frontend/src/const';
+
 import {
   TrainingWithPaginationRdo,
   TrainingQuery,
@@ -12,6 +13,7 @@ import {
   TrainingMyOrderQuery,
 } from '@project/shared';
 import { ApiExtra } from '@frontend/src/types/types';
+import { queryToString } from '@frontend/src/utils';
 
 const TrainingAction = {
   GetAllTrainings: 'trainings/all',
@@ -21,6 +23,7 @@ const TrainingAction = {
   TrainingCreate: 'training/create',
   TrainingUpdate: 'training/update',
   GetOrders: 'trainings/orders',
+  GetPurchases: 'trainings/purchases',
 };
 
 export const getAllTrainings = createAsyncThunk<
@@ -39,26 +42,9 @@ export const getTrainings = createAsyncThunk<
   { extra: ApiExtra }
 >(TrainingAction.GetTrainings, async (query, { extra }) => {
   const { api } = extra;
-
-  const queryStrings: string[] = [];
-  if (query) {
-    Object.entries(query).forEach(([key, value]) => {
-      if (value !== undefined) {
-        if (Array.isArray(value)) {
-          value.forEach((item) => {
-            queryStrings.push(`${key}=${String(item)}`);
-          });
-        } else {
-          queryStrings.push(`${key}=${String(value)}`);
-        }
-      }
-    });
-  }
-
   const { data } = await api.get<TrainingWithPaginationRdo>(
-    `${ApiRoute.Trainings}?${queryStrings.join('&')}`
+    `${ApiRoute.Trainings}?${queryToString(query)}`
   );
-
   return data;
 });
 
@@ -130,25 +116,20 @@ export const getOrders = createAsyncThunk<
   { extra: ApiExtra }
 >(TrainingAction.GetOrders, async (query, { extra }) => {
   const { api } = extra;
-
-  const queryStrings: string[] = [];
-  if (query) {
-    Object.entries(query).forEach(([key, value]) => {
-      if (value !== undefined) {
-        if (Array.isArray(value)) {
-          value.forEach((item) => {
-            queryStrings.push(`${key}=${String(item)}`);
-          });
-        } else {
-          queryStrings.push(`${key}=${String(value)}`);
-        }
-      }
-    });
-  }
-
   const { data } = await api.get<TrainingMyOrderTotalWithPaginationRdo>(
-    `${ApiRoute.Orders}?${queryStrings.join('&')}`
+    `${ApiRoute.Orders}?${queryToString(query)}`
   );
+  return data;
+});
 
+export const getPurchases = createAsyncThunk<
+  TrainingWithPaginationRdo,
+  TrainingMyOrderQuery,
+  { extra: ApiExtra }
+>(TrainingAction.GetPurchases, async (query, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<TrainingWithPaginationRdo>(
+    `${ApiRoute.Orders}?${queryToString(query)}`
+  );
   return data;
 });

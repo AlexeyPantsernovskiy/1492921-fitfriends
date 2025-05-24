@@ -12,10 +12,9 @@ export const AppRoute = {
   MyTraining: '/my-training',
   MyOrders: '/my-orders',
   TrainingCard: '/training/:id',
-  NotFound: '/404',
-
   Friends: '/friends',
-  Purchases: '/purchases',
+  MyPurchases: '/my-purchases',
+  NotFound: '/404',
 } as const;
 
 export const ApiRoute = {
@@ -64,6 +63,7 @@ export const LimitTrainingCard = {
   SliderFriends: 4,
   MyTraining: 6,
   MyOrders: 4,
+  MyPurchases: 3,
 } as const;
 
 export const LimitPersonalAccount = {
@@ -77,3 +77,5 @@ export const ToggleRange = {
   Min: 'min',
   Max: 'max',
 } as const;
+
+export const DEFAULT_FILTER_PURCHASE_ACTIVE = true;

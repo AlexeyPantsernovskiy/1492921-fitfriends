@@ -68,8 +68,8 @@ export class TrainingOrderRepository extends BasePostgresRepository<
   public async findByUserId(
     query: TrainingOrderQuery
   ): Promise<PaginationResult<TrainingOrderEntity>> {
-    const skip =
-      query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const page = query?.page ?? 1;
+    const skip = page && query?.limit ? (page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.OrderWhereInput = {};
     const orderBy: Prisma.OrderOrderByWithRelationInput = {};
@@ -99,7 +99,7 @@ export class TrainingOrderRepository extends BasePostgresRepository<
 
     return {
       entities: records.map((record) => this.createEntityFromDocument(record)),
-      currentPage: query?.page,
+      currentPage: page,
       totalPages: calculatePage(count, take),
       itemsPerPage: take,
       totalItems: count,
@@ -110,6 +110,9 @@ export class TrainingOrderRepository extends BasePostgresRepository<
     query: TrainingOrderQuery
   ): Promise<PaginationResult<TrainingOrderTotal>> {
     const { limit, userId, sortBy, sortDirection } = query;
+    const page = query?.page ?? 1;
+    const skip = page && query?.limit ? (page - 1) * query.limit : undefined;
+    const take = query?.limit;
     try {
       const orderBy = sortBy
         ? Prisma.sql`ORDER BY ${Prisma.raw(sortBy)} ${Prisma.raw(sortDirection || 'DESC')}`
@@ -140,9 +143,9 @@ export class TrainingOrderRepository extends BasePostgresRepository<
       const count = records[0].count;
       return {
         entities: records.map(({ count, createdate, ...rest }) => rest),
-        currentPage: 1,
-        totalPages: calculatePage(count, limit),
-        itemsPerPage: limit,
+        currentPage: page,
+        totalPages: calculatePage(count, take),
+        itemsPerPage: take,
         totalItems: count,
       };
     } catch (error) {

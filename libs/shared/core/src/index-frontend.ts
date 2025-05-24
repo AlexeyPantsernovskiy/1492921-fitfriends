@@ -26,6 +26,7 @@ export type {
 export type { TokenPayloadRdo } from './lib/rdo/user/token-payload.rdo';
 
 export type { Training } from './lib/types/training.interface';
+export type { TrainingOrderWithTraining } from './lib/types/training-order-with-training.type';
 export type { TrainingMyOrderTotal } from './lib/types/training-my-order-total.interface';
 export type { TrainingWithPagination } from './lib/types/training-with-pagination.type';
 

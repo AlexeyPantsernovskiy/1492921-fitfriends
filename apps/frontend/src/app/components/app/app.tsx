@@ -21,6 +21,7 @@ import {
   Login,
   Main,
   MyOrders,
+  MyPurchases,
   NotFound,
   PersonalAccount,
   QuestionnaireCoach,
@@ -204,6 +205,17 @@ const App = (): JSX.Element => (
                 redirectTo={AppRoute.Root}
               >
                 <MyOrders />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.MyPurchases}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <MyPurchases />
               </PrivateRoute>
             }
           />

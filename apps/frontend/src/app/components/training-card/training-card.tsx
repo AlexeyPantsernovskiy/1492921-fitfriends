@@ -4,17 +4,20 @@ import {
   Specialization,
   Training,
   TrainingMyOrderTotal,
+  TrainingOrderWithTraining,
 } from '@project/shared';
 import { AppRoute } from '@frontend/const';
 
 interface TrainingCardProps {
-  training: Training | TrainingMyOrderTotal;
+  training: Training | TrainingOrderWithTraining | TrainingMyOrderTotal;
 }
 
 function TrainingCard({ training }: TrainingCardProps): JSX.Element {
+  const isOrder = (training as TrainingMyOrderTotal).quantity !== undefined;
   const isCardWithTotal =
-    (training as TrainingMyOrderTotal).quantity !== undefined;
-  const trainingInfo = isCardWithTotal
+    (training as TrainingMyOrderTotal).quantity !== undefined &&
+    (training as TrainingOrderWithTraining).isStarted === undefined;
+  const trainingInfo = isOrder
     ? (training as TrainingMyOrderTotal).training
     : (training as Training);
   return (

@@ -71,8 +71,6 @@ function MyOrders(): JSX.Element {
   };
 
   useEffect(() => {
-    // Сбрасываем лимит при изменении фильтров
-    setLimit(LimitTrainingCard.MyOrders);
     dispatch(
       getOrders({
         limit,
