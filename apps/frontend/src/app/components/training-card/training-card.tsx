@@ -15,8 +15,7 @@ interface TrainingCardProps {
 function TrainingCard({ training }: TrainingCardProps): JSX.Element {
   const isOrder = (training as TrainingMyOrderTotal).quantity !== undefined;
   const isCardWithTotal =
-    (training as TrainingMyOrderTotal).quantity !== undefined &&
-    (training as TrainingOrderWithTraining).isStarted === undefined;
+    isOrder && (training as TrainingMyOrderTotal)?.quantity > 0;
   const trainingInfo = isOrder
     ? (training as TrainingMyOrderTotal).training
     : (training as Training);

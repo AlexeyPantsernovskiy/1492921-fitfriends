@@ -1,4 +1,5 @@
 import { MouseEvent, JSX, useState, useRef } from 'react';
+import classNames from 'classnames';
 
 import { currencyParser } from '@frontend/src/utils';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
@@ -16,6 +17,7 @@ import {
   FilledButton,
   FlatButton,
   InputFile,
+  PopupFormBuy,
   Spinner,
 } from '@frontend/components';
 import {
@@ -25,9 +27,7 @@ import {
   InputType,
   FileLoadingInput,
 } from '@frontend/types/component';
-import classNames from 'classnames';
 import { DISCOUNT } from '@frontend/const';
-import { privateDecrypt } from 'node:crypto';
 
 export type HashTagProps = {
   text: string;
@@ -57,12 +57,17 @@ function TrainingInfo(): JSX.Element {
   const [isSpecialOffer, setIsSpecialOffer] = useState(
     training?.isSpecialOffer
   );
+  const [showModal, setShowModal] = useState(false);
 
   if (!training || !user) {
     return <Spinner />;
   }
 
   const isMyTraining = user.id === training.coachId;
+
+  const handleModalFormClose = () => {
+    setShowModal(false);
+  };
 
   const formatDisplayValue = (value: string | number) => {
     const number = currencyParser(value);
@@ -85,7 +90,7 @@ function TrainingInfo(): JSX.Element {
 
   const HandlePurchaseButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    alert('Пока не готово!');
+    setShowModal(true);
   };
   const HandleStartButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -174,6 +179,10 @@ function TrainingInfo(): JSX.Element {
       }
     }
   };
+
+  if (showModal && training) {
+    return <PopupFormBuy onClose={handleModalFormClose} training={training} />;
+  }
 
   return (
     <div

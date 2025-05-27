@@ -28,6 +28,8 @@ export default store;
 export { userSelectors } from './user-slice/user-process';
 export const { logout } = userProcess.actions;
 export { trainingSelectors } from './training-slice/training-process';
+export { orderSelectors } from './order-slice/order-process';
 
 export * from './user-slice/user-action';
 export * from './training-slice/training-action';
+export * from './order-slice/order-action';

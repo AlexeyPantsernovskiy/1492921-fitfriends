@@ -27,14 +27,14 @@ export class TrainingOrderService {
 
   public async getOrders(
     query: TrainingOrderQuery
-  ): Promise<TrainingOrderWithPaginationRdo | null> {
-    const ordersWithPagination =
-      await this.trainingOrderRepository.findByUserId(query);
-
-    return {
-      ...ordersWithPagination,
-      entities: ordersWithPagination.entities.map((item) => item.toPOJO()),
-    };
+    //  ): Promise<TrainingOrderWithPaginationRdo | null> {
+  ): Promise<TrainingOrderTotalWithPaginationRdo | null> {
+    //const ordersWithPagination =
+    return await this.trainingOrderRepository.findTrainingByUserId(query);
+    // return {
+    //   ...ordersWithPagination,
+    //   entities: ordersWithPagination.entities.map((item) => item.toPOJO()),
+    // };
   }
 
   public async getOrdersTotal(

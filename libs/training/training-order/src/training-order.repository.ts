@@ -80,9 +80,9 @@ export class TrainingOrderRepository extends BasePostgresRepository<
       where.isDone = false;
     }
 
-    // if (query.trainingId) {
-    //   where.trainingId = query.trainingId;
-    // }
+    if (query.trainingId) {
+      where.trainingId = query.trainingId;
+    }
 
     if (query?.sortBy) {
       orderBy[query.sortBy] = query.sortDirection;
@@ -106,11 +106,55 @@ export class TrainingOrderRepository extends BasePostgresRepository<
     };
   }
 
+  public async findTrainingByUserId(
+    query: TrainingOrderQuery
+  ): Promise<PaginationResult<TrainingOrderTotal>> {
+    const { limit, userId, activeOnly, page = 1 } = query;
+    const skip = page && query?.limit ? (page - 1) * query.limit : undefined;
+    const take = query?.limit;
+    try {
+      const records = await this.client.$queryRaw<any[]>`
+        SELECT
+          o.training_id as "trainingId",
+          max(o.create_date) createDate,
+          0::int as quantity,
+          price::int as amount,
+          (count(1) over())::int count
+        FROM
+          orders o
+        WHERE
+          o.user_id = '${Prisma.raw(userId)}'
+          ${activeOnly ? Prisma.sql`AND NOT o.is_done` : Prisma.empty}
+        GROUP BY
+          o.training_id,
+          o.price
+        ORDER BY
+          createDate DESC
+        LIMIT ${limit}
+        OFFSET ${skip}
+      `;
+
+      if (records.length === 0) {
+        return null;
+      }
+      const count = records[0].count;
+      return {
+        entities: records.map(({ count, createdate, ...rest }) => rest),
+        currentPage: page,
+        totalPages: calculatePage(count, take),
+        itemsPerPage: take,
+        totalItems: count,
+      };
+    } catch (error) {
+      this.logger.error('Ошибка при отборе купленных тренировок', error);
+      return null;
+    }
+  }
+
   public async findByCoachId(
     query: TrainingOrderQuery
   ): Promise<PaginationResult<TrainingOrderTotal>> {
-    const { limit, userId, sortBy, sortDirection } = query;
-    const page = query?.page ?? 1;
+    const { page = 1, limit, userId, sortBy, sortDirection } = query;
     const skip = page && query?.limit ? (page - 1) * query.limit : undefined;
     const take = query?.limit;
     try {
@@ -135,6 +179,7 @@ export class TrainingOrderRepository extends BasePostgresRepository<
           o.training_id
         ${orderBy}
         LIMIT ${limit}
+        OFFSET ${skip}
       `;
 
       if (records.length === 0) {

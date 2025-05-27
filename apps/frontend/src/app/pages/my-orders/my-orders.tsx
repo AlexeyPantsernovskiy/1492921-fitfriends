@@ -8,7 +8,7 @@ import {
   Spinner,
   TrainingCard,
 } from '@frontend/components';
-import { getOrders, trainingSelectors } from '@frontend/store';
+import { getOrders, orderSelectors } from '@frontend/store';
 import { ButtonType } from '@frontend/types/component';
 import { LimitTrainingCard } from '@frontend/const';
 
@@ -49,8 +49,8 @@ const ButtonSort = ({
 
 function MyOrders(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(trainingSelectors.isOrdersLoading);
-  const orders = useAppSelector(trainingSelectors.orders);
+  const isLoading = useAppSelector(orderSelectors.isOrdersLoading);
+  const orders = useAppSelector(orderSelectors.orders);
 
   const [limit, setLimit] = useState<number>(LimitTrainingCard.MyOrders);
   const [sortBy, setSortBy] = useState<SortType>();

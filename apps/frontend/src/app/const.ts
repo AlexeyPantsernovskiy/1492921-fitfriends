@@ -42,7 +42,7 @@ export enum AuthorizationStatus {
 
 export enum StoreSlice {
   TrainingProcess = 'TRAINING_PROCESS',
-  SiteProcess = 'SITE_PROCESS',
+  OrderProcess = 'ORDER_PROCESS',
   UserProcess = 'USER_PROCESS',
 }
 
@@ -63,7 +63,7 @@ export const LimitTrainingCard = {
   SliderFriends: 4,
   MyTraining: 6,
   MyOrders: 4,
-  MyPurchases: 3,
+  MyPurchases: 6,
 } as const;
 
 export const LimitPersonalAccount = {

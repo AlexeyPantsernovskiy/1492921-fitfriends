@@ -2,7 +2,7 @@ import { OrderType } from './order-type.enum';
 import { PaymentType } from './payment-type.enum';
 
 export interface TrainingOrder {
-  id: number;
+  id?: number;
   type: OrderType;
   trainingId: number;
   userId: string;

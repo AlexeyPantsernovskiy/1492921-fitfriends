@@ -30,13 +30,13 @@ import {
   TrainingRdo,
   UserResponse,
   UserRole,
+  CreatePurchaseDto,
 } from '@project/shared-core';
 
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { InjectUserIdInterceptor } from './interceptors/inject-user-id.interceptor';
-import { CreateTrainingOrderDto } from './dto/create-training-order.dto';
 import { UpdateTrainingOrderStateDto } from './dto/update-training-order-state.dto';
 
 @ApiTags('Заказы (покупки)')
@@ -54,10 +54,7 @@ export class OrderController {
   @UseInterceptors(InjectUserIdInterceptor)
   @UseGuards(CheckAuthGuard)
   @Post('')
-  public async create(
-    @Body() dto: CreateTrainingOrderDto,
-    @Req() req: Request
-  ) {
+  public async create(@Body() dto: CreatePurchaseDto, @Req() req: Request) {
     const userId = req['user']?.sub;
     const userRole = req['user']?.role;
     if (userRole === UserRole.Coach) {
@@ -113,6 +110,7 @@ export class OrderController {
             },
           }
         );
+        training.price = order.amount;
         delete order.trainingId;
         return {
           ...order,

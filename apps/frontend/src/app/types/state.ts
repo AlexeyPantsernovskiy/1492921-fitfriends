@@ -1,7 +1,6 @@
 import store from '@frontend/store';
 import { AuthorizationStatus } from '@frontend/src/const';
 import {
-  SortType,
   TrainingMyOrderTotalWithPaginationRdo,
   TrainingRdo,
   TrainingWithCoachRdo,
@@ -18,16 +17,16 @@ export type TrainingProcess = {
   isTrainingLoading: boolean;
   trainingCatalog: TrainingWithPaginationRdo | null;
   isTrainingCatalogLoading: boolean;
-  isSavingTraining: boolean;
-  orders: TrainingMyOrderTotalWithPaginationRdo | null;
-  isOrdersLoading: boolean;
+  isTrainingSaving: boolean;
   // trainingComment: TrainingCommentWithPagination | null;
   // isTrainingCommentLoading: boolean;
   // isSuccessAddTrainingComment: boolean;
 };
 
-export type SiteProcess = {
-  sorting: SortType;
+export type OrderProcess = {
+  orders: TrainingMyOrderTotalWithPaginationRdo | null;
+  isOrdersLoading: boolean;
+  isOrderSaving: boolean;
 };
 
 export type UserProcess = {

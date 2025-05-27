@@ -1,6 +1,6 @@
 import { CustomInputProps } from '@frontend/components';
 import { DISCOUNT } from '@frontend/const';
-import { FileLoading } from '@project/shared';
+import { FileLoading, PaymentType } from '@project/shared';
 
 export const SpinnerText = {
   Loading: 'Загрузка...',
@@ -149,6 +149,24 @@ export const Icon = {
     width: 14,
     height: 14,
   },
+  Close: {
+    caption: 'Close',
+    name: 'icon-cross',
+    width: 20,
+    height: 20,
+  },
+  Minus: {
+    caption: 'Minus',
+    name: 'icon-minus',
+    width: 12,
+    height: 12,
+  },
+  Plus: {
+    caption: 'Plus',
+    name: 'icon-plus',
+    width: 12,
+    height: 12,
+  },
 } as const;
 export type IconAttr = (typeof Icon)[keyof typeof Icon];
 export type IconName = (typeof Icon)[keyof typeof Icon]['name'];
@@ -200,4 +218,10 @@ export const FileLoadingInput = {
     ...FileLoading.Photo,
     Icon: Icon.LoadFile,
   },
+} as const;
+
+export const PayType = {
+  Visa: { code: PaymentType.Visa, logo: 'visa-logo', label: 'Visa.' },
+  Mir: { code: PaymentType.Mir, logo: 'mir-logo', label: 'Мир.' },
+  Umoney: { code: PaymentType.Umoney, logo: 'iomoney-logo', label: 'Iomoney.' },
 } as const;

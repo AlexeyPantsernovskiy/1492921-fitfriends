@@ -42,6 +42,8 @@ import CustomToggleRadio from './custom-toggle-radio/custom-toggle-radio';
 import CustomToggle from './custom-toggle/custom-toggle';
 import CustomToggleList from './custom-toggle-list/custom-toggle-list';
 import InputFile from './input-file/input-file';
+import PopupFormBuy from './popup-form-buy/popup-form-buy';
+import ModalWindow from './modal-window/modal-window';
 
 export {
   App,
@@ -88,5 +90,7 @@ export {
   CertificateCard,
   Certificates,
   InputFile,
+  PopupFormBuy,
+  ModalWindow,
 };
 export type { CustomInputProps };

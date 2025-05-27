@@ -2,6 +2,7 @@ import { Transform } from 'class-transformer';
 import {
   IsIn,
   IsMongoId,
+  IsNumber,
   //IsNumber,
   IsOptional,
   IsString,
@@ -58,14 +59,15 @@ export class TrainingOrderQuery {
   @IsIn(Object.values(UserRole))
   public role?: UserRole;
 
-  // @ApiProperty({ ...TrainingProperty.Id.Description, required: false })
-  // @Transform(({ value }) => parseInt(value, 10))
-  // @IsNumber()
-  // @IsOptional()
-  // public trainingId?: number;
+  @ApiProperty({ ...TrainingProperty.Id.Description, required: false })
+  @Transform(({ value }) => parseInt(value, 10))
+  @IsNumber()
+  @IsOptional()
+  public trainingId?: number;
 }
 
 export class TrainingMyOrderQuery extends OmitType(TrainingOrderQuery, [
   'role',
   'userId',
+  'trainingId',
 ]) {}

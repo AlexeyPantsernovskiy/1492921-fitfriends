@@ -7,7 +7,7 @@ import {
   TrainingCard,
 } from '@frontend/components';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
-import { getPurchases, trainingSelectors } from '@frontend/store';
+import { getOrders, orderSelectors } from '@frontend/store';
 import {
   DEFAULT_FILTER_PURCHASE_ACTIVE,
   LimitTrainingCard,
@@ -16,14 +16,14 @@ import { ButtonType } from '@frontend/types/component';
 
 function MyPurchases(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(trainingSelectors.isTrainingCatalogLoading);
-  const orders = useAppSelector(trainingSelectors.trainingCatalog);
+  const isLoading = useAppSelector(orderSelectors.isOrdersLoading);
+  const orders = useAppSelector(orderSelectors.orders);
   const [limit, setLimit] = useState<number>(LimitTrainingCard.MyPurchases);
   const [activeOnly, setActiveOnly] = useState(DEFAULT_FILTER_PURCHASE_ACTIVE);
 
   useEffect(() => {
     dispatch(
-      getPurchases({
+      getOrders({
         limit,
         activeOnly,
       })
@@ -33,7 +33,7 @@ function MyPurchases(): JSX.Element {
   const handleButtonMoreClick = () => {
     const newLimit = limit + LimitTrainingCard.MyPurchases;
     setLimit(newLimit);
-    dispatch(getPurchases({ limit: newLimit, activeOnly }));
+    dispatch(getOrders({ limit: newLimit, activeOnly }));
   };
 
   const handleButtonToTopClick = () => {
@@ -77,7 +77,7 @@ function MyPurchases(): JSX.Element {
           {!isLoading && orders && (
             <ul className="my-purchases__list">
               {orders.entities.map((order) => (
-                <li className="my-purchases__item" key={order.id}>
+                <li className="my-purchases__item" key={order.training.id}>
                   <TrainingCard training={order} />
                 </li>
               ))}

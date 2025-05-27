@@ -79,6 +79,7 @@ export { UpdateUserDto } from './lib/dto/user/update-user.dto';
 export { CreateTrainingDto } from './lib/dto/training/create-training.dto';
 export { UpdateTrainingDto } from './lib/dto/training/update-training.dto';
 export { CreateOrderDto } from './lib/dto/training/create-order.dto';
+export { CreatePurchaseDto } from './lib/dto/training/create-purchase.dto';
 export { UpdateOrderStateDto } from './lib/dto/training/update-order-state.dto';
 
 export { LimitQuery } from './lib/query/limit.query';

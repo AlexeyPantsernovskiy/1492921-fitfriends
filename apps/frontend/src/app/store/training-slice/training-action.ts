@@ -9,8 +9,6 @@ import {
   TrainingQuery,
   TrainingWithCoachRdo,
   TrainingRdo,
-  TrainingMyOrderTotalWithPaginationRdo,
-  TrainingMyOrderQuery,
 } from '@project/shared';
 import { ApiExtra } from '@frontend/src/types/types';
 import { queryToString } from '@frontend/src/utils';
@@ -22,8 +20,6 @@ const TrainingAction = {
   GetTraining: 'training/get',
   TrainingCreate: 'training/create',
   TrainingUpdate: 'training/update',
-  GetOrders: 'trainings/orders',
-  GetPurchases: 'trainings/purchases',
 };
 
 export const getAllTrainings = createAsyncThunk<
@@ -109,27 +105,3 @@ export const updateTraining = createAsyncThunk<
     return data;
   }
 );
-
-export const getOrders = createAsyncThunk<
-  TrainingMyOrderTotalWithPaginationRdo,
-  TrainingMyOrderQuery,
-  { extra: ApiExtra }
->(TrainingAction.GetOrders, async (query, { extra }) => {
-  const { api } = extra;
-  const { data } = await api.get<TrainingMyOrderTotalWithPaginationRdo>(
-    `${ApiRoute.Orders}?${queryToString(query)}`
-  );
-  return data;
-});
-
-export const getPurchases = createAsyncThunk<
-  TrainingWithPaginationRdo,
-  TrainingMyOrderQuery,
-  { extra: ApiExtra }
->(TrainingAction.GetPurchases, async (query, { extra }) => {
-  const { api } = extra;
-  const { data } = await api.get<TrainingWithPaginationRdo>(
-    `${ApiRoute.Orders}?${queryToString(query)}`
-  );
-  return data;
-});

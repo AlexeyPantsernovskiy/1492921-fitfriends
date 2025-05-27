@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import { LimitTrainingCard, StoreSlice } from '@frontend/src/const';
 import { TrainingProcess } from '@frontend/src/types/state';
 import {
-  TrainingMyOrderTotalWithPaginationRdo,
   TrainingRdo,
   TrainingWithCoachRdo,
   TrainingWithPaginationRdo,
@@ -17,8 +16,6 @@ import {
   getAllTrainings,
   createTraining,
   updateTraining,
-  getOrders,
-  getPurchases,
 } from './training-action';
 
 const initialState: TrainingProcess = {
@@ -30,9 +27,7 @@ const initialState: TrainingProcess = {
   isSpecialForYouLoading: false,
   training: null,
   isTrainingLoading: false,
-  isSavingTraining: false,
-  orders: null,
-  isOrdersLoading: false,
+  isTrainingSaving: false,
   // trainingComment: null,
   // isTrainingCommentLoading: false,
   // isSuccessAddTrainingComment: false,
@@ -103,11 +98,11 @@ const errorLoadingTraining = (state: TrainingProcess) => {
 };
 
 const startSavingTraining = (state: TrainingProcess) => {
-  state.isSavingTraining = true;
+  state.isTrainingSaving = true;
 };
 
 const endSavingTraining = (state: TrainingProcess) => {
-  state.isSavingTraining = false;
+  state.isTrainingSaving = false;
 };
 
 const endUpdatingTraining = (
@@ -121,23 +116,6 @@ const endUpdatingTraining = (
     };
   }
   state.isTrainingLoading = false;
-};
-
-const endLoadingOrders = (
-  state: TrainingProcess,
-  action: PayloadAction<TrainingMyOrderTotalWithPaginationRdo>
-) => {
-  console.log('orders', action.payload);
-  state.orders = action.payload;
-  state.isOrdersLoading = false;
-};
-
-const startLoadingOrders = (state: TrainingProcess) => {
-  state.isOrdersLoading = true;
-};
-
-const errorLoadingOrders = (state: TrainingProcess) => {
-  state.isOrdersLoading = false;
 };
 
 export const trainingProcess = createSlice({
@@ -168,15 +146,7 @@ export const trainingProcess = createSlice({
 
       .addCase(updateTraining.pending, startSavingTraining)
       .addCase(updateTraining.fulfilled, endUpdatingTraining)
-      .addCase(updateTraining.rejected, endSavingTraining)
-
-      .addCase(getOrders.pending, startLoadingOrders)
-      .addCase(getOrders.fulfilled, endLoadingOrders)
-      .addCase(getOrders.rejected, errorLoadingOrders)
-
-      .addCase(getPurchases.pending, startLoadingTrainings)
-      .addCase(getPurchases.fulfilled, endLoadingTrainings)
-      .addCase(getPurchases.rejected, errorLoadingTrainings);
+      .addCase(updateTraining.rejected, endSavingTraining);
   },
   selectors: {
     isTrainingsLoading: (state) => state.isTrainingsLoading,
@@ -188,8 +158,6 @@ export const trainingProcess = createSlice({
     isTrainingLoading: (state) => state.isTrainingLoading,
     training: (state) => state.training,
     maxPrice: (state) => state.trainingCatalog?.maxAllPrice || 0,
-    isOrdersLoading: (state) => state.isOrdersLoading,
-    orders: (state) => state.orders,
   },
 });
 
