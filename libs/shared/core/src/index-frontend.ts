@@ -18,6 +18,7 @@ export type { UserToken } from './lib/interfaces/user-token.interface';
 export type { UserQuestionnaire } from './lib/types/questionnaire.interface';
 export type { CoachQuestionnaire } from './lib/types/questionnaire.interface';
 export type { Questionnaire } from './lib/types/questionnaire.interface';
+
 export type { UserRdo } from './lib/rdo/user/user.rdo';
 export type { LoggedUserRdo } from './lib/rdo/user/logged-user.rdo';
 export type {
@@ -47,3 +48,5 @@ export { SortType } from './lib/types/sort-type.enum';
 export { SortDirection } from './lib/types/sort-direction.enum';
 
 export { TrainingProperty } from './lib/swagger/training/training-property';
+
+export type { LimitQuery } from './lib/query/limit.query'

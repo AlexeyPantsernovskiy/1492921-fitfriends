@@ -5,7 +5,7 @@ import {
   TrainingCard,
   TrainingCatalogFilter,
 } from '@frontend/components';
-import { LimitTrainingCard } from '@frontend/const';
+import { Limits } from '@frontend/const';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 import { getTrainings, trainingSelectors } from '@frontend/store';
 import { ButtonType } from '@frontend/types/component';
@@ -17,19 +17,19 @@ function TrainingCatalog(): JSX.Element {
   const isLoading = useAppSelector(trainingSelectors.isTrainingCatalogLoading);
   const trainings = useAppSelector(trainingSelectors.trainingCatalog);
   const [filterParam, setFilterParam] = useState<TrainingQuery>({});
-  const [limit, setLimit] = useState<number>(LimitTrainingCard.Catalog);
+  const [limit, setLimit] = useState<number>(Limits.Catalog);
 
   // Загрузка данных при изменении фильтров
   useEffect(() => {
     // Сбрасываем лимит при изменении фильтров
-    setLimit(LimitTrainingCard.Catalog);
+    setLimit(Limits.Catalog);
     dispatch(
-      getTrainings({ ...filterParam, limit: LimitTrainingCard.Catalog })
+      getTrainings({ ...filterParam, limit: Limits.Catalog })
     );
   }, [dispatch, filterParam]);
 
   const handleButtonMoreClick = () => {
-    const newLimit = limit + LimitTrainingCard.Catalog;
+    const newLimit = limit + Limits.Catalog;
     setLimit(newLimit);
     dispatch(getTrainings({ ...filterParam, limit: newLimit }));
   };
@@ -91,7 +91,7 @@ function TrainingCatalog(): JSX.Element {
                       />
                     )}
                   {trainings &&
-                    trainings.itemsPerPage > LimitTrainingCard.Catalog &&
+                    trainings.itemsPerPage > Limits.Catalog &&
                     trainings.totalPages === trainings.currentPage && (
                       <FilledButton
                         classPrefix="show-more"

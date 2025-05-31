@@ -9,7 +9,7 @@ import {
   updateCertificate,
   userSelectors,
 } from '@frontend/store';
-import { LimitPersonalAccount } from '@frontend/const';
+import { Limits } from '@frontend/const';
 import { Icon, IconPosition } from '@frontend/types/component';
 
 import {
@@ -109,7 +109,7 @@ function Certificates(): JSX.Element {
       {!isLogged && <Spinner />}
       {isLogged && (
         <Swiper
-          slidesPerView={LimitPersonalAccount.SliderCertificate}
+          slidesPerView={Limits.SliderCertificate}
           className="personal-account-coach__list"
           modules={[Navigation]}
           ref={sliderRef}

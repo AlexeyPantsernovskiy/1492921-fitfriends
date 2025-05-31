@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 
-import { ApiRoute, AppRoute, LimitTrainingCard } from '@frontend/src/const';
+import { ApiRoute, AppRoute, Limits } from '@frontend/src/const';
 
 import {
   TrainingWithPaginationRdo,
@@ -51,7 +51,7 @@ export const getSpecialForYou = createAsyncThunk<
 >(TrainingAction.SpecialForYou, async (_arg, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingRdo[]>(
-    `${ApiRoute.SpecialForYou}?limit=${LimitTrainingCard.SpecialForYou}`
+    `${ApiRoute.SpecialForYou}?limit=${Limits.SpecialForYou}`
   );
   return data;
 });

@@ -1,23 +1,33 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 
 import { Icon } from '@frontend/types/component';
 import history from '@frontend/src/history';
-import { mockUsersLookForCompany } from '@project/shared';
-import { AppRoute, LimitTrainingCard } from '@frontend/const';
+import { AppRoute, Limits } from '@frontend/const';
 import {
   FlatButton,
   IconButton,
   LookForCompanyCard,
 } from '@frontend/components';
+import { getUserReadyToTrain, userSelectors } from '@frontend/store';
+import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 
 function LookForCompany(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const users = useAppSelector(userSelectors.users);
+  const isLoading = useAppSelector(userSelectors.isLoading);
   const sliderRef = useRef<SwiperRef>(null);
 
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const prevButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    dispatch(
+      getUserReadyToTrain(Limits.LookForCompany)
+      );
+    }, [dispatch]);
 
   return (
     <div className="container">
@@ -46,8 +56,10 @@ function LookForCompany(): JSX.Element {
             />
           </div>
         </div>
-        <Swiper
-          slidesPerView={LimitTrainingCard.SliderFriends}
+        {isLoading && <Swiper />}
+        {!isLoading && users && (
+         <Swiper
+          slidesPerView={Limits.SliderLookForCompany}
           className="look-for-company__list"
           modules={[Navigation]}
           ref={sliderRef}
@@ -60,7 +72,7 @@ function LookForCompany(): JSX.Element {
             }
           }}
         >
-          {mockUsersLookForCompany.map((user, index) => (
+          {users.map((user, index) => (
             <SwiperSlide
               key={`SwiperSlide-${index}`}
               className="look-for-company__item"
@@ -71,6 +83,7 @@ function LookForCompany(): JSX.Element {
             </SwiperSlide>
           ))}
         </Swiper>
+        )}
       </div>
     </div>
   );

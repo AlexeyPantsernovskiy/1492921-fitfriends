@@ -7,7 +7,7 @@ import { useAppSelector } from '@frontend/src/hooks';
 import { trainingSelectors } from '@frontend/store';
 import { IconButton, SpecialForYouCard, Spinner, ThumbnailNearest } from '@frontend/components';
 import { Icon } from '@frontend/types/component';
-import { LimitTrainingCard } from '@frontend/const';
+import { Limits } from '@frontend/const';
 
 function SpecialForYou(): JSX.Element {
   const isLoading = useAppSelector(trainingSelectors.isSpecialForYouLoading);
@@ -46,7 +46,7 @@ function SpecialForYou(): JSX.Element {
           <ThumbnailNearest />
         ) : (
           <Swiper
-            slidesPerView={LimitTrainingCard.SliderSpecialForYou}
+            slidesPerView={Limits.SliderSpecialForYou}
             className="special-for-you__list"
             modules={[Navigation]}
             ref={sliderRef}

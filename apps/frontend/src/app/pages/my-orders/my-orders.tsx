@@ -10,7 +10,7 @@ import {
 } from '@frontend/components';
 import { getOrders, orderSelectors } from '@frontend/store';
 import { ButtonType } from '@frontend/types/component';
-import { LimitTrainingCard } from '@frontend/const';
+import { Limits } from '@frontend/const';
 
 type ButtonSortProps = {
   caption: string;
@@ -52,7 +52,7 @@ function MyOrders(): JSX.Element {
   const isLoading = useAppSelector(orderSelectors.isOrdersLoading);
   const orders = useAppSelector(orderSelectors.orders);
 
-  const [limit, setLimit] = useState<number>(LimitTrainingCard.MyOrders);
+  const [limit, setLimit] = useState<number>(Limits.MyOrders);
   const [sortBy, setSortBy] = useState<SortType>();
   const [sortDirection, setSortDirection] = useState<SortDirection>(
     SortDirection.Desc
@@ -81,7 +81,7 @@ function MyOrders(): JSX.Element {
   }, [dispatch, limit, sortBy, sortDirection]);
 
   const handleButtonMoreClick = () => {
-    const newLimit = limit + LimitTrainingCard.MyOrders;
+    const newLimit = limit + Limits.MyOrders;
     setLimit(newLimit);
     dispatch(
       getOrders({
@@ -147,7 +147,7 @@ function MyOrders(): JSX.Element {
                   />
                 )}
                 {orders &&
-                  orders.itemsPerPage > LimitTrainingCard.MyOrders &&
+                  orders.itemsPerPage > Limits.MyOrders &&
                   orders.totalPages === orders.currentPage && (
                     <FilledButton
                       classPrefix="show-more"

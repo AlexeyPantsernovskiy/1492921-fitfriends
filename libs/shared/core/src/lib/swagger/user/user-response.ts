@@ -4,6 +4,7 @@ import { TokenPayloadRdo } from '../../rdo/user/token-payload.rdo';
 import { LoggedUserRdo } from '../../rdo/user/logged-user.rdo';
 import { UserRdo } from '../../rdo/user/user.rdo';
 import { UserTokenRdo } from '../../rdo/user/user-token.rdo';
+import { getSchemaPath } from '@nestjs/swagger';
 
 export const UserResponse = {
   LoggedSuccess: {
@@ -65,5 +66,17 @@ export const UserResponse = {
     type: UserRdo,
     status: HttpStatus.OK,
     description: 'Аватар пользователя изменен',
+  },
+  Users: {
+    status: HttpStatus.OK,
+    description: 'Список пользователей получен',
+    schema: {
+      type: 'array',
+      items: { $ref: getSchemaPath(UserRdo) },
+    },
+  },
+  UsersNotFound: {
+    status: HttpStatus.NOT_FOUND,
+    description: 'Пользователи не найдены',
   },
 } as const;

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, RootFilterQuery } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { BaseMongoRepository } from '@project/data-access';
@@ -25,5 +25,10 @@ export class UserRepository extends BaseMongoRepository<UserEntity, UserModel> {
       .findOne({ email: { $regex: new RegExp(email, 'i') } })
       .exec();
     return this.createEntityFromDocument(document);
+  }
+
+  public async find(query:RootFilterQuery<UserModel>, limit: number): Promise<UserEntity[] | null> {
+    const users = await this.model.find(query).limit(limit).exec();
+    return users.map((user) => this.createEntityFromDocument(user));
   }
 }

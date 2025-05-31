@@ -22,6 +22,9 @@ import {
   EMPTY_VALUE,
   UserErrorMessage,
   TokenPayload,
+  UserResponse,
+  UserRole,
+  LimitQuery,
 } from '@project/shared-core';
 import { jwtConfig } from '@project/auth-config';
 import { fillDto } from '@project/shared-helpers';
@@ -141,5 +144,16 @@ export class UserService {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
+  }
+
+  public async getUsersReadyToTrain(query: LimitQuery): Promise<UserRdo[] | null> {
+    const users = await this.userRepository.find({
+      'role': UserRole.Sportsman,
+      'questionnaire.isReadyToTrain': true,
+    }, query.limit);
+    if (!users.length) {
+      throw new NotFoundException(UserResponse.UsersNotFound.description);
+    }
+    return users.map((user) => fillDto(UserRdo, user.toPOJO()));
   }
 }

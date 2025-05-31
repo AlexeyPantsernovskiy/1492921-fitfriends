@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-import { LimitTrainingCard, StoreSlice } from '@frontend/src/const';
+import { Limits, StoreSlice } from '@frontend/src/const';
 import { TrainingProcess } from '@frontend/src/types/state';
 import {
   TrainingRdo,
@@ -170,7 +170,7 @@ export const trainingSelectors = {
         ? null
         : trainings.entities
             .filter((training) => training.isSpecialOffer)
-            .slice(0, LimitTrainingCard.SliderSpecialOffers - 1)
+            .slice(0, Limits.SliderSpecialOffers - 1)
   ),
   popularTrainings: createSelector(
     trainingProcess.selectors.trainings,

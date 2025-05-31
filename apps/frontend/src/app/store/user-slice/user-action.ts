@@ -13,6 +13,7 @@ import {
   TokenPayloadRdo,
   UserQuestionnaire,
   QuestionnaireCoachRdo,
+  User,
 } from '@project/shared';
 import { ApiExtra } from '@frontend/src/types/types';
 
@@ -29,6 +30,7 @@ const UserAction = {
   AddCertificate: 'user/add-certificate',
   UpdateCertificate: 'user/update-certificate',
   DeleteCertificate: 'user/delete-certificate',
+  ReadyToTrain: 'user/ready-to-train',
 };
 
 export const getUserAuth = createAsyncThunk<
@@ -205,6 +207,18 @@ export const deleteCertificate = createAsyncThunk<
   const { api } = extra;
   const { data } = await api.delete<QuestionnaireCoachRdo>(
     `${ApiRoute.UpdateCertificates}/${indexCertificate}`
+  );
+  return data;
+});
+
+export const getUserReadyToTrain = createAsyncThunk<
+  User[],
+  number,
+  { extra: ApiExtra }
+>(UserAction.ReadyToTrain, async (limit, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<User[]>(
+    `${ApiRoute.UsersReadyToTrain}?limit=${limit}`
   );
   return data;
 });

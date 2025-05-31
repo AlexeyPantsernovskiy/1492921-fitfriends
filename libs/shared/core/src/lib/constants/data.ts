@@ -34,35 +34,35 @@ export const DefaultFile = {
   },
 } as const;
 
-export const mockUsersLookForCompany = [
-  {
-    name: 'Диана',
-    location: 'Невский проспект',
-    specialization: 'pilates' as Specialization,
-    avatar: 'user-04',
-  },
-  {
-    name: 'Константин',
-    location: 'Комендантский проспект',
-    specialization: 'boxing' as Specialization,
-    avatar: 'user-05',
-  },
-  {
-    name: 'Иван',
-    location: 'Чёрная речка',
-    specialization: 'running' as Specialization,
-    avatar: 'user-06',
-  },
-  {
-    name: 'Яна',
-    location: 'Крестовский остров',
-    specialization: 'pilates' as Specialization,
-    avatar: 'user-03',
-  },
-  {
-    name: 'Оксана',
-    location: 'Петроградская',
-    specialization: 'yoga' as Specialization,
-    avatar: 'user-01',
-  },
-];
+// export const mockUsersLookForCompany = [
+//   {
+//     name: 'Диана',
+//     location: 'Невский проспект',
+//     specialization: 'pilates' as Specialization,
+//     avatar: 'user-04',
+//   },
+//   {
+//     name: 'Константин',
+//     location: 'Комендантский проспект',
+//     specialization: 'boxing' as Specialization,
+//     avatar: 'user-05',
+//   },
+//   {
+//     name: 'Иван',
+//     location: 'Чёрная речка',
+//     specialization: 'running' as Specialization,
+//     avatar: 'user-06',
+//   },
+//   {
+//     name: 'Яна',
+//     location: 'Крестовский остров',
+//     specialization: 'pilates' as Specialization,
+//     avatar: 'user-03',
+//   },
+//   {
+//     name: 'Оксана',
+//     location: 'Петроградская',
+//     specialization: 'yoga' as Specialization,
+//     avatar: 'user-01',
+//   },
+// ];

@@ -13,6 +13,7 @@ import {
   Patch,
   Post,
   Put,
+  Query,
   Req,
   UnauthorizedException,
   UploadedFile,
@@ -29,12 +30,14 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import FormData from 'form-data';
+import qs from 'qs';
 
 import {
   CoachQuestionnaire,
   CommonResponse,
   DefaultFile,
   FillUserQuestionnaireDto,
+  LimitQuery,
   LoginUserDto,
   QuestionnaireCoachRdo,
   QuestionnaireParam,
@@ -452,6 +455,23 @@ export class UsersController {
       { ...questionnaire, certificates: updatedCertificates }
     );
     return this.correctQuestionnaireFilePath(newQuestionnaire);
+  }
+
+  @Get('ready-to-train')
+  @ApiOperation(UserOperation.ReadyToTrain)
+  @ApiResponse(UserResponse.Users)
+  @ApiResponse(UserResponse.UsersNotFound)
+  @ApiResponse(UserResponse.UserNotAuth)
+  @ApiBearerAuth('accessToken')
+  @HttpCode(UserResponse.Users.status)
+  @UseGuards(CheckAuthGuard)
+  public async getUsersReadyToTrain(@Query() query: LimitQuery) {
+    const queryString = qs.stringify(query, { arrayFormat: 'repeat' });
+    const usersResponse = await this.httpService.axiosRef.get<UserRdo[]>(
+      `${ApplicationServiceURL.Users}/ready-to-train?${queryString}`,
+      {}
+    );
+    return usersResponse.data.map((user) => this.correctFilePath(user as User));
   }
 
   @Get(':userId')

@@ -29,6 +29,7 @@ export const ApiRoute = {
   UpdateCertificates: '/api/users/certificates',
   UserUpdate: '/api/users/update',
   UserGetInfo: '/api/users/:userId',
+  UsersReadyToTrain: '/api/users/ready-to-train',
   Trainings: '/api/trainings',
   SpecialForYou: '/api/trainings/special-for-you',
   Orders: '/api/orders',
@@ -54,20 +55,18 @@ export const TokenName = {
 export const BACKEND_URL = 'http://localhost:3000';
 export const REQUEST_TIMEOUT = 5000;
 
-export const LimitTrainingCard = {
+export const Limits = {
   SpecialForYou: 9,
   Catalog: 6,
   SliderSpecialForYou: 3,
   SliderSpecialOffers: 3,
   SliderPopular: 4,
-  SliderFriends: 4,
+  SliderLookForCompany: 4,
+  SliderCertificate: 3,
   MyTraining: 6,
   MyOrders: 4,
   MyPurchases: 6,
-} as const;
-
-export const LimitPersonalAccount = {
-  SliderCertificate: 3,
+  LookForCompany: 8,
 } as const;
 
 // Размер скидки которая применяется при установки флага "Специальное предложение"

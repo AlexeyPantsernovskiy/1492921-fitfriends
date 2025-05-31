@@ -31,7 +31,9 @@ export type OrderProcess = {
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
+  isLoading: boolean;
   user: User | null;
+  users: User[] | null
 };
 
 export type State = ReturnType<typeof store.getState>;

@@ -1,15 +1,10 @@
 import { Link } from 'react-router-dom';
 
-import { Specialization } from '@project/shared';
+import { Specialization, User } from '@project/shared';
 import { AppRoute } from '@frontend/const';
 
 interface LookForCompanyCardProps {
-  user: {
-    name: string;
-    location: string;
-    specialization: Specialization;
-    avatar: string;
-  };
+  user: User;
 }
 
 function LookForCompanyCard({ user }: LookForCompanyCardProps): JSX.Element {
@@ -19,11 +14,11 @@ function LookForCompanyCard({ user }: LookForCompanyCardProps): JSX.Element {
         <picture>
           <source
             type="image/webp"
-            srcSet={`img/content/thumbnails/${user.avatar}.webp, img/content/thumbnails//${user.avatar}@2x.webp 2x`}
+            srcSet={user.avatar}
           />
           <img
-            src={`img/content/thumbnails/${user.avatar}.jpg`}
-            srcSet={`img/content/thumbnails/${user.avatar}@2x.jpg 2x`}
+            src={user.avatar}
+            srcSet={user.avatar}
             width="82"
             height="82"
             alt=""
@@ -42,11 +37,12 @@ function LookForCompanyCard({ user }: LookForCompanyCardProps): JSX.Element {
         </div>
       </div>
       <ul className="thumbnail-user__hashtags-list">
-        <li className="thumbnail-user__hashtags-item">
+        {user.questionnaire?.specialization && user.questionnaire.specialization.map((item) =>
+        <li className="thumbnail-user__hashtags-item" key={item}>
           <div className="hashtag thumbnail-user__hashtag">
-            <span>#{user.specialization}</span>
+            <span>#{Specialization[item]}</span>
           </div>
-        </li>
+        </li>)}
       </ul>
       <Link
         className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"

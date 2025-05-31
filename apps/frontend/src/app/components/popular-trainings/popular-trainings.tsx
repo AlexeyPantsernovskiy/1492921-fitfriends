@@ -4,7 +4,7 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import { trainingSelectors } from '@frontend/store';
-import { AppRoute, LimitTrainingCard } from '@frontend/const';
+import { AppRoute, Limits } from '@frontend/const';
 import { Icon } from '@frontend/types/component';
 
 import {
@@ -58,7 +58,7 @@ function PopularTrainings(): JSX.Element {
           <ThumbnailNearest />
         ) : (
           <Swiper
-            slidesPerView={LimitTrainingCard.SliderPopular}
+            slidesPerView={Limits.SliderPopular}
             className="popular-trainings__list"
             modules={[Navigation]}
             ref={sliderRef}

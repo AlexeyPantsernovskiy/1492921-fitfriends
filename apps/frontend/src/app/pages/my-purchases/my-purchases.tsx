@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 import { getOrders, orderSelectors } from '@frontend/store';
 import {
   DEFAULT_FILTER_PURCHASE_ACTIVE,
-  LimitTrainingCard,
+  Limits,
 } from '@frontend/const';
 import { ButtonType } from '@frontend/types/component';
 
@@ -18,7 +18,7 @@ function MyPurchases(): JSX.Element {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(orderSelectors.isOrdersLoading);
   const orders = useAppSelector(orderSelectors.orders);
-  const [limit, setLimit] = useState<number>(LimitTrainingCard.MyPurchases);
+  const [limit, setLimit] = useState<number>(Limits.MyPurchases);
   const [activeOnly, setActiveOnly] = useState(DEFAULT_FILTER_PURCHASE_ACTIVE);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function MyPurchases(): JSX.Element {
   }, [dispatch, limit, activeOnly]);
 
   const handleButtonMoreClick = () => {
-    const newLimit = limit + LimitTrainingCard.MyPurchases;
+    const newLimit = limit + Limits.MyPurchases;
     setLimit(newLimit);
     dispatch(getOrders({ limit: newLimit, activeOnly }));
   };
@@ -94,7 +94,7 @@ function MyPurchases(): JSX.Element {
               />
             )}
             {orders &&
-              orders.itemsPerPage > LimitTrainingCard.MyPurchases &&
+              orders.itemsPerPage > Limits.MyPurchases &&
               orders.totalPages === orders.currentPage && (
                 <FilledButton
                   classPrefix="show-more"

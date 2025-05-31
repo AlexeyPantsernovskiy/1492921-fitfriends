@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Put,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -26,6 +27,7 @@ import {
   CreateUserDto,
   FillCoachQuestionnaireDto,
   FillUserQuestionnaireDto,
+  LimitQuery,
   LoggedUserRdo,
   LoginUserDto,
   QuestionnaireUserResponse,
@@ -74,6 +76,15 @@ export class UserController {
 
       return fillDto(LoggedUserRdo, { ...user, ...userToken });
     }
+  }
+
+  @Get('ready-to-train')
+  @ApiOperation(UserOperation.ReadyToTrain)
+  @ApiResponse(UserResponse.Users)
+  @ApiResponse(UserResponse.UsersNotFound)
+  @HttpCode(UserResponse.Users.status)
+  public async getUsersReadyToTrain(@Query() query: LimitQuery) {
+    return await this.userService.getUsersReadyToTrain(query);
   }
 
   @Get(':userId')
