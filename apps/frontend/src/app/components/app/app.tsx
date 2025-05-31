@@ -32,6 +32,7 @@ import {
 } from '@frontend/src/pages';
 import CreateTraining from '@frontend/src/pages/create-training/create-training';
 import MyTrainingFilter from '../my-training-filter/my-training-filter';
+import UserCard from '@frontend/src/pages/ucer-card/user-card';
 
 const App = (): JSX.Element => (
   <HistoryRouter history={historyBrowser}>
@@ -216,6 +217,17 @@ const App = (): JSX.Element => (
                 redirectTo={AppRoute.Root}
               >
                 <MyPurchases />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.UserCard}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <UserCard />
               </PrivateRoute>
             }
           />

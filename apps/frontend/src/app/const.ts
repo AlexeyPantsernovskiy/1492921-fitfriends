@@ -14,6 +14,7 @@ export const AppRoute = {
   TrainingCard: '/training/:id',
   Friends: '/friends',
   MyPurchases: '/my-purchases',
+  UserCard: '/user-card/:id',
   NotFound: '/404',
 } as const;
 

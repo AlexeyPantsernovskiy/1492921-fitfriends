@@ -1,12 +1,11 @@
 import { userSelectors } from '@frontend/store';
 import { useAppSelector } from '@frontend/src/hooks';
-import history from '@frontend/src/history';
 import { PersonalAccountUser, Spinner, UserInfo } from '@frontend/components';
 import { UserRole } from '@project/shared';
 import PersonalAccountCoach from '@frontend/src/components/personal-account-coach/personal-account-coach';
 
 function PersonalAccount(): JSX.Element {
-  const user = useAppSelector(userSelectors.user);
+  const user = useAppSelector(userSelectors.userAuth);
   if (!user) {
     return <Spinner />;
   }

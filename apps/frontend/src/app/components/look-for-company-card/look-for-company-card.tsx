@@ -12,10 +12,7 @@ function LookForCompanyCard({ user }: LookForCompanyCardProps): JSX.Element {
     <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
       <div className="thumbnail-user__image">
         <picture>
-          <source
-            type="image/webp"
-            srcSet={user.avatar}
-          />
+          <source type="image/webp" srcSet={user.avatar} />
           <img
             src={user.avatar}
             srcSet={user.avatar}
@@ -37,16 +34,18 @@ function LookForCompanyCard({ user }: LookForCompanyCardProps): JSX.Element {
         </div>
       </div>
       <ul className="thumbnail-user__hashtags-list">
-        {user.questionnaire?.specialization && user.questionnaire.specialization.map((item) =>
-        <li className="thumbnail-user__hashtags-item" key={item}>
-          <div className="hashtag thumbnail-user__hashtag">
-            <span>#{Specialization[item]}</span>
-          </div>
-        </li>)}
+        {user.questionnaire?.specialization &&
+          user.questionnaire.specialization.map((item) => (
+            <li className="thumbnail-user__hashtags-item" key={item}>
+              <div className="hashtag thumbnail-user__hashtag">
+                <span>#{Specialization[item]}</span>
+              </div>
+            </li>
+          ))}
       </ul>
       <Link
         className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-        to={AppRoute.NotFound}
+        to={AppRoute.UserCard.replace(':id', user.id ?? '')}
       >
         Подробнее
       </Link>

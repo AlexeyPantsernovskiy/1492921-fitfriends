@@ -11,7 +11,7 @@ import {
   IconButton,
   LookForCompanyCard,
 } from '@frontend/components';
-import { getUserReadyToTrain, userSelectors } from '@frontend/store';
+import { getUsersReadyToTrain, userSelectors } from '@frontend/store';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 
 function LookForCompany(): JSX.Element {
@@ -24,10 +24,8 @@ function LookForCompany(): JSX.Element {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    dispatch(
-      getUserReadyToTrain(Limits.LookForCompany)
-      );
-    }, [dispatch]);
+    dispatch(getUsersReadyToTrain(Limits.LookForCompany));
+  }, [dispatch]);
 
   return (
     <div className="container">
@@ -58,31 +56,31 @@ function LookForCompany(): JSX.Element {
         </div>
         {isLoading && <Swiper />}
         {!isLoading && users && (
-         <Swiper
-          slidesPerView={Limits.SliderLookForCompany}
-          className="look-for-company__list"
-          modules={[Navigation]}
-          ref={sliderRef}
-          onBeforeInit={(swiper) => {
-            if (prevButtonRef.current) {
-              swiper.navigation.prevEl = prevButtonRef.current;
-            }
-            if (nextButtonRef.current) {
-              swiper.navigation.nextEl = nextButtonRef.current;
-            }
-          }}
-        >
-          {users.map((user, index) => (
-            <SwiperSlide
-              key={`SwiperSlide-${index}`}
-              className="look-for-company__item"
-            >
-              <li className="look-for-company__item">
-                <LookForCompanyCard user={user} />
-              </li>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <Swiper
+            slidesPerView={Limits.SliderLookForCompany}
+            className="look-for-company__list"
+            modules={[Navigation]}
+            ref={sliderRef}
+            onBeforeInit={(swiper) => {
+              if (prevButtonRef.current) {
+                swiper.navigation.prevEl = prevButtonRef.current;
+              }
+              if (nextButtonRef.current) {
+                swiper.navigation.nextEl = nextButtonRef.current;
+              }
+            }}
+          >
+            {users.map((user, index) => (
+              <SwiperSlide
+                key={`SwiperSlide-${index}`}
+                className="look-for-company__item"
+              >
+                <li className="look-for-company__item">
+                  <LookForCompanyCard user={user} />
+                </li>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         )}
       </div>
     </div>

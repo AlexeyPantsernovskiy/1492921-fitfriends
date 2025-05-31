@@ -52,7 +52,7 @@ function TrainingInfo(): JSX.Element {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const training = useAppSelector(trainingSelectors.training);
-  const user = useAppSelector(userSelectors.user);
+  const user = useAppSelector(userSelectors.userAuth);
   const [price, setPrice] = useState(training?.price);
   const [isSpecialOffer, setIsSpecialOffer] = useState(
     training?.isSpecialOffer

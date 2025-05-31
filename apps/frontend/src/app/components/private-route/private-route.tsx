@@ -23,7 +23,7 @@ const PrivateRoute = ({
   redirectCoach,
 }: PrivateRouteProps): JSX.Element => {
   const authorizationStatus = useAppSelector(userSelectors.authorizationStatus);
-  const user = useAppSelector(userSelectors.user);
+  const user = useAppSelector(userSelectors.userAuth);
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <Spinner />;
   }

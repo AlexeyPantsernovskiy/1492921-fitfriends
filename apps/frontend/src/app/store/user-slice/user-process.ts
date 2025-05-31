@@ -17,37 +17,39 @@ import {
   deleteCertificate,
   fillCoachQuestionnaire,
   fillUserQuestionnaire,
-  getUserReadyToTrain,
+  getUsersReadyToTrain,
   getUserAuth,
   loginUser,
   logoutUser,
   updateCertificate,
   updateUser,
+  getUser,
 } from './user-action';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isLoading: false,
+  userAuth: null,
   user: null,
   users: null
 };
 
 const userAuth = (state: UserProcess, action: PayloadAction<UserRdo>) => {
   state.authorizationStatus = AuthorizationStatus.Auth;
-  state.user = action.payload as User;
+  state.userAuth = action.payload as User;
 };
 
 const userNoAuth = (state: UserProcess) => {
   state.authorizationStatus = AuthorizationStatus.NoAuth;
-  state.user = null;
+  state.userAuth = null;
 };
 
 const setQuestionnaire = (
   state: UserProcess,
   action: PayloadAction<QuestionnaireRdo>
 ) => {
-  if (state.user) {
-    state.user.questionnaire = action.payload as Questionnaire;
+  if (state.userAuth) {
+    state.userAuth.questionnaire = action.payload as Questionnaire;
   }
 };
 
@@ -64,6 +66,22 @@ const startLoadingUsers = (state: UserProcess) => {
 };
 
 const errorLoadingUsers = (state: UserProcess) => {
+  state.isLoading = false;
+};
+
+const endLoadingUser = (
+  state: UserProcess,
+  action: PayloadAction<UserRdo>
+) => {
+  state.user = action.payload;
+  state.isLoading = false;
+};
+
+const startLoadingUser = (state: UserProcess) => {
+  state.isLoading = true;
+};
+
+const errorLoadingUser = (state: UserProcess) => {
   state.isLoading = false;
 };
 
@@ -89,27 +107,32 @@ export const userProcess = createSlice({
       .addCase(updateCertificate.fulfilled, setQuestionnaire)
       .addCase(deleteCertificate.fulfilled, setQuestionnaire)
 
-      .addCase(getUserReadyToTrain.pending, startLoadingUsers)
-      .addCase(getUserReadyToTrain.fulfilled, endLoadingUsers)
-      .addCase(getUserReadyToTrain.rejected, errorLoadingUsers);
+      .addCase(getUsersReadyToTrain.pending, startLoadingUsers)
+      .addCase(getUsersReadyToTrain.fulfilled, endLoadingUsers)
+      .addCase(getUsersReadyToTrain.rejected, errorLoadingUsers)
+
+      .addCase(getUser.pending, startLoadingUser)
+      .addCase(getUser.fulfilled, endLoadingUser)
+      .addCase(getUser.rejected, errorLoadingUser)
   },
   selectors: {
     authorizationStatus: (state) => state.authorizationStatus,
-    user: (state) => state.user,
+    userAuth: (state) => state.userAuth,
     isLogged: (state) => state.authorizationStatus === AuthorizationStatus.Auth,
     users: (state) => state.users,
     isLoading: (state) => state.isLoading,
+    user: (state) => state.user,
   },
 });
 
 export const userSelectors = {
   ...userProcess.selectors,
-  questionnaireCoach: createSelector(userProcess.selectors.user, (user) =>
+  questionnaireCoach: createSelector(userProcess.selectors.userAuth, (user) =>
     user?.role === UserRole.Coach
       ? (user?.questionnaire as CoachQuestionnaire)
       : null
   ),
-  certificates: createSelector(userProcess.selectors.user, (user) =>
+  certificates: createSelector(userProcess.selectors.userAuth, (user) =>
     user?.role === UserRole.Coach
       ? (user.questionnaire as CoachQuestionnaire).certificates
       : []

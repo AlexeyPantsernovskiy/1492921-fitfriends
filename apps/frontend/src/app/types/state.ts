@@ -6,6 +6,7 @@ import {
   TrainingWithCoachRdo,
   TrainingWithPaginationRdo,
   User,
+  UserRdo,
 } from '@project/shared';
 
 export type TrainingProcess = {
@@ -32,7 +33,8 @@ export type OrderProcess = {
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   isLoading: boolean;
-  user: User | null;
+  userAuth: User | null;
+  user: UserRdo | null;
   users: User[] | null
 };
 

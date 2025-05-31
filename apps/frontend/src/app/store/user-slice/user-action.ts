@@ -211,7 +211,7 @@ export const deleteCertificate = createAsyncThunk<
   return data;
 });
 
-export const getUserReadyToTrain = createAsyncThunk<
+export const getUsersReadyToTrain = createAsyncThunk<
   User[],
   number,
   { extra: ApiExtra }
