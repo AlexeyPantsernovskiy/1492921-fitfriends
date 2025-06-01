@@ -11,7 +11,7 @@ import {
   IconButton,
   LookForCompanyCard,
 } from '@frontend/components';
-import { getUsersReadyToTrain, userSelectors } from '@frontend/store';
+import { getLookForCompany, userSelectors } from '@frontend/store';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 
 function LookForCompany(): JSX.Element {
@@ -24,7 +24,7 @@ function LookForCompany(): JSX.Element {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    dispatch(getUsersReadyToTrain(Limits.LookForCompany));
+    dispatch(getLookForCompany(Limits.LookForCompany));
   }, [dispatch]);
 
   return (

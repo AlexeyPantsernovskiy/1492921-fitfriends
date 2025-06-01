@@ -20,7 +20,6 @@ function UserCard(): JSX.Element {
     }
   }, [dispatch, id]);
 
-  console.log('id', id);
   if (!id || isLoading) {
     return <Spinner />;
   }

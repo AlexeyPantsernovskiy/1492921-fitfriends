@@ -1,3 +1,5 @@
+import { LookForCompany } from './components';
+
 export const AppRoute = {
   Root: '/',
   Login: '/login',
@@ -30,7 +32,7 @@ export const ApiRoute = {
   UpdateCertificates: '/api/users/certificates',
   UserUpdate: '/api/users/update',
   UserGetInfo: '/api/users/:userId',
-  UsersReadyToTrain: '/api/users/ready-to-train',
+  LookForCompany: '/api/users/look-for-company',
   Trainings: '/api/trainings',
   SpecialForYou: '/api/trainings/special-for-you',
   Orders: '/api/orders',

@@ -16,6 +16,7 @@ import {
   User,
 } from '@project/shared';
 import { ApiExtra } from '@frontend/src/types/types';
+import { LookForCompany } from '@frontend/components';
 
 const UserAction = {
   LoginUser: 'user/login',
@@ -30,7 +31,7 @@ const UserAction = {
   AddCertificate: 'user/add-certificate',
   UpdateCertificate: 'user/update-certificate',
   DeleteCertificate: 'user/delete-certificate',
-  ReadyToTrain: 'user/ready-to-train',
+  LookForCompany: 'user/look-for-company',
 };
 
 export const getUserAuth = createAsyncThunk<
@@ -211,14 +212,14 @@ export const deleteCertificate = createAsyncThunk<
   return data;
 });
 
-export const getUsersReadyToTrain = createAsyncThunk<
+export const getLookForCompany = createAsyncThunk<
   User[],
   number,
   { extra: ApiExtra }
->(UserAction.ReadyToTrain, async (limit, { extra }) => {
+>(UserAction.LookForCompany, async (limit, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<User[]>(
-    `${ApiRoute.UsersReadyToTrain}?limit=${limit}`
+    `${ApiRoute.LookForCompany}?limit=${limit}`
   );
   return data;
 });

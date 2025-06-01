@@ -17,7 +17,7 @@ import {
   deleteCertificate,
   fillCoachQuestionnaire,
   fillUserQuestionnaire,
-  getUsersReadyToTrain,
+  getLookForCompany,
   getUserAuth,
   loginUser,
   logoutUser,
@@ -31,7 +31,7 @@ const initialState: UserProcess = {
   isLoading: false,
   userAuth: null,
   user: null,
-  users: null
+  users: null,
 };
 
 const userAuth = (state: UserProcess, action: PayloadAction<UserRdo>) => {
@@ -53,10 +53,7 @@ const setQuestionnaire = (
   }
 };
 
-const endLoadingUsers = (
-  state: UserProcess,
-  action: PayloadAction<User[]>
-) => {
+const endLoadingUsers = (state: UserProcess, action: PayloadAction<User[]>) => {
   state.users = action.payload;
   state.isLoading = false;
 };
@@ -69,10 +66,7 @@ const errorLoadingUsers = (state: UserProcess) => {
   state.isLoading = false;
 };
 
-const endLoadingUser = (
-  state: UserProcess,
-  action: PayloadAction<UserRdo>
-) => {
+const endLoadingUser = (state: UserProcess, action: PayloadAction<UserRdo>) => {
   state.user = action.payload;
   state.isLoading = false;
 };
@@ -107,13 +101,13 @@ export const userProcess = createSlice({
       .addCase(updateCertificate.fulfilled, setQuestionnaire)
       .addCase(deleteCertificate.fulfilled, setQuestionnaire)
 
-      .addCase(getUsersReadyToTrain.pending, startLoadingUsers)
-      .addCase(getUsersReadyToTrain.fulfilled, endLoadingUsers)
-      .addCase(getUsersReadyToTrain.rejected, errorLoadingUsers)
+      .addCase(getLookForCompany.pending, startLoadingUsers)
+      .addCase(getLookForCompany.fulfilled, endLoadingUsers)
+      .addCase(getLookForCompany.rejected, errorLoadingUsers)
 
       .addCase(getUser.pending, startLoadingUser)
       .addCase(getUser.fulfilled, endLoadingUser)
-      .addCase(getUser.rejected, errorLoadingUser)
+      .addCase(getUser.rejected, errorLoadingUser);
   },
   selectors: {
     authorizationStatus: (state) => state.authorizationStatus,
