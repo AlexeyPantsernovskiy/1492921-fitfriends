@@ -7,7 +7,7 @@ const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
 
 type Environment = (typeof ENVIRONMENTS)[number];
 
-export interface AuthConfig {
+export interface UsersConfig {
   environment: string;
   port: number;
   db: {
@@ -35,15 +35,15 @@ const validationSchema = Joi.object({
   }),
 });
 
-function validateConfig(config: AuthConfig): void {
+function validateConfig(config: UsersConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
   if (error) {
     throw new Error(`[Users Config Validation Error]: ${error.message}`);
   }
 }
 
-function getConfig(): AuthConfig {
-  const config: AuthConfig = {
+function getConfig(): UsersConfig {
+  const config: UsersConfig = {
     environment: process.env.NODE_ENV as Environment,
     port: parseInt(process.env.PORT || `${DefaultPort.Users}`, 10),
     db: {
@@ -60,4 +60,4 @@ function getConfig(): AuthConfig {
   return config;
 }
 
-export const authConfig = registerAs('application', getConfig);
+export const usersConfig = registerAs('application', getConfig);
