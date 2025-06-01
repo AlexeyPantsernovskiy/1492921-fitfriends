@@ -2,16 +2,16 @@
 
 ## Создать переменные окружения
 ```bash
-cp ./apps/auth/.env.example ./apps/auth/.env
+cp ./apps/users/.env.example ./apps/users/.env
 cp ./apps/api/.env.example ./apps/api/.env
 cp ./apps/file-vault/.env.example ./apps/file-vault/.env
 cp ./apps/trainings/.env.example ./apps/trainings/.env
-cp ./libs/training/models/prisma/.env.example ./libs/training/models/prisma/.env
+cp ./libs/trainings/models/prisma/.env.example ./libs/trainings/models/prisma/.env
 ```
 
 ## Создать docker containers для сервисов
 ```bash
-docker compose --file ./apps/auth/docker-compose.yml --project-name "fitfriends-user" --env-file ./apps/auth/.env up -d
+docker compose --file ./apps/users/docker-compose.yml --project-name "fitfriends-users" --env-file ./apps/users/.env up -d
 docker compose --file ./apps/file-vault/docker-compose.yml --project-name "fitfriends-file-vault" --env-file ./apps/file-vault/.env up -d
 docker compose --file ./apps/trainings/docker-compose.yml --project-name "fitfriends-trainings" --env-file ./apps/trainings/.env up -d
 ```
@@ -49,14 +49,14 @@ npm run cli:generate
 ## Запустить сразу все сервисы 
 
 ```bash
-npx nx run-many -t serve -p file-vault auth trainings api frontend --parallel=5
+npx nx run-many -t serve -p file-vault users trainings api frontend --parallel=5
 ```
 
 ## Запуск сервисов backend по-отдельности
 Не нужно выполнять, если были запущены сразу все сервисы
 ```bash
 npx nx run file-vault:serve
-npx nx run auth:serve
+npx nx run users:serve
 npx nx run trainings:serve
 npx nx run api:serve
 ```

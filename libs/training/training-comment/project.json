@@ -1,9 +1,0 @@
-{
-  "name": "training-comment",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/training/training-comment/src",
-  "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project training-comment --web",
-  "targets": {}
-}

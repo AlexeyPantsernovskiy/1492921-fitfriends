@@ -56,6 +56,7 @@ export { UserAuth } from './lib/types/user-auth.interface';
 export { UserQuestionnaire } from './lib/types/questionnaire.interface';
 export { CoachQuestionnaire } from './lib/types/questionnaire.interface';
 export { Questionnaire } from './lib/types/questionnaire.interface';
+export { Friend } from './lib/types/friend.interface';
 
 export { SortType } from './lib/types/sort-type.enum';
 export { SortDirection } from './lib/types/sort-direction.enum';

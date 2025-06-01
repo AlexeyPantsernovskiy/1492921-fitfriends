@@ -1,9 +1,0 @@
-{
-  "name": "training-config",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/training/config/src",
-  "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project training-config --web",
-  "targets": {}
-}

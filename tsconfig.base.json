@@ -16,7 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@project/auth-config": ["libs/auth/config/src/index.ts"],
+      "@project/users-config": ["libs/users/config/src/index.ts"],
       "@project/data-access": ["libs/shared/data-access/src/index.ts"],
       "@project/file-uploader": ["libs/file-vault/file-uploader/src/index.ts"],
       "@project/file-vault-config": ["libs/file-vault/config/src/index.ts"],
@@ -25,14 +25,14 @@
       "@project/shared-client": ["libs/shared/core/src/index-client.ts"],
       "@project/shared-core": ["libs/shared/core/src/index.ts"],
       "@project/shared-helpers": ["libs/shared/helpers/src/index.ts"],
-      "@project/training": ["libs/training/training-catalog/src/index.ts"],
+      "@project/training": ["libs/trainings/training-catalog/src/index.ts"],
       "@project/training-comment": [
-        "libs/training/training-comment/src/index.ts"
+        "libs/trainings/training-comment/src/index.ts"
       ],
-      "@project/training-order": ["libs/training/training-order/src/index.ts"],
-      "@project/training-config": ["libs/training/config/src/index.ts"],
-      "@project/training-models": ["libs/training/models/src/index.ts"],
-      "@project/user": ["libs/auth/user/src/index.ts"]
+      "@project/training-order": ["libs/trainings/training-order/src/index.ts"],
+      "@project/training-config": ["libs/trainings/config/src/index.ts"],
+      "@project/training-models": ["libs/trainings/models/src/index.ts"],
+      "@project/user": ["libs/users/user/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

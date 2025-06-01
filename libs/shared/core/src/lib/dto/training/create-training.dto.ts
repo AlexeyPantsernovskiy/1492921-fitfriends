@@ -22,7 +22,6 @@ import { Level } from '../../types/level.enum';
 import { Specialization } from '../../types/specialization.enum';
 import { Duration } from '../../types/duration.enum';
 import { Sex } from '../../types/sex.enum';
-import { UserProperty } from '../../swagger/user/user-property';
 
 export class CreateTrainingDto
   implements Omit<Training, 'id' | 'createdDate' | 'rating'>

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 
 import { TrainingModule } from '@project/training';
-import { TrainingConfigModule } from '@project/training-config';
+import { TrainingsConfigModule } from '@project/training-config';
 import { TrainingOrderModule } from '@project/training-order';
 
 @Module({
-  imports: [TrainingModule, TrainingConfigModule, TrainingOrderModule],
+  imports: [TrainingModule, TrainingsConfigModule, TrainingOrderModule],
   controllers: [],
   providers: [],
 })

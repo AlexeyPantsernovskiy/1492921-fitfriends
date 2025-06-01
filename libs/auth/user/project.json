@@ -1,9 +1,0 @@
-{
-  "name": "user",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/auth/user/src",
-  "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project user --web",
-  "targets": {}
-}
