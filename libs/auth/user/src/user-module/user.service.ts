@@ -146,11 +146,16 @@ export class UserService {
     }
   }
 
-  public async getUsersReadyToTrain(query: LimitQuery): Promise<UserRdo[] | null> {
-    const users = await this.userRepository.find({
-      'role': UserRole.Sportsman,
-      'questionnaire.isReadyToTrain': true,
-    }, query.limit);
+  public async getUsersReadyToTrain(
+    query: LimitQuery
+  ): Promise<UserRdo[] | null> {
+    const users = await this.userRepository.find(
+      {
+        role: UserRole.Sportsman,
+        'questionnaire.isReadyToTrain': true,
+      },
+      query.limit
+    );
     if (!users.length) {
       throw new NotFoundException(UserResponse.UsersNotFound.description);
     }
