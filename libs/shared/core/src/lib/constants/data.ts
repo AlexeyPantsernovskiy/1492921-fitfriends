@@ -1,5 +1,6 @@
 import { Duration } from '../types/duration.enum';
 import { Level } from '../types/level.enum';
+import { RequestTrain } from '../types/request-train.enum';
 import { Sex } from '../types/sex.enum';
 import { Specialization } from '../types/specialization.enum';
 import { UserRole } from '../types/user-role.enum';
@@ -20,6 +21,7 @@ export const SEX = Object.values(Sex);
 export const SPECIALIZATIONS = Object.keys(Specialization);
 export const LEVELS = Object.values(Level);
 export const DURATIONS = Object.values(Duration);
+export const REQUEST_TRAIN = Object.values(RequestTrain);
 
 export const DefaultFile = {
   UserCard: {

@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { getJwtOptions } from 'libs/users/config/src';
+import { getJwtOptions } from '@project/users-config';
 
 import { UserController } from './user.controller';
 import { JwtAccessStrategy } from '../strategies/jwt-access.strategy';

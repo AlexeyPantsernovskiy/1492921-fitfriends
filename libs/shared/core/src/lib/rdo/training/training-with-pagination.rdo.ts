@@ -5,7 +5,7 @@ import { TrainingRdo } from './training.rdo';
 
 import { TrainingProperty } from '../../swagger/training/training-property';
 import { TrainingWithPagination } from '../../types/training-with-pagination.type';
-import { PaginationRdo } from '../training-with-pagination.rdo';
+import { PaginationRdo } from '../pagination.rdo';
 
 export class TrainingWithPaginationRdo
   extends PaginationRdo

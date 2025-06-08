@@ -37,7 +37,7 @@ function LookForCompany(): JSX.Element {
           <FlatButton
             className="btn-flat--light look-for-company__button"
             icon={Icon.ViewAll}
-            onClick={() => history.push(AppRoute.Friends)}
+            onClick={() => history.push(AppRoute.Users)}
           />
           <div className="look-for-company__controls">
             <IconButton

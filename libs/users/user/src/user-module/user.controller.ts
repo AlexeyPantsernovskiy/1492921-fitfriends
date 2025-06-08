@@ -46,7 +46,7 @@ import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { QuestionnaireUserService } from './questionnaire-user.service';
 
-@ApiTags('Users')
+@ApiTags('Пользователи')
 @Controller('users')
 export class UserController {
   constructor(

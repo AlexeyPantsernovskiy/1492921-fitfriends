@@ -5,6 +5,7 @@ import {
   IsIn,
   IsInt,
   IsMongoId,
+  IsNumber,
   IsOptional,
   IsString,
   Max,
@@ -28,7 +29,7 @@ export class TrainingQuery {
   @Min(0)
   public limit?: number;
 
-  @ApiProperty(TrainingProperty.SortDirection.Description)
+  @ApiProperty(CommonProperty.SortDirection.Description)
   @IsIn(Object.values(SortDirection))
   @IsOptional()
   public sortDirection?: SortDirection = TrainingSortDefault.Direction;
@@ -41,6 +42,7 @@ export class TrainingQuery {
   @ApiProperty(CommonProperty.CurrentPage.Description)
   @Transform(({ value }) => parseInt(value, 10))
   @IsOptional()
+  @IsNumber({ maxDecimalPlaces: 0 })
   public page?: number;
 
   @ApiProperty(TrainingProperty.MinPrice.Description)

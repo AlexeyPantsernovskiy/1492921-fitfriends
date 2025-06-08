@@ -9,7 +9,7 @@ function PersonalAccountCoach(): JSX.Element {
       <div className="personal-account-coach__navigation">
         <ThumbnailLink link={AppRoute.MyTraining} icon={Icon.MyTraining} />
         <ThumbnailLink link={AppRoute.CreateTraining} icon={Icon.AddTrain} />
-        <ThumbnailLink link={AppRoute.Friends} icon={Icon.Friends} />
+        <ThumbnailLink link={AppRoute.MyFriends} icon={Icon.Friends} />
         <ThumbnailLink link={AppRoute.MyOrders} icon={Icon.MyOrders} />
         <div className="personal-account-coach__calendar">
           <ThumbnailNearest text="Скоро тут будет интересно" />

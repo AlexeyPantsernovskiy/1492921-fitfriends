@@ -27,7 +27,7 @@ function TrainingCard(): JSX.Element {
     return <Spinner />;
   }
 
-  const HandleAddCommentButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleAddCommentButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     alert('Пока не готово!');
   };
@@ -47,7 +47,7 @@ function TrainingCard(): JSX.Element {
               classPrefix="reviews-side-bar"
               type={ButtonType.Button}
               addClasses="btn--medium"
-              onClick={HandleAddCommentButtonClick}
+              onClick={handleAddCommentButtonClick}
             />
           </aside>
           <TrainingInfo />

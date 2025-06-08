@@ -5,7 +5,7 @@ import { TrainingOrderRdo } from './training-order.rdo';
 import { TrainingOrderProperty } from '../../swagger/training/training-order-property';
 import { ValidateNested } from 'class-validator';
 import { TrainingOrderWithPagination } from '../../types/training-order-with-pagination.type';
-import { PaginationRdo } from '../training-with-pagination.rdo';
+import { PaginationRdo } from '../pagination.rdo';
 
 export class TrainingOrderWithPaginationRdo
   extends PaginationRdo

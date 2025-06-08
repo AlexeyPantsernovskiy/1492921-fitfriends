@@ -170,15 +170,6 @@ export const TrainingProperty = {
       isArray: true,
     },
   },
-  SortDirection: {
-    Description: {
-      description: 'Направление сортировки',
-      enum: SortDirection,
-      enumName: 'SortDirection',
-      example: SortDirection.Desc,
-      required: false,
-    },
-  },
   SortType: {
     Description: {
       description: 'Вариант сортировки',

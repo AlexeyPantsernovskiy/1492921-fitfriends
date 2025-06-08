@@ -32,7 +32,8 @@
       "@project/training-order": ["libs/trainings/training-order/src/index.ts"],
       "@project/training-config": ["libs/trainings/config/src/index.ts"],
       "@project/training-models": ["libs/trainings/models/src/index.ts"],
-      "@project/user": ["libs/users/user/src/index.ts"]
+      "@project/user": ["libs/users/user/src/index.ts"],
+      "@project/friend": ["libs/users/friend/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

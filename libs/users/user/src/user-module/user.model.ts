@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, now, SchemaTypes } from 'mongoose';
+import { Document, SchemaTypes } from 'mongoose';
 
 import {
   SEX,
@@ -12,7 +12,6 @@ import {
   Specialization,
   Level,
   UserAuthBase,
-  Friend,
 } from '@project/shared-core';
 
 @Schema({ _id: false, discriminatorKey: 'kind' })
@@ -154,24 +153,3 @@ export class UserModel extends Document implements UserAuthBase {
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
-
-@Schema({
-  collection: 'friends',
-  timestamps: true,
-})
-export class FriendModel extends Document implements Friend {
-  @Prop({
-    required: true,
-  })
-  public userId: string;
-
-  @Prop({
-    required: true,
-  })
-  public friendId: string;
-
-  @Prop({ default: now })
-  public createdAt: Date;
-}
-
-export const FriendSchema = SchemaFactory.createForClass(FriendModel);

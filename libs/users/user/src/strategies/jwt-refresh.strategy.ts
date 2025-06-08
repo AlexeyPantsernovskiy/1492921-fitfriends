@@ -3,8 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigType } from '@nestjs/config';
 
-import { jwtConfig } from 'libs/users/config/src';
 import { RefreshTokenPayload } from '@project/shared-core';
+import { jwtConfig } from '@project/users-config';
 
 import { UserService } from '../user-module/user.service';
 import { RefreshTokenService } from '../refresh-token-module/refresh-token.service';

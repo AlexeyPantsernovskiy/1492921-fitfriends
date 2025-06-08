@@ -5,6 +5,8 @@ import { UserProperty } from '../../swagger/user/user-property';
 import { Sex } from '../../types/sex.enum';
 import { UserRole } from '../../types/user-role.enum';
 import { Questionnaire } from '../../types/questionnaire.interface';
+import { FriendProperty } from '../../swagger/friend/friend-property';
+import { RequestTrain } from '../../types/request-train.enum';
 
 export class UserRdo {
   @ApiProperty(UserProperty.Id.Description)
@@ -54,4 +56,16 @@ export class UserRdo {
   @ApiProperty(UserProperty.Questionnaire.Description)
   @Expose()
   public questionnaire: Questionnaire;
+
+  @ApiProperty(UserProperty.IsFriend.Description)
+  @Expose()
+  public isFriend?: boolean;
+
+  @ApiProperty(FriendProperty.RequestTrain.Description)
+  @Expose()
+  public requestTrain?: RequestTrain;
+
+  @ApiProperty(FriendProperty.RequestUserId.Description)
+  @Expose()
+  public requestUserId?: string;
 }

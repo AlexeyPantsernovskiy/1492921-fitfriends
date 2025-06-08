@@ -69,6 +69,7 @@ import { InjectUserIdInterceptor } from './interceptors/inject-user-id.intercept
 import { UpdateUserWithPhotoDto } from './dto/update-user-with-photo.dto';
 import { FillCoachQuestionnaireWithFileDto } from './dto/fill-coach-questionnaire-with-file.dto';
 import { LoadFileCertificateDto } from './dto/load-file-certificate.dto';
+import { FriendRdo } from 'libs/shared/core/src/lib/rdo/friend/friend.rdo';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -484,16 +485,30 @@ export class UsersController {
   @ApiOperation(UserOperation.GetUser)
   @ApiResponse(UserResponse.UserFound)
   @ApiResponse(UserResponse.UserNotFound)
+  @ApiResponse(UserResponse.UserNotAuth)
   @ApiResponse(CommonResponse.BadRequest)
+  @ApiBearerAuth('accessToken')
+  @UseGuards(CheckAuthGuard)
   @ApiParam(UserParam.UserId)
   public async show(
-    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string
+    @Param(UserParam.UserId.name, MongoIdValidationPipe) userId: string,
+    @Req() req: Request
   ) {
-    const userResponse = await this.httpService.axiosRef.get<UserRdo>(
+    const userAuthId = req['user']['sub'];
+    const { data: user } = await this.httpService.axiosRef.get<UserRdo>(
       `${ApplicationServiceURL.Users}/${userId}`,
       {}
     );
-    return this.correctFilePath(userResponse.data as User);
+    if (user) {
+      const { data: friend } = await this.httpService.axiosRef.get(
+        `${ApplicationServiceURL.Friends}?userId=${userAuthId}&friendId=${userId}`,
+        {}
+      );
+      user.isFriend = friend.entities.length > 0 ? true : false;
+      user.requestTrain = friend.entities[0]?.requestTrain;
+      user.requestUserId = friend.entities[0]?.requestUserId;
+    }
+    return this.correctFilePath(user as User);
   }
 
   @Patch('update')

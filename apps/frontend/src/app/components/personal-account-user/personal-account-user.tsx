@@ -56,7 +56,7 @@ function PersonalAccountUser({
         </form>
       </div>
       <div className="personal-account-user__additional-info">
-        <ThumbnailLink link={AppRoute.Friends} icon={Icon.Friends} />
+        <ThumbnailLink link={AppRoute.MyFriends} icon={Icon.Friends} />
         <ThumbnailLink link={AppRoute.MyPurchases} icon={Icon.MyPurchases} />
         <ThumbnailNearest />
       </div>

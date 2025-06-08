@@ -11,6 +11,7 @@ export { Duration, DurationName } from './lib/types/duration.enum';
 export { Specialization } from './lib/types/specialization.enum';
 export { PaymentType } from './lib/types/payment-type.enum';
 export { OrderType } from './lib/types/order-type.enum';
+export { RequestTrain } from './lib/types/request-train.enum';
 
 export type { User } from './lib/types/user.interface';
 export type { UserLogin } from './lib/types/user-login.interface';
@@ -49,4 +50,7 @@ export { SortDirection } from './lib/types/sort-direction.enum';
 
 export { TrainingProperty } from './lib/swagger/training/training-property';
 
-export type { LimitQuery } from './lib/query/limit.query'
+export type { LimitQuery } from './lib/query/limit.query';
+export type { MyFriendQuery } from './lib/query/friend.query';
+
+export type { FriendWithPaginationRdo } from './lib/rdo/friend/friend-with-pagination.rdo';

@@ -26,7 +26,7 @@ import {
   UserRole,
   LimitQuery,
 } from '@project/shared-core';
-import { jwtConfig } from 'libs/users/config/src';
+import { jwtConfig } from '@project/users-config';
 import { fillDto } from '@project/shared-helpers';
 
 import { RefreshTokenService } from '../refresh-token-module/refresh-token.service';

@@ -3,7 +3,7 @@ import Registration from './registration/registration';
 import Intro from './intro/intro';
 import NotFound from './not-found/not-found';
 import Main from './main/main';
-import Friends from './friends/friends';
+import MyFriends from './my-friends/my-friends';
 import PersonalAccount from './personal-account/personal-account';
 import QuestionnaireUser from './questionnaire/questionnaire-user';
 import TrainingCard from './training-card/training-card';
@@ -20,7 +20,7 @@ export {
   QuestionnaireUser,
   QuestionnaireCoach,
   NotFound,
-  Friends,
+  MyFriends,
   PersonalAccount,
   TrainingCard,
   TrainingCatalog,

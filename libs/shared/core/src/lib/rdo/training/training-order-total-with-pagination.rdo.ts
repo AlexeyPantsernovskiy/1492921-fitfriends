@@ -7,7 +7,7 @@ import {
 } from './training-order-total.rdo';
 import { TrainingOrderProperty } from '../../swagger/training/training-order-property';
 import { ValidateNested } from 'class-validator';
-import { PaginationRdo } from '../training-with-pagination.rdo';
+import { PaginationRdo } from '../pagination.rdo';
 
 export class TrainingOrderTotalWithPaginationRdo extends PaginationRdo {
   @ApiProperty(TrainingOrderProperty.Orders.Description)

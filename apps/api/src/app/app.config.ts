@@ -7,6 +7,7 @@ export const ApplicationServiceURL = {
   FileServe: `http://localhost:${DefaultPort.FileVault}/static`,
   Trainings: `http://localhost:${DefaultPort.Trainings}/api/trainings`,
   Orders: `http://localhost:${DefaultPort.Trainings}/api/orders`,
+  Friends: `http://localhost:${DefaultPort.Users}/api/friends`,
 } as const;
 
 export const ClientConfig = {

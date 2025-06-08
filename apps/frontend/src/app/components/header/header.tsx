@@ -35,7 +35,7 @@ const NavItemData = {
     height: 18,
   },
   Friends: {
-    route: AppRoute.Friends,
+    route: AppRoute.MyFriends,
     caption: 'Друзья',
     icon: '#icon-friends',
     width: 22,

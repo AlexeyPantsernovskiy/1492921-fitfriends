@@ -2,7 +2,12 @@ import { MouseEvent, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
-import { getUser, userSelectors } from '@frontend/store';
+import {
+  addFriend,
+  deleteFriend,
+  getUser,
+  userSelectors,
+} from '@frontend/store';
 import { BackButton, FilledButton, Spinner } from '@frontend/components';
 import { ButtonType } from '@frontend/types/component';
 import { Specialization } from '@project/shared';
@@ -13,7 +18,6 @@ function UserCard(): JSX.Element {
   const { id } = params;
   const isLoading = useAppSelector(userSelectors.isLoading);
   const user = useAppSelector(userSelectors.user);
-  console.log('params', params);
   useEffect(() => {
     if (id) {
       dispatch(getUser(id));
@@ -24,9 +28,16 @@ function UserCard(): JSX.Element {
     return <Spinner />;
   }
 
-  const HandleAddFriendsButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleUpdateFriendsButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    alert('Пока не готово!');
+    if (!user) {
+      return;
+    }
+    if (user.isFriend) {
+      dispatch(deleteFriend(user.id));
+    } else {
+      dispatch(addFriend(user.id));
+    }
   };
 
   return (
@@ -82,8 +93,12 @@ function UserCard(): JSX.Element {
                     <FilledButton
                       addClasses="user-card__btn"
                       type={ButtonType.Button}
-                      caption="Добавить в друзья"
-                      onClick={HandleAddFriendsButtonClick}
+                      caption={
+                        user.isFriend
+                          ? 'Удалить из друзей'
+                          : 'Добавить в друзья'
+                      }
+                      onClick={handleUpdateFriendsButtonClick}
                     />
                   </div>
 

@@ -88,15 +88,15 @@ function TrainingInfo(): JSX.Element {
     }
   };
 
-  const HandlePurchaseButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handlePurchaseButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setShowModal(true);
   };
-  const HandleStartButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleStartButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     alert('Пока не готово!');
   };
-  const HandleEndButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleEndButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     alert('Пока не готово!');
   };
@@ -142,7 +142,7 @@ function TrainingInfo(): JSX.Element {
     }
   };
 
-  const HandleVideoSaveButtonClick = (
+  const handleVideoSaveButtonClick = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
@@ -157,7 +157,7 @@ function TrainingInfo(): JSX.Element {
     setVideo(undefined);
   };
 
-  const HandleVideoDeleteButtonClick = (
+  const handleVideoDeleteButtonClick = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
@@ -308,7 +308,7 @@ function TrainingInfo(): JSX.Element {
                     caption="Купить"
                     type={ButtonType.Button}
                     addClasses="training-info__buy"
-                    onClick={HandlePurchaseButtonClick}
+                    onClick={handlePurchaseButtonClick}
                   />
                 )}
               </div>
@@ -367,14 +367,14 @@ function TrainingInfo(): JSX.Element {
                 addClasses="training-video__button--start"
                 type={ButtonType.Button}
                 disabled={!newVideo}
-                onClick={HandleVideoSaveButtonClick}
+                onClick={handleVideoSaveButtonClick}
               />
               <FilledButton
                 caption="Удалить"
                 addClasses="btn--outlined"
                 type={ButtonType.Button}
                 disabled={newVideo === null}
-                onClick={HandleVideoDeleteButtonClick}
+                onClick={handleVideoDeleteButtonClick}
               />
             </div>
           )}
@@ -386,7 +386,7 @@ function TrainingInfo(): JSX.Element {
                 addClasses="training-video__button--start"
                 type={ButtonType.Button}
                 disabled
-                onClick={HandleStartButtonClick}
+                onClick={handleStartButtonClick}
               />
               <FilledButton
                 caption="Закончить"
@@ -394,7 +394,7 @@ function TrainingInfo(): JSX.Element {
                 addClasses="training-video__button--stop"
                 type={ButtonType.Button}
                 disabled
-                onClick={HandleEndButtonClick}
+                onClick={handleEndButtonClick}
               />
             </>
           )}

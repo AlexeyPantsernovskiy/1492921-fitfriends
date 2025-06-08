@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import dayjs from 'dayjs';
 
-import { jwtConfig } from 'libs/users/config/src';
+import { jwtConfig } from '@project/users-config';
 import { RefreshTokenPayload } from '@project/shared-core';
 import { parseTime } from '@project/shared-helpers';
 

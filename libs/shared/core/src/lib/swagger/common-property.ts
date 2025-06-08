@@ -1,24 +1,6 @@
+import { SortDirection } from '../types/sort-direction.enum';
+
 export const CommonProperty = {
-  UserId: {
-    Description: {
-      description: 'ID зарегистрированного пользователя',
-      example: '6766fdb720f78014bf83d5a3',
-      required: false,
-    },
-    Validate: {
-      Message: 'Идентификатор пользователя должен быть корректным MongoId',
-    },
-  },
-  UserIdNotNull: {
-    Description: {
-      description: 'ID зарегистрированного пользователя',
-      example: '6766fdb720f78014bf83d5a3',
-      required: true,
-    },
-    Validate: {
-      Message: 'Идентификатор пользователя должен быть корректным MongoId',
-    },
-  },
   TotalPages: {
     Description: {
       description: 'Общее количество страниц',
@@ -42,6 +24,16 @@ export const CommonProperty = {
     Description: {
       description: 'Количество элементов на странице',
       example: 9,
+      required: false,
+    },
+  },
+  SortDirection: {
+    Description: {
+      description: 'Направление сортировки',
+      enum: SortDirection,
+      enumName: 'SortDirection',
+      example: SortDirection.Desc,
+      required: false,
     },
   },
 } as const;

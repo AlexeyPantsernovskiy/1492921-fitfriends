@@ -38,7 +38,7 @@ function PopupFormBuy({ training, onClose }: PopupCommentProps): JSX.Element {
     };
   }, [onClose]);
 
-  const HandleBuyButtonClick = async () => {
+  const handleBuyButtonClick = async () => {
     if (!paymentType) {
       return;
     }
@@ -142,7 +142,7 @@ function PopupFormBuy({ training, onClose }: PopupCommentProps): JSX.Element {
               <FilledButton
                 caption="Купить"
                 type={ButtonType.Button}
-                onClick={HandleBuyButtonClick}
+                onClick={handleBuyButtonClick}
                 disabled={isSaving || !paymentType}
               />
             </div>

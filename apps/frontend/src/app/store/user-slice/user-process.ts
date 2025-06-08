@@ -5,6 +5,7 @@ import { AuthorizationStatus, StoreSlice } from '@frontend/src//const';
 import { UserProcess } from '@frontend/src/types/state';
 import {
   CoachQuestionnaire,
+  FriendWithPaginationRdo,
   Questionnaire,
   QuestionnaireRdo,
   User,
@@ -24,6 +25,9 @@ import {
   updateCertificate,
   updateUser,
   getUser,
+  addFriend,
+  deleteFriend,
+  getFriends,
 } from './user-action';
 
 const initialState: UserProcess = {
@@ -32,6 +36,7 @@ const initialState: UserProcess = {
   userAuth: null,
   user: null,
   users: null,
+  friends: null,
 };
 
 const userAuth = (state: UserProcess, action: PayloadAction<UserRdo>) => {
@@ -58,11 +63,11 @@ const endLoadingUsers = (state: UserProcess, action: PayloadAction<User[]>) => {
   state.isLoading = false;
 };
 
-const startLoadingUsers = (state: UserProcess) => {
+const startLoading = (state: UserProcess) => {
   state.isLoading = true;
 };
 
-const errorLoadingUsers = (state: UserProcess) => {
+const errorLoading = (state: UserProcess) => {
   state.isLoading = false;
 };
 
@@ -71,11 +76,23 @@ const endLoadingUser = (state: UserProcess, action: PayloadAction<UserRdo>) => {
   state.isLoading = false;
 };
 
-const startLoadingUser = (state: UserProcess) => {
-  state.isLoading = true;
+const endAddFriend = (state: UserProcess) => {
+  if (state.user) {
+    state.user.isFriend = true;
+  }
 };
 
-const errorLoadingUser = (state: UserProcess) => {
+const endDeleteFriend = (state: UserProcess) => {
+  if (state.user) {
+    state.user.isFriend = false;
+  }
+};
+
+const endLoadingFriends = (
+  state: UserProcess,
+  action: PayloadAction<FriendWithPaginationRdo>
+) => {
+  state.friends = action.payload;
   state.isLoading = false;
 };
 
@@ -101,13 +118,20 @@ export const userProcess = createSlice({
       .addCase(updateCertificate.fulfilled, setQuestionnaire)
       .addCase(deleteCertificate.fulfilled, setQuestionnaire)
 
-      .addCase(getLookForCompany.pending, startLoadingUsers)
+      .addCase(getLookForCompany.pending, startLoading)
       .addCase(getLookForCompany.fulfilled, endLoadingUsers)
-      .addCase(getLookForCompany.rejected, errorLoadingUsers)
+      .addCase(getLookForCompany.rejected, errorLoading)
 
-      .addCase(getUser.pending, startLoadingUser)
+      .addCase(getUser.pending, startLoading)
       .addCase(getUser.fulfilled, endLoadingUser)
-      .addCase(getUser.rejected, errorLoadingUser);
+      .addCase(getUser.rejected, errorLoading)
+
+      .addCase(deleteFriend.fulfilled, endDeleteFriend)
+      .addCase(addFriend.fulfilled, endAddFriend)
+
+      .addCase(getFriends.pending, startLoading)
+      .addCase(getFriends.fulfilled, endLoadingFriends)
+      .addCase(getFriends.rejected, errorLoading);
   },
   selectors: {
     authorizationStatus: (state) => state.authorizationStatus,
@@ -116,6 +140,7 @@ export const userProcess = createSlice({
     users: (state) => state.users,
     isLoading: (state) => state.isLoading,
     user: (state) => state.user,
+    friends: (state) => state.friends,
   },
 });
 

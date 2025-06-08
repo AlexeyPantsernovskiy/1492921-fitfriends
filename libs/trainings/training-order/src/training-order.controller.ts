@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import {
@@ -7,7 +7,6 @@ import {
   TrainingOperation,
   TrainingOrderQuery,
   TrainingOrderResponse,
-  UpdateOrderStateDto,
   UserRole,
 } from '@project/shared-core';
 

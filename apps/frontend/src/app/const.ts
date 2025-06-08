@@ -1,5 +1,3 @@
-import { LookForCompany } from './components';
-
 export const AppRoute = {
   Root: '/',
   Login: '/login',
@@ -14,9 +12,10 @@ export const AppRoute = {
   MyTraining: '/my-training',
   MyOrders: '/my-orders',
   TrainingCard: '/training/:id',
-  Friends: '/friends',
+  MyFriends: '/my-friends',
   MyPurchases: '/my-purchases',
   UserCard: '/user-card/:id',
+  Users: '/users',
   NotFound: '/404',
 } as const;
 
@@ -36,6 +35,8 @@ export const ApiRoute = {
   Trainings: '/api/trainings',
   SpecialForYou: '/api/trainings/special-for-you',
   Orders: '/api/orders',
+  Friends: '/api/friends',
+  FriendsRequestTrain: '/api/friends/request-train',
 } as const;
 
 export enum AuthorizationStatus {
@@ -70,6 +71,7 @@ export const Limits = {
   MyOrders: 4,
   MyPurchases: 6,
   LookForCompany: 8,
+  MyFriends: 6,
 } as const;
 
 // Размер скидки которая применяется при установки флага "Специальное предложение"

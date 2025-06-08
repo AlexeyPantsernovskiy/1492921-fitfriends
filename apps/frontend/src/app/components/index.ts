@@ -43,6 +43,7 @@ import CustomToggle from './custom-toggle/custom-toggle';
 import CustomToggleList from './custom-toggle-list/custom-toggle-list';
 import InputFile from './input-file/input-file';
 import PopupFormBuy from './popup-form-buy/popup-form-buy';
+import FriendCard from './friend-card/friend-card';
 //import ModalWindow from './modal-window/modal-window';
 
 export {
@@ -91,6 +92,7 @@ export {
   Certificates,
   InputFile,
   PopupFormBuy,
+  FriendCard,
   //ModalWindow,
 };
 export type { CustomInputProps };

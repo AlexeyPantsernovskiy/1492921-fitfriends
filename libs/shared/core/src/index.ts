@@ -2,6 +2,8 @@ export * from './lib/constants/data';
 export * from './lib/constants/file-vault.constant';
 export * from './lib/constants/training.constant';
 export * from './lib/constants/user.constant';
+export * from './lib/constants/friend.constant';
+export * from './lib/types/user-role.enum';
 
 export { CommonResponse } from './lib/swagger/common-response';
 export { CommonProperty } from './lib/swagger/common-property';
@@ -19,6 +21,10 @@ export { TrainingProperty } from './lib/swagger/training/training-property';
 export { TrainingResponse } from './lib/swagger/training/training-response';
 export { TrainingOrderResponse } from './lib/swagger/training/training-order-response';
 
+export { FriendOperation } from './lib/swagger/friend/friend-operation';
+export { FriendResponse } from './lib/swagger/friend/friend-response';
+export { FriendParam } from './lib/swagger/friend/friend-param';
+
 export { Sex, SexName } from './lib/types/sex.enum';
 export { Level, LevelName } from './lib/types/level.enum';
 export { Duration, DurationName } from './lib/types/duration.enum';
@@ -32,7 +38,7 @@ export { TrainingOrderWithPagination } from './lib/types/training-order-with-pag
 export { PaymentType } from './lib/types/payment-type.enum';
 export { OrderType } from './lib/types/order-type.enum';
 export { OrderAction } from './lib/types/order-action.enum';
-export * from './lib/types/user-role.enum';
+export { RequestTrain } from './lib/types/request-train.enum';
 
 export { MongoEntity } from './lib/base/mongo-entity';
 export { PgEntity } from './lib/base/pg-entity';
@@ -76,6 +82,7 @@ export {
 } from './lib/dto/user/fill-questionnaire.dto';
 export { LoginUserDto } from './lib/dto/user/login-user.dto';
 export { UpdateUserDto } from './lib/dto/user/update-user.dto';
+export { UpdateOrCheckFriendDto } from './lib/dto/friend/update-or-check-friend.dto';
 
 export { CreateTrainingDto } from './lib/dto/training/create-training.dto';
 export { UpdateTrainingDto } from './lib/dto/training/update-training.dto';
@@ -87,6 +94,7 @@ export { LimitQuery } from './lib/query/limit.query';
 export { TrainingQuery } from './lib/query/training.query';
 export { TrainingOrderQuery } from './lib/query/training-order.query';
 export { TrainingMyOrderQuery } from './lib/query/training-order.query';
+export { FriendQuery, MyFriendQuery } from './lib/query/friend.query';
 
 export { SpecialForYouQuery } from './lib/query/special-for-you.query';
 
@@ -112,3 +120,4 @@ export {
   TrainingOrderTotalWithPaginationRdo,
   TrainingMyOrderTotalWithPaginationRdo,
 } from './lib/rdo/training/training-order-total-with-pagination.rdo';
+//export { FriendWithPaginationRdo } from './lib/rdo/friend/friend-with-pagination.rdo';

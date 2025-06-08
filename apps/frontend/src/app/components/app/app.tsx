@@ -16,7 +16,7 @@ import {
 import { AppRoute, AuthorizationStatus } from '@frontend/src/const';
 import historyBrowser from '@frontend/src/history';
 import {
-  Friends,
+  MyFriends,
   Intro,
   Login,
   Main,
@@ -109,13 +109,13 @@ const App = (): JSX.Element => (
             }
           />
           <Route
-            path={AppRoute.Friends}
+            path={AppRoute.MyFriends}
             element={
               <PrivateRoute
                 restrictedFor={AuthorizationStatus.NoAuth}
                 redirectTo={AppRoute.Root}
               >
-                <Friends />
+                <MyFriends />
               </PrivateRoute>
             }
           />

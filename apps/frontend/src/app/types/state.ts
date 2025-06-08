@@ -1,6 +1,7 @@
 import store from '@frontend/store';
 import { AuthorizationStatus } from '@frontend/src/const';
 import {
+  FriendWithPaginationRdo,
   TrainingMyOrderTotalWithPaginationRdo,
   TrainingRdo,
   TrainingWithCoachRdo,
@@ -35,7 +36,8 @@ export type UserProcess = {
   isLoading: boolean;
   userAuth: User | null;
   user: UserRdo | null;
-  users: User[] | null
+  users: User[] | null;
+  friends: FriendWithPaginationRdo | null;
 };
 
 export type State = ReturnType<typeof store.getState>;

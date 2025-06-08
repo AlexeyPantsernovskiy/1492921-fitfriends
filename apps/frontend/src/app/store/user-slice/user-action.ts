@@ -14,9 +14,12 @@ import {
   UserQuestionnaire,
   QuestionnaireCoachRdo,
   User,
+  FriendWithPaginationRdo,
+  MyFriendQuery,
 } from '@project/shared';
-import { ApiExtra } from '@frontend/src/types/types';
+import { ApiExtra, RequestTrainParam } from '@frontend/src/types/types';
 import { LookForCompany } from '@frontend/components';
+import { queryToString } from '@frontend/src/utils';
 
 const UserAction = {
   LoginUser: 'user/login',
@@ -32,6 +35,10 @@ const UserAction = {
   UpdateCertificate: 'user/update-certificate',
   DeleteCertificate: 'user/delete-certificate',
   LookForCompany: 'user/look-for-company',
+  AddFriend: 'user/add-friend',
+  DeleteFriend: 'user/delete-friend',
+  GetFriends: 'user/get-friends',
+  RequestTrain: 'user/request-train',
 };
 
 export const getUserAuth = createAsyncThunk<
@@ -220,6 +227,49 @@ export const getLookForCompany = createAsyncThunk<
   const { api } = extra;
   const { data } = await api.get<User[]>(
     `${ApiRoute.LookForCompany}?limit=${limit}`
+  );
+  return data;
+});
+
+export const addFriend = createAsyncThunk<UserRdo, string, { extra: ApiExtra }>(
+  UserAction.AddFriend,
+  async (friendId, { extra }) => {
+    const { api } = extra;
+    const { data: user } = await api.post<UserRdo>(
+      `${ApiRoute.Friends}/${friendId}`
+    );
+    return user;
+  }
+);
+
+export const deleteFriend = createAsyncThunk<void, string, { extra: ApiExtra }>(
+  UserAction.DeleteFriend,
+  async (friendId, { extra }) => {
+    const { api } = extra;
+    await api.delete<UserRdo>(`${ApiRoute.Friends}/${friendId}`);
+  }
+);
+
+export const getFriends = createAsyncThunk<
+  FriendWithPaginationRdo,
+  MyFriendQuery,
+  { extra: ApiExtra }
+>(UserAction.GetFriends, async (query, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<FriendWithPaginationRdo>(
+    `${ApiRoute.Friends}?${queryToString(query)}`
+  );
+  return data;
+});
+
+export const requestTrain = createAsyncThunk<
+  UserRdo,
+  RequestTrainParam,
+  { extra: ApiExtra }
+>(UserAction.RequestTrain, async (requestTrainParam, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.patch<UserRdo>(
+    `${ApiRoute.FriendsRequestTrain}/${requestTrainParam.action}/${requestTrainParam.userId}`
   );
   return data;
 });
