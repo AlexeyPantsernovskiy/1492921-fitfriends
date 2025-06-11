@@ -11,7 +11,7 @@ import BackButton from '../../components/back-button/back-button';
 function MyFriends(): JSX.Element {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(userSelectors.isLoading);
-  const friends = useAppSelector(userSelectors.friends);
+  const friends = useAppSelector(userSelectors.users);
   const [limit, setLimit] = useState<number>(Limits.MyFriends);
 
   useEffect(() => {

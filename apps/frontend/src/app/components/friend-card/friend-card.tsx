@@ -11,6 +11,9 @@ import { requestTrain, userSelectors } from '@frontend/store';
 import { ButtonType } from '@frontend/types/component';
 
 import FilledButton from '../filled-button/filled-button';
+import Location from '../location/location';
+import Hashtags from '../hashtags/hashtags';
+import AvatarView from '../avatar-view/avatar-view';
 
 interface FriendCardProps {
   friend: UserRdo;
@@ -38,40 +41,18 @@ function FriendCard({ friend }: FriendCardProps): JSX.Element {
         className={`thumbnail-friend__info thumbnail-friend__info--theme-${user.role === UserRole.Coach ? 'dark' : 'light'}`}
       >
         <div className="thumbnail-friend__image-status">
-          <div className="thumbnail-friend__image">
-            <picture>
-              <source type="image/webp" srcSet={user.avatar} />
-              <img
-                src={user.avatar}
-                srcSet={user.avatar}
-                width="78"
-                height="78"
-                alt=""
-              />
-            </picture>
-          </div>
+          <AvatarView image={user.avatar} size={78} baseClassName="friend" />
         </div>
         <div className="thumbnail-friend__header">
           <h2 className="thumbnail-friend__name">{user.name}</h2>
-          <div className="thumbnail-friend__location">
-            <svg width="14" height="16" aria-hidden="true">
-              <use xlinkHref="#icon-location"></use>
-            </svg>
-            <address className="thumbnail-friend__location-address">
-              {user.location}
-            </address>
-          </div>
+          <Location address={user.location} baseClassName="friend" />
         </div>
-        <ul className="thumbnail-friend__training-types-list">
-          {user.questionnaire?.specialization &&
-            user.questionnaire.specialization.map((item) => (
-              <li key={item}>
-                <div className="hashtag thumbnail-friend__hashtag">
-                  <span>#{Specialization[item]}</span>
-                </div>
-              </li>
-            ))}
-        </ul>
+        <Hashtags
+          tags={user.questionnaire?.specialization}
+          dictionary={Specialization}
+          listClassName="thumbnail-friend__training-types-list"
+          divClassName="thumbnail-friend__hashtag"
+        />
         <div className="thumbnail-friend__activity-bar">
           <div
             className={`thumbnail-friend__ready-status thumbnail-friend__ready-status--is${user.questionnaire?.isReadyToTrain ? '' : '-not'}-ready`}

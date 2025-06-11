@@ -37,6 +37,7 @@ export const ApiRoute = {
   Orders: '/api/orders',
   Friends: '/api/friends',
   FriendsRequestTrain: '/api/friends/request-train',
+  Users: 'api/users',
 } as const;
 
 export enum AuthorizationStatus {
@@ -72,6 +73,7 @@ export const Limits = {
   MyPurchases: 6,
   LookForCompany: 8,
   MyFriends: 6,
+  ToggleListItems: 5,
 } as const;
 
 // Размер скидки которая применяется при установки флага "Специальное предложение"

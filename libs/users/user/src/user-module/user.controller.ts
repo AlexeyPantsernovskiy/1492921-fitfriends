@@ -36,9 +36,11 @@ import {
   TokenPayloadRdo,
   UpdateUserDto,
   User,
+  UserCatalogQuery,
   UserOperation,
   UserParam,
   UserResponse,
+  UserRole,
 } from '@project/shared-core';
 
 import { UserService } from './user.service';
@@ -84,7 +86,11 @@ export class UserController {
   @ApiResponse(UserResponse.UsersNotFound)
   @HttpCode(UserResponse.Users.status)
   public async getUsersReadyToTrain(@Query() query: LimitQuery) {
-    return await this.userService.getUsersReadyToTrain(query);
+    return await this.userService.find({
+      ...query,
+      role: UserRole.Sportsman,
+      isReadyToTrain: true,
+    });
   }
 
   @Get(':userId')
@@ -171,5 +177,13 @@ export class UserController {
   @HttpCode(UserResponse.UserUpdated.status)
   public async updateUser(@Body() dto: UpdateUserDto) {
     return await this.userService.updateUser(dto);
+  }
+
+  @Get()
+  @ApiOperation(UserOperation.UserCatalog)
+  @ApiResponse(UserResponse.Users)
+  @ApiResponse(UserResponse.UsersNotFound)
+  public async index(@Query() query: UserCatalogQuery) {
+    return await this.userService.find(query);
   }
 }

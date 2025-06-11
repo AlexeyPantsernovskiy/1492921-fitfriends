@@ -1,5 +1,6 @@
 import App from './app/app';
 import Avatar from './avatar/avatar';
+import AvatarView from './avatar-view/avatar-view';
 import FilledButton from './filled-button/filled-button';
 import CheckboxIcon from './checkbox-icon/checkbox-icon';
 import CheckboxButton from './checkbox-button/checkbox-button';
@@ -28,7 +29,6 @@ import PopularTrainings from './popular-trainings/popular-trainings';
 import LookForCompany from './look-for-company/look-for-company';
 import TrainingCard from './training-card/training-card';
 import SpecialOfferCard from './special-offer-card/special-offer-card';
-import LookForCompanyCard from './look-for-company-card/look-for-company-card';
 import SpecialForYouCard from './special-for-you-card/special-for-you-card';
 import BackButton from './back-button/back-button';
 import Comments from './comments/comments';
@@ -44,11 +44,15 @@ import CustomToggleList from './custom-toggle-list/custom-toggle-list';
 import InputFile from './input-file/input-file';
 import PopupFormBuy from './popup-form-buy/popup-form-buy';
 import FriendCard from './friend-card/friend-card';
-//import ModalWindow from './modal-window/modal-window';
+import Location from './location/location';
+import Hashtags from './hashtags/hashtags';
+import UserThumbnail from './user-thumbnail/user-thumbnail';
+import UserCatalogFilter from './user-catalog-filter/user-catalog-filter';
 
 export {
   App,
   Avatar,
+  AvatarView,
   FilledButton,
   FlatButton,
   IconButton,
@@ -81,7 +85,6 @@ export {
   PopularTrainings,
   TrainingCard,
   LookForCompany,
-  LookForCompanyCard,
   BackButton,
   Comments,
   TrainingInfo,
@@ -93,6 +96,9 @@ export {
   InputFile,
   PopupFormBuy,
   FriendCard,
-  //ModalWindow,
+  Location,
+  Hashtags,
+  UserThumbnail,
+  UserCatalogFilter,
 };
 export type { CustomInputProps };

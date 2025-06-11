@@ -13,19 +13,18 @@ import {
   TokenPayloadRdo,
   UserQuestionnaire,
   QuestionnaireCoachRdo,
-  User,
-  FriendWithPaginationRdo,
+  UserWithPaginationRdo,
   MyFriendQuery,
+  UserCatalogQuery,
 } from '@project/shared';
 import { ApiExtra, RequestTrainParam } from '@frontend/src/types/types';
-import { LookForCompany } from '@frontend/components';
 import { queryToString } from '@frontend/src/utils';
 
 const UserAction = {
   LoginUser: 'user/login',
   LogoutUser: 'user/logout',
   GetUserStatus: 'user/check-auth',
-  GetUser: 'user/get',
+  GetUser: 'user/get-user',
   RegisterUser: 'user/register',
   FillUserQuestionnaire: 'user/fill-user-questionnaire',
   FillCoachQuestionnaire: 'user/fill-coach-questionnaire',
@@ -39,6 +38,7 @@ const UserAction = {
   DeleteFriend: 'user/delete-friend',
   GetFriends: 'user/get-friends',
   RequestTrain: 'user/request-train',
+  GetUsers: 'user/get-users',
 };
 
 export const getUserAuth = createAsyncThunk<
@@ -220,15 +220,15 @@ export const deleteCertificate = createAsyncThunk<
 });
 
 export const getLookForCompany = createAsyncThunk<
-  User[],
+  UserWithPaginationRdo,
   number,
   { extra: ApiExtra }
 >(UserAction.LookForCompany, async (limit, { extra }) => {
   const { api } = extra;
-  const { data } = await api.get<User[]>(
+  const { data: users } = await api.get<UserWithPaginationRdo>(
     `${ApiRoute.LookForCompany}?limit=${limit}`
   );
-  return data;
+  return users;
 });
 
 export const addFriend = createAsyncThunk<UserRdo, string, { extra: ApiExtra }>(
@@ -251,15 +251,15 @@ export const deleteFriend = createAsyncThunk<void, string, { extra: ApiExtra }>(
 );
 
 export const getFriends = createAsyncThunk<
-  FriendWithPaginationRdo,
+  UserWithPaginationRdo,
   MyFriendQuery,
   { extra: ApiExtra }
 >(UserAction.GetFriends, async (query, { extra }) => {
   const { api } = extra;
-  const { data } = await api.get<FriendWithPaginationRdo>(
+  const { data: users } = await api.get<UserWithPaginationRdo>(
     `${ApiRoute.Friends}?${queryToString(query)}`
   );
-  return data;
+  return users;
 });
 
 export const requestTrain = createAsyncThunk<
@@ -272,4 +272,16 @@ export const requestTrain = createAsyncThunk<
     `${ApiRoute.FriendsRequestTrain}/${requestTrainParam.action}/${requestTrainParam.userId}`
   );
   return data;
+});
+
+export const getUsers = createAsyncThunk<
+  UserWithPaginationRdo,
+  UserCatalogQuery,
+  { extra: ApiExtra }
+>(UserAction.GetUsers, async (query, { extra }) => {
+  const { api } = extra;
+  const { data: users } = await api.get<UserWithPaginationRdo>(
+    `${ApiRoute.Users}?${queryToString(query)}`
+  );
+  return users;
 });

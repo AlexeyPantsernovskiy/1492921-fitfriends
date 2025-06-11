@@ -30,7 +30,7 @@ export class FriendController {
   @Get()
   @ApiOperation(FriendOperation.Friends)
   @ApiResponse(FriendResponse.FriendsFound)
-  public async show(@Query() query: FriendQuery) {
+  public async index(@Query() query: FriendQuery) {
     return await this.friendService.getFriends(query);
   }
 

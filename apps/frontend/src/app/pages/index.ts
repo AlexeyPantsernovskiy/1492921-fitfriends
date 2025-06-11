@@ -11,6 +11,7 @@ import TrainingCatalog from './training-catalog/training-catalog';
 import QuestionnaireCoach from './questionnaire/questionnaire-coach';
 import MyOrders from './my-orders/my-orders';
 import MyPurchases from './my-purchases/my-purchases';
+import UserCatalog from './user-catalog/user-catalog';
 
 export {
   Main,
@@ -26,4 +27,5 @@ export {
   TrainingCatalog,
   MyOrders,
   MyPurchases,
+  UserCatalog,
 };

@@ -5,7 +5,6 @@ import {
   IsIn,
   IsInt,
   IsMongoId,
-  IsNumber,
   IsOptional,
   IsString,
   Max,
@@ -21,14 +20,9 @@ import { SortType } from '../types/sort-type.enum';
 import { DURATIONS, SPECIALIZATIONS } from '../constants/data';
 import { Specialization } from '../types/specialization.enum';
 import { Duration } from '../types/duration.enum';
+import { PaginationQuery } from './pagination.query';
 
-export class TrainingQuery {
-  @ApiProperty(CommonProperty.ItemsPerPage.Description)
-  @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
-  @Min(0)
-  public limit?: number;
-
+export class TrainingQuery extends PaginationQuery {
   @ApiProperty(CommonProperty.SortDirection.Description)
   @IsIn(Object.values(SortDirection))
   @IsOptional()
@@ -38,12 +32,6 @@ export class TrainingQuery {
   @IsIn(Object.values(SortType))
   @IsOptional()
   public sortBy?: SortType = TrainingSortDefault.Type;
-
-  @ApiProperty(CommonProperty.CurrentPage.Description)
-  @Transform(({ value }) => parseInt(value, 10))
-  @IsOptional()
-  @IsNumber({ maxDecimalPlaces: 0 })
-  public page?: number;
 
   @ApiProperty(TrainingProperty.MinPrice.Description)
   @Transform(({ value }) => parseInt(value, 10))

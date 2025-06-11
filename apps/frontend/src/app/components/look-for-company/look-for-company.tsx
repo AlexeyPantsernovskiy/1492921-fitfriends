@@ -6,11 +6,7 @@ import 'swiper/css';
 import { Icon } from '@frontend/types/component';
 import history from '@frontend/src/history';
 import { AppRoute, Limits } from '@frontend/const';
-import {
-  FlatButton,
-  IconButton,
-  LookForCompanyCard,
-} from '@frontend/components';
+import { FlatButton, IconButton, UserThumbnail } from '@frontend/components';
 import { getLookForCompany, userSelectors } from '@frontend/store';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 
@@ -70,13 +66,13 @@ function LookForCompany(): JSX.Element {
               }
             }}
           >
-            {users.map((user, index) => (
+            {users.entities.map((user, index) => (
               <SwiperSlide
                 key={`SwiperSlide-${index}`}
                 className="look-for-company__item"
               >
                 <li className="look-for-company__item">
-                  <LookForCompanyCard user={user} />
+                  <UserThumbnail user={user} isDark isOutline />
                 </li>
               </SwiperSlide>
             ))}

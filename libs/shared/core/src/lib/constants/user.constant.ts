@@ -1,6 +1,8 @@
 import { Duration } from '../types/duration.enum';
 import { Level } from '../types/level.enum';
 import { Sex } from '../types/sex.enum';
+import { SortDirection } from '../types/sort-direction.enum';
+import { SortType } from '../types/sort-type.enum';
 import { SPECIALIZATIONS } from './data';
 import { FileLoading } from './file-vault.constant';
 
@@ -83,6 +85,11 @@ export const QuestionnaireDefault = {
     duration: Duration.Minutes30_50,
     isReadyToTrain: true,
   },
+} as const;
+
+export const UserSortDefault = {
+  Direction: SortDirection.Desc,
+  Type: SortType.Date,
 } as const;
 
 export const AVATAR_DEFAULT = 'default/avatars/default-avatar.svg';

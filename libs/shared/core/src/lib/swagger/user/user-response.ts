@@ -4,7 +4,7 @@ import { TokenPayloadRdo } from '../../rdo/user/token-payload.rdo';
 import { LoggedUserRdo } from '../../rdo/user/logged-user.rdo';
 import { UserRdo } from '../../rdo/user/user.rdo';
 import { UserTokenRdo } from '../../rdo/user/user-token.rdo';
-import { getSchemaPath } from '@nestjs/swagger';
+import { UserWithPaginationRdo } from '../../rdo/user/user-with-pagination.rdo';
 
 export const UserResponse = {
   LoggedSuccess: {
@@ -70,13 +70,14 @@ export const UserResponse = {
   Users: {
     status: HttpStatus.OK,
     description: 'Список пользователей получен',
-    schema: {
-      type: 'array',
-      items: { $ref: getSchemaPath(UserRdo) },
-    },
+    type: UserWithPaginationRdo,
   },
   UsersNotFound: {
     status: HttpStatus.NOT_FOUND,
     description: 'Пользователи не найдены',
+  },
+  NotAccessCoach: {
+    status: HttpStatus.FORBIDDEN,
+    description: 'Недоступно для тренера',
   },
 } as const;

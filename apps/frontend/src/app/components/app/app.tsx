@@ -29,6 +29,7 @@ import {
   Registration,
   TrainingCard,
   TrainingCatalog,
+  UserCatalog,
 } from '@frontend/src/pages';
 import CreateTraining from '@frontend/src/pages/create-training/create-training';
 import MyTrainingFilter from '../my-training-filter/my-training-filter';
@@ -228,6 +229,17 @@ const App = (): JSX.Element => (
                 redirectTo={AppRoute.Root}
               >
                 <UserCard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Users}
+            element={
+              <PrivateRoute
+                restrictedFor={AuthorizationStatus.NoAuth}
+                redirectTo={AppRoute.Root}
+              >
+                <UserCatalog />
               </PrivateRoute>
             }
           />

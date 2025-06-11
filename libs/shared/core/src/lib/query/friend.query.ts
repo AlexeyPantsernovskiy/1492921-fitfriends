@@ -1,26 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
-import { IsMongoId, IsNumber, IsOptional, Min } from 'class-validator';
+import { IsMongoId, IsOptional } from 'class-validator';
 
-import { CommonProperty } from '../swagger/common-property';
 import { UserProperty } from '../swagger/user/user-property';
 import { FriendProperty } from '../swagger/friend/friend-property';
+import { PaginationQuery } from './pagination.query';
 
 @Injectable()
-export class FriendQuery {
-  @ApiProperty(CommonProperty.ItemsPerPage.Description)
-  @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
-  @Min(0)
-  public limit?: number;
-
-  @ApiProperty(CommonProperty.CurrentPage.Description)
-  @Transform(({ value }) => parseInt(value, 10))
-  @IsOptional()
-  @IsNumber({ maxDecimalPlaces: 0 })
-  public page?: number;
-
+export class FriendQuery extends PaginationQuery {
   @ApiProperty(UserProperty.Id.Description)
   @IsMongoId({ message: UserProperty.Id.Validate.Message })
   public userId: string;

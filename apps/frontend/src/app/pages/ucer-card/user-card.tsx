@@ -8,7 +8,12 @@ import {
   getUser,
   userSelectors,
 } from '@frontend/store';
-import { BackButton, FilledButton, Spinner } from '@frontend/components';
+import {
+  BackButton,
+  FilledButton,
+  Hashtags,
+  Spinner,
+} from '@frontend/components';
 import { ButtonType } from '@frontend/types/component';
 import { Specialization } from '@project/shared';
 
@@ -80,16 +85,12 @@ function UserCard(): JSX.Element {
                     <div className="user-card__text">
                       <p>{user.description}</p>
                     </div>
-
-                    <ul className="user-card__hashtag-list">
-                      {user.questionnaire.specialization.map((item) => (
-                        <li className="user-card__hashtag-item">
-                          <div className="hashtag">
-                            <span>{`#${Specialization[item]}`}</span>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                    <Hashtags
+                      tags={user.questionnaire.specialization}
+                      dictionary={Specialization}
+                      listClassName="user-card__hashtag-list"
+                      itemClassName="user-card__hashtag-item"
+                    />
                     <FilledButton
                       addClasses="user-card__btn"
                       type={ButtonType.Button}

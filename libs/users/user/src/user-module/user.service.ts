@@ -22,9 +22,8 @@ import {
   EMPTY_VALUE,
   UserErrorMessage,
   TokenPayload,
-  UserResponse,
-  UserRole,
-  LimitQuery,
+  UserCatalogQuery,
+  PaginationResult,
 } from '@project/shared-core';
 import { jwtConfig } from '@project/users-config';
 import { fillDto } from '@project/shared-helpers';
@@ -146,19 +145,17 @@ export class UserService {
     }
   }
 
-  public async getUsersReadyToTrain(
-    query: LimitQuery
-  ): Promise<UserRdo[] | null> {
-    const users = await this.userRepository.find(
-      {
-        role: UserRole.Sportsman,
-        'questionnaire.isReadyToTrain': true,
-      },
-      query.limit
-    );
-    if (!users.length) {
-      throw new NotFoundException(UserResponse.UsersNotFound.description);
-    }
-    return users.map((user) => fillDto(UserRdo, user.toPOJO()));
+  public async find(
+    query: UserCatalogQuery
+  ): Promise<PaginationResult<UserRdo>> {
+    const usersWithPagination = await this.userRepository.find(query);
+
+    const result = {
+      ...usersWithPagination,
+      entities: usersWithPagination.entities.map((user) =>
+        fillDto(UserRdo, user.toPOJO())
+      ),
+    };
+    return result;
   }
 }

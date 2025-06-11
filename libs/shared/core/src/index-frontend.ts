@@ -36,6 +36,9 @@ export type { TrainingWithPagination } from './lib/types/training-with-paginatio
 
 export type { TrainingQuery } from './lib/query/training.query';
 export type { TrainingMyOrderQuery } from './lib/query/training-order.query';
+export type { LimitQuery } from './lib/query/limit.query';
+export type { MyFriendQuery } from './lib/query/friend.query';
+export type { UserCatalogQuery } from './lib/query/user-catalog.query';
 
 export type { TrainingWithPaginationRdo } from './lib/rdo/training/training-with-pagination.rdo';
 export type { TrainingWithCoachRdo } from './lib/rdo/training/training-with-coach.rdo';
@@ -50,7 +53,4 @@ export { SortDirection } from './lib/types/sort-direction.enum';
 
 export { TrainingProperty } from './lib/swagger/training/training-property';
 
-export type { LimitQuery } from './lib/query/limit.query';
-export type { MyFriendQuery } from './lib/query/friend.query';
-
-export type { FriendWithPaginationRdo } from './lib/rdo/friend/friend-with-pagination.rdo';
+export type { UserWithPaginationRdo } from './lib/rdo/user/user-with-pagination.rdo';

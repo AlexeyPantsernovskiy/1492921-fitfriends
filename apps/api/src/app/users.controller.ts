@@ -45,6 +45,7 @@ import {
   QuestionnaireUserProperty,
   QuestionnaireUserResponse,
   User,
+  UserCatalogQuery,
   UserOperation,
   UserParam,
   UserProperty,
@@ -70,6 +71,7 @@ import { UpdateUserWithPhotoDto } from './dto/update-user-with-photo.dto';
 import { FillCoachQuestionnaireWithFileDto } from './dto/fill-coach-questionnaire-with-file.dto';
 import { LoadFileCertificateDto } from './dto/load-file-certificate.dto';
 import { FriendRdo } from 'libs/shared/core/src/lib/rdo/friend/friend.rdo';
+import { UserWithPaginationRdo } from 'libs/shared/core/src/index-frontend';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -472,13 +474,17 @@ export class UsersController {
   ) {
     const userId = req['user']['sub'];
     const queryString = qs.stringify(query, { arrayFormat: 'repeat' });
-    const usersResponse = await this.httpService.axiosRef.get<UserRdo[]>(
-      `${ApplicationServiceURL.Users}/ready-to-train?${queryString}`,
-      {}
-    );
-    return usersResponse.data
-      .filter((user) => user.id != userId)
-      .map((user) => this.correctFilePath(user as User));
+    const { data: users } =
+      await this.httpService.axiosRef.get<UserWithPaginationRdo>(
+        `${ApplicationServiceURL.Users}/ready-to-train?${queryString}`,
+        {}
+      );
+    return {
+      ...users,
+      entities: users.entities
+        .filter((user) => user.id != userId)
+        .map((user) => this.correctFilePath(user as User)),
+    };
   }
 
   @Get(':userId')
@@ -544,5 +550,34 @@ export class UsersController {
       dto
     );
     return this.correctFilePath(updateResponse.data as User);
+  }
+
+  @Get()
+  @ApiOperation(UserOperation.UserCatalog)
+  @ApiResponse(UserResponse.Users)
+  @ApiResponse(UserResponse.UsersNotFound)
+  @ApiResponse(UserResponse.NotAccessCoach)
+  @ApiResponse(UserResponse.UserNotAuth)
+  @ApiBearerAuth('accessToken')
+  @HttpCode(UserResponse.Users.status)
+  @UseGuards(CheckAuthGuard)
+  public async index(@Query() query: UserCatalogQuery, @Req() req: Request) {
+    const userId = req['user']['sub'];
+    const role = req['user']['role'];
+    if (role === UserRole.Coach) {
+      throw new ForbiddenException(UserResponse.NotAccessCoach.description);
+    }
+    const queryString = qs.stringify(query, { arrayFormat: 'repeat' });
+    const { data: users } =
+      await this.httpService.axiosRef.get<UserWithPaginationRdo>(
+        `${ApplicationServiceURL.Users}?${queryString}`,
+        {}
+      );
+    return {
+      ...users,
+      entities: users.entities
+        .filter((user) => user.id != userId)
+        .map((user) => this.correctFilePath(user as User)),
+    };
   }
 }

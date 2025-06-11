@@ -95,6 +95,7 @@ export { TrainingQuery } from './lib/query/training.query';
 export { TrainingOrderQuery } from './lib/query/training-order.query';
 export { TrainingMyOrderQuery } from './lib/query/training-order.query';
 export { FriendQuery, MyFriendQuery } from './lib/query/friend.query';
+export { UserCatalogQuery } from './lib/query/user-catalog.query';
 
 export { SpecialForYouQuery } from './lib/query/special-for-you.query';
 
@@ -120,4 +121,3 @@ export {
   TrainingOrderTotalWithPaginationRdo,
   TrainingMyOrderTotalWithPaginationRdo,
 } from './lib/rdo/training/training-order-total-with-pagination.rdo';
-//export { FriendWithPaginationRdo } from './lib/rdo/friend/friend-with-pagination.rdo';

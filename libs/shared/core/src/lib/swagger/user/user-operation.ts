@@ -14,5 +14,8 @@ export const UserOperation = {
   AddCertificate: { summary: 'Добавление сертификата/диплома тренера' },
   UpdateCertificate: { summary: 'Изменение сертификата/диплома тренера' },
   DeleteCertificate: { summary: 'Удаление сертификата/диплома тренера' },
-  ReadyToTrain: { summary: 'Получение списка пользователей, готовых к тренировки' },
+  ReadyToTrain: {
+    summary: 'Получение списка пользователей, готовых к тренировки',
+  },
+  UserCatalog: { summary: 'Каталог пользователей' },
 } as const;

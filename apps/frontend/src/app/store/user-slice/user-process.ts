@@ -5,7 +5,7 @@ import { AuthorizationStatus, StoreSlice } from '@frontend/src//const';
 import { UserProcess } from '@frontend/src/types/state';
 import {
   CoachQuestionnaire,
-  FriendWithPaginationRdo,
+  UserWithPaginationRdo,
   Questionnaire,
   QuestionnaireRdo,
   User,
@@ -28,6 +28,7 @@ import {
   addFriend,
   deleteFriend,
   getFriends,
+  getUsers,
 } from './user-action';
 
 const initialState: UserProcess = {
@@ -36,7 +37,6 @@ const initialState: UserProcess = {
   userAuth: null,
   user: null,
   users: null,
-  friends: null,
 };
 
 const userAuth = (state: UserProcess, action: PayloadAction<UserRdo>) => {
@@ -58,7 +58,10 @@ const setQuestionnaire = (
   }
 };
 
-const endLoadingUsers = (state: UserProcess, action: PayloadAction<User[]>) => {
+const endLoadingUsers = (
+  state: UserProcess,
+  action: PayloadAction<UserWithPaginationRdo>
+) => {
   state.users = action.payload;
   state.isLoading = false;
 };
@@ -86,14 +89,6 @@ const endDeleteFriend = (state: UserProcess) => {
   if (state.user) {
     state.user.isFriend = false;
   }
-};
-
-const endLoadingFriends = (
-  state: UserProcess,
-  action: PayloadAction<FriendWithPaginationRdo>
-) => {
-  state.friends = action.payload;
-  state.isLoading = false;
 };
 
 export const userProcess = createSlice({
@@ -130,8 +125,12 @@ export const userProcess = createSlice({
       .addCase(addFriend.fulfilled, endAddFriend)
 
       .addCase(getFriends.pending, startLoading)
-      .addCase(getFriends.fulfilled, endLoadingFriends)
-      .addCase(getFriends.rejected, errorLoading);
+      .addCase(getFriends.fulfilled, endLoadingUsers)
+      .addCase(getFriends.rejected, errorLoading)
+
+      .addCase(getUsers.pending, startLoading)
+      .addCase(getUsers.fulfilled, endLoadingUsers)
+      .addCase(getUsers.rejected, errorLoading);
   },
   selectors: {
     authorizationStatus: (state) => state.authorizationStatus,
@@ -140,7 +139,6 @@ export const userProcess = createSlice({
     users: (state) => state.users,
     isLoading: (state) => state.isLoading,
     user: (state) => state.user,
-    friends: (state) => state.friends,
   },
 });
 

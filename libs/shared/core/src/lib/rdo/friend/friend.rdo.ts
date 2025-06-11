@@ -4,8 +4,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserProperty } from '../../swagger/user/user-property';
 import { FriendProperty } from '../../swagger/friend/friend-property';
 import { RequestTrain } from '../../types/request-train.enum';
+import { Friend } from '../../types/friend.interface';
 
-export class FriendRdo {
+export class FriendRdo implements Friend {
   @ApiProperty(UserProperty.Id.Description)
   @Expose()
   public userId: string;

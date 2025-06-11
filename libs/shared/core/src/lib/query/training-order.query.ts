@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  Min,
   ValidateIf,
 } from 'class-validator';
 import { OmitType, ApiProperty } from '@nestjs/swagger';
@@ -18,14 +17,9 @@ import { SortType } from '../types/sort-type.enum';
 import { UserProperty } from '../swagger/user/user-property';
 import { TrainingOrderProperty } from '../swagger/training/training-order-property';
 import { UserRole } from '../types/user-role.enum';
+import { PaginationQuery } from './pagination.query';
 
-export class TrainingOrderQuery {
-  @ApiProperty(CommonProperty.ItemsPerPage.Description)
-  @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
-  @Min(0)
-  public limit?: number;
-
+export class TrainingOrderQuery extends PaginationQuery {
   @ApiProperty(CommonProperty.SortDirection.Description)
   @IsIn(Object.values(SortDirection))
   @IsOptional()
@@ -35,12 +29,6 @@ export class TrainingOrderQuery {
   @IsIn(Object.values(SortType))
   @IsOptional()
   public sortBy?: SortType = TrainingSortDefault.Type;
-
-  @ApiProperty(CommonProperty.CurrentPage.Description)
-  @Transform(({ value }) => parseInt(value, 10))
-  @IsOptional()
-  @IsNumber({ maxDecimalPlaces: 0 })
-  public page?: number;
 
   @ApiProperty(TrainingOrderProperty.OnlyActive.Description)
   @Transform(({ value }) => value === 'true' || value === true)

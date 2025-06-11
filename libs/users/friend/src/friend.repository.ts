@@ -43,7 +43,7 @@ export class FriendRepository extends BaseMongoRepository<
           $or: [{ userId: userId }, { friendId: userId }],
         };
 
-    const [records, friendCount] = await Promise.all([
+    const [records, recordCount] = await Promise.all([
       this.model
         .find(filter)
         .limit(limit)
@@ -56,9 +56,9 @@ export class FriendRepository extends BaseMongoRepository<
     return {
       entities: records.map((record) => this.createEntityFromDocument(record)),
       currentPage: query?.page,
-      totalPages: calculatePage(friendCount, limit),
+      totalPages: calculatePage(recordCount, limit),
       itemsPerPage: limit,
-      totalItems: friendCount,
+      totalItems: recordCount,
     };
   }
 

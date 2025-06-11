@@ -1,16 +1,13 @@
 import { HttpStatus } from '@nestjs/common';
-import { getSchemaPath } from '@nestjs/swagger';
 
 import { FriendRdo } from '../../rdo/friend/friend.rdo';
+import { UserWithPaginationRdo } from '../../rdo/user/user-with-pagination.rdo';
 
 export const FriendResponse = {
   FriendsFound: {
     status: HttpStatus.OK,
     description: 'Список друзей получен',
-    schema: {
-      type: 'array',
-      items: { $ref: getSchemaPath(FriendRdo) },
-    },
+    type: UserWithPaginationRdo,
   },
   FriendAdded: {
     type: FriendRdo,
