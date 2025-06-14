@@ -26,9 +26,6 @@
       "@project/shared-core": ["libs/shared/core/src/index.ts"],
       "@project/shared-helpers": ["libs/shared/helpers/src/index.ts"],
       "@project/training": ["libs/trainings/training-catalog/src/index.ts"],
-      "@project/training-comment": [
-        "libs/trainings/training-comment/src/index.ts"
-      ],
       "@project/training-order": ["libs/trainings/training-order/src/index.ts"],
       "@project/training-config": ["libs/trainings/config/src/index.ts"],
       "@project/training-models": ["libs/trainings/models/src/index.ts"],
