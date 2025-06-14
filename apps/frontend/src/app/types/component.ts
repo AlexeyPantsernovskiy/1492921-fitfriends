@@ -167,6 +167,12 @@ export const Icon = {
     width: 12,
     height: 12,
   },
+  ViewCertificate: {
+    caption: 'Посмотреть сертификаты',
+    name: 'icon-teacher',
+    width: 12,
+    height: 13,
+  },
 } as const;
 export type IconAttr = (typeof Icon)[keyof typeof Icon];
 export type IconName = (typeof Icon)[keyof typeof Icon]['name'];

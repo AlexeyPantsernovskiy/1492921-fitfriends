@@ -5,6 +5,7 @@ import {
   Specialization,
   UserRdo,
   UserRole,
+  UserRoleInfo,
 } from '@project/shared';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 import { requestTrain, userSelectors } from '@frontend/store';
@@ -58,10 +59,10 @@ function FriendCard({ friend }: FriendCardProps): JSX.Element {
             className={`thumbnail-friend__ready-status thumbnail-friend__ready-status--is${user.questionnaire?.isReadyToTrain ? '' : '-not'}-ready`}
           >
             {user.questionnaire?.isReadyToTrain && (
-              <span>Готов к&nbsp;тренировке</span>
+              <span>{UserRoleInfo[user.role].readyCaption}</span>
             )}
             {!user.questionnaire?.isReadyToTrain && (
-              <span>Не&nbsp;готов к&nbsp;тренировке</span>
+              <span>{UserRoleInfo[user.role].notReadyCaption}</span>
             )}
           </div>
           {!user.requestTrain && (
@@ -86,7 +87,9 @@ function FriendCard({ friend }: FriendCardProps): JSX.Element {
         >
           <p className="thumbnail-friend__request-text">
             Запрос на&nbsp;
-            {user.role === UserRole.Coach ? 'персональную ' : 'совместную '}
+            {user.role === UserRole.Coach || userAuth?.role === UserRole.Coach
+              ? 'персональную '
+              : 'совместную '}
             тренировку
             {user.requestUserId === userAuth?.id &&
               user.requestTrain === RequestTrain.Send &&

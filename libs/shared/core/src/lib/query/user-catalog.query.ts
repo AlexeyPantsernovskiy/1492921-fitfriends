@@ -4,7 +4,9 @@ import {
   IsBoolean,
   IsEnum,
   IsIn,
+  IsMongoId,
   IsOptional,
+  IsString,
   ValidateIf,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
@@ -67,4 +69,14 @@ export class UserCatalogQuery extends PaginationQuery {
   @Transform(({ value }) => value === 'true' || value === true)
   @IsBoolean()
   public isReadyToTrain?: boolean;
+
+  @ApiProperty({
+    ...UserProperty.Id.Description,
+    required: false,
+  })
+  @IsString()
+  @ValidateIf((o) => o.coachId !== '')
+  @IsMongoId({ message: UserProperty.Id.Validate.Message })
+  @IsOptional()
+  public userId?: boolean;
 }

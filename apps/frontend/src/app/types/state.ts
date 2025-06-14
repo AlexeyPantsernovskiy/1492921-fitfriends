@@ -20,9 +20,6 @@ export type TrainingProcess = {
   trainingCatalog: TrainingWithPaginationRdo | null;
   isTrainingCatalogLoading: boolean;
   isTrainingSaving: boolean;
-  // trainingComment: TrainingCommentWithPagination | null;
-  // isTrainingCommentLoading: boolean;
-  // isSuccessAddTrainingComment: boolean;
 };
 
 export type OrderProcess = {

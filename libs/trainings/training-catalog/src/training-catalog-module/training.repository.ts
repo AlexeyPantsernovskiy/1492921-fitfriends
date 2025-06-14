@@ -185,7 +185,6 @@ export class TrainingRepository extends BasePostgresRepository<
       data: pojoEntity,
     });
     return this.createEntityFromDocument(record);
-    //return await this.findById(record.id);
   }
 
   public async update(entity: TrainingEntity): Promise<TrainingEntity> {
@@ -195,6 +194,5 @@ export class TrainingRepository extends BasePostgresRepository<
       data: pojoEntity,
     });
     return this.createEntityFromDocument(record);
-    //return await this.findById(record.id);
   }
 }

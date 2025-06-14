@@ -122,7 +122,6 @@ const Registration = (): JSX.Element => {
                               name="role"
                               value={key}
                               defaultChecked={value.isDefault}
-                              disabled={value.isDisabled}
                             />
                             <span className="role-btn__icon">
                               <svg width="12" height="13" aria-hidden="true">

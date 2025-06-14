@@ -74,6 +74,7 @@ export const Limits = {
   LookForCompany: 8,
   MyFriends: 6,
   ToggleListItems: 5,
+  SliderTrainings: 4,
 } as const;
 
 // Размер скидки которая применяется при установки флага "Специальное предложение"

@@ -104,7 +104,6 @@ export class FriendController {
   ) {
     const userId = req['user']?.sub;
     if (!userId) {
-      //const userRole = req['user']?.role;
       throw new UnauthorizedException(
         'Объект с данными авторизованного пользователя не был добавлен в запрос'
       );

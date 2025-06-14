@@ -154,7 +154,6 @@ export class GenerateCommand implements Command {
     const sportsmans = this.users.filter(
       (item) => item.role === UserRole.Sportsman
     );
-    //let id = 1;
     for (let i = 0; i < randomCountTraining; i++) {
       const training = faker.helpers.arrayElement(this.trainings) as Training;
       const randomCountUsers = faker.number.int({
@@ -177,7 +176,6 @@ export class GenerateCommand implements Command {
             max: quantity,
           });
           this.orders.push({
-            //id,
             type: faker.helpers.arrayElement(
               Object.values(OrderType)
             ) as OrderType,
@@ -197,7 +195,6 @@ export class GenerateCommand implements Command {
               to: new Date(),
             }),
           });
-          //id = id + 1;
         }
       }
     }

@@ -28,9 +28,6 @@ const initialState: TrainingProcess = {
   training: null,
   isTrainingLoading: false,
   isTrainingSaving: false,
-  // trainingComment: null,
-  // isTrainingCommentLoading: false,
-  // isSuccessAddTrainingComment: false,
 };
 
 const endLoadingAllTrainings = (

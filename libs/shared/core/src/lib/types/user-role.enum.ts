@@ -7,14 +7,14 @@ export const UserRoleInfo = {
   [UserRole.Coach]: {
     caption: 'Я хочу тренировать',
     readyCaption: 'Готов тренировать',
+    notReadyCaption: 'Не готов тренировать',
     isDefault: false,
-    isDisabled: false,
   },
   [UserRole.Sportsman]: {
     caption: 'Я хочу тренироваться',
-    readyCaption: 'Готов тренироваться',
+    readyCaption: 'Готов к\u00A0тренировке',
+    notReadyCaption: 'Не готов к\u00A0тренировке',
     isDefault: true,
-    isDisabled: false,
   },
 } as const;
 

@@ -567,6 +567,7 @@ export class UsersController {
     if (role === UserRole.Coach) {
       throw new ForbiddenException(UserResponse.NotAccessCoach.description);
     }
+    query.userId = userId;
     const queryString = qs.stringify(query, { arrayFormat: 'repeat' });
     const { data: users } =
       await this.httpService.axiosRef.get<UserWithPaginationRdo>(
@@ -575,9 +576,9 @@ export class UsersController {
       );
     return {
       ...users,
-      entities: users.entities
-        .filter((user) => user.id != userId)
-        .map((user) => this.correctFilePath(user as User)),
+      entities: users.entities.map((user) =>
+        this.correctFilePath(user as User)
+      ),
     };
   }
 }

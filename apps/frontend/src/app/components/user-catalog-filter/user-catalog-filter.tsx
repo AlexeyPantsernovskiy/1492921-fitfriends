@@ -10,7 +10,6 @@ import {
 } from '@project/shared';
 import { CustomToggleList } from '@frontend/components';
 import { Limits } from '@frontend/const';
-import { FormField } from '@frontend/types/component';
 
 type RoleValue = UserRole | null;
 type LevelValue = Level | null;

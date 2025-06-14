@@ -67,10 +67,6 @@ export class TrainingCommentService {
 
     try {
       await this.trainingCommentRepository.deleteById(id);
-      /*await this.trainingPostService.updateCommentCount(
-        existComment.trainingId,
-        -1
-      );*/
     } catch {
       throw new NotFoundException(`Comment with id ${id} not found`);
     }

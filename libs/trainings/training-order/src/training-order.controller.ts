@@ -46,14 +46,4 @@ export class TrainingOrderController {
         : await this.trainingOrderService.getOrders(query);
     return orders;
   }
-
-  // @ApiOperation(TrainingOperation.UpdateOrderState)
-  // @ApiResponse(TrainingOrderResponse.OrderUpdating)
-  // @ApiResponse(TrainingOrderResponse.ForbiddenUpdate)
-  // @ApiResponse(CommonResponse.BadRequest)
-  // @Put('')
-  // public async updateTrainingState(@Body() dto: UpdateOrderStateDto) {
-  //   const order = await this.trainingOrderService.updateState(dto);
-  //   return order;
-  // }
 }

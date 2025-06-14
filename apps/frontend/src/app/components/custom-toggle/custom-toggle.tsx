@@ -4,8 +4,8 @@ type CustomToggleProps = {
   name: string;
   caption: string;
   value: string;
-  checked: boolean;
-  disabled: boolean;
+  checked?: boolean;
+  disabled?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -13,8 +13,8 @@ const CustomToggle = ({
   name,
   caption,
   value,
-  checked,
-  disabled,
+  checked = true,
+  disabled = false,
   onChange,
 }: CustomToggleProps): JSX.Element => {
   return (

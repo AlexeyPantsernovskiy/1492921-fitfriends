@@ -44,6 +44,7 @@ export class UserRepository extends BaseMongoRepository<UserEntity, UserModel> {
       level,
       limit,
       page,
+      userId,
     } = query;
     const skip = page && limit ? (page - 1) * limit : undefined;
     const filter: FilterQuery<UserModel> = {};
@@ -66,6 +67,10 @@ export class UserRepository extends BaseMongoRepository<UserEntity, UserModel> {
     // Фильтр по уровню подготовки
     if (level) {
       filter['questionnaire.level'] = level;
+    }
+    // Фильтр для исключения текущего пользователя
+    if (userId) {
+      filter['_id'] = { $ne: userId };
     }
     const [records, recordCount] = await Promise.all([
       this.model
