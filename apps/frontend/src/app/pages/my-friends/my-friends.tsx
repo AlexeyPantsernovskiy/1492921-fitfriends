@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 import { getFriends, userSelectors } from '@frontend/store';
 import { Limits } from '@frontend/const';
-import { FilledButton, FriendCard, Spinner } from '@frontend/components';
+import {
+  FilledButton,
+  FriendCard,
+  Spinner,
+  ThumbnailNearest,
+} from '@frontend/components';
 import { ButtonType } from '@frontend/types/component';
 
 import BackButton from '../../components/back-button/back-button';
@@ -43,8 +48,11 @@ function MyFriends(): JSX.Element {
           <div className="friends-list__title-wrapper">
             <h1 className="friends-list__title">Мои друзья</h1>
           </div>
-          {(isLoading || !friends) && <Spinner />}
-          {!isLoading && friends && (
+          {isLoading && <Spinner />}
+          {(!friends || friends.entities.length === 0) && (
+            <ThumbnailNearest text="Пока у Вас нет друзей" />
+          )}
+          {friends && friends.entities.length > 0 && (
             <ul className="friends-list__list">
               {friends.entities.map((friend) => (
                 <li className="friends-list__item" key={`item-${friend.id}`}>

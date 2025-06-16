@@ -71,7 +71,10 @@ import { UpdateUserWithPhotoDto } from './dto/update-user-with-photo.dto';
 import { FillCoachQuestionnaireWithFileDto } from './dto/fill-coach-questionnaire-with-file.dto';
 import { LoadFileCertificateDto } from './dto/load-file-certificate.dto';
 import { FriendRdo } from 'libs/shared/core/src/lib/rdo/friend/friend.rdo';
-import { UserWithPaginationRdo } from 'libs/shared/core/src/index-frontend';
+import {
+  AVATAR_DEFAULT,
+  UserWithPaginationRdo,
+} from 'libs/shared/core/src/index-frontend';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -483,7 +486,13 @@ export class UsersController {
       ...users,
       entities: users.entities
         .filter((user) => user.id != userId)
-        .map((user) => this.correctFilePath(user as User)),
+        .map((item) => {
+          const user = this.correctFilePath(item as User);
+          const avatar =
+            user.avatar ||
+            createUrlForFile(AVATAR_DEFAULT, ApplicationServiceURL.FileServe);
+          return { ...user, avatar };
+        }),
     };
   }
 
@@ -576,9 +585,13 @@ export class UsersController {
       );
     return {
       ...users,
-      entities: users.entities.map((user) =>
-        this.correctFilePath(user as User)
-      ),
+      entities: users.entities.map((item) => {
+        const user = this.correctFilePath(item as User);
+        const avatar =
+          user.avatar ||
+          createUrlForFile(AVATAR_DEFAULT, ApplicationServiceURL.FileServe);
+        return { ...user, avatar };
+      }),
     };
   }
 }

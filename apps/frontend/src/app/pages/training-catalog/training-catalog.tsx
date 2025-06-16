@@ -39,9 +39,7 @@ function TrainingCatalog({
   useEffect(() => {
     // Сбрасываем лимит при изменении фильтров
     setLimit(Limits.Catalog);
-    dispatch(
-      getTrainings({ ...filterParam, limit: Limits.Catalog })
-    );
+    dispatch(getTrainings({ ...filterParam, limit: Limits.Catalog }));
   }, [dispatch, filterParam]);
 
   const handleButtonMoreClick = () => {
@@ -64,7 +62,7 @@ function TrainingCatalog({
         {!isLoading && trainings?.totalItems === 0 && (
           <ThumbnailNearest text="По заданным условиям ни чего не найдено" />
         )}
-        {!isLoading && trainings && trainings.totalItems > 0 && (
+        {trainings && trainings.totalItems > 0 && (
           <>
             <ul className={`${classPrefixCatalog}__list`}>
               {trainings.entities.map((training) => (

@@ -100,6 +100,9 @@ export class OrderController {
       {}
     );
 
+    if (!orders) {
+      return null;
+    }
     const ordersWithTraining = await Promise.all(
       orders.entities.map(async (order) => {
         const { data: training } = await this.httpService.axiosRef.get(
@@ -118,7 +121,6 @@ export class OrderController {
         };
       })
     );
-
     return { ...orders, entities: ordersWithTraining };
   }
 

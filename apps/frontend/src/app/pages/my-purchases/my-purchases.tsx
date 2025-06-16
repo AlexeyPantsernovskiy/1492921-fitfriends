@@ -4,14 +4,12 @@ import {
   BackButton,
   FilledButton,
   Spinner,
+  ThumbnailNearest,
   TrainingCard,
 } from '@frontend/components';
 import { useAppDispatch, useAppSelector } from '@frontend/src/hooks';
 import { getOrders, orderSelectors } from '@frontend/store';
-import {
-  DEFAULT_FILTER_PURCHASE_ACTIVE,
-  Limits,
-} from '@frontend/const';
+import { DEFAULT_FILTER_PURCHASE_ACTIVE, Limits } from '@frontend/const';
 import { ButtonType } from '@frontend/types/component';
 
 function MyPurchases(): JSX.Element {
@@ -73,8 +71,9 @@ function MyPurchases(): JSX.Element {
               </div>
             </div>
           </div>
-          {(isLoading || !orders) && <Spinner />}
-          {!isLoading && orders && (
+          {isLoading && <Spinner />}
+          {!orders && <ThumbnailNearest text="Пока у Вас нет покупок" />}
+          {orders && (
             <ul className="my-purchases__list">
               {orders.entities.map((order) => (
                 <li className="my-purchases__item" key={order.training.id}>

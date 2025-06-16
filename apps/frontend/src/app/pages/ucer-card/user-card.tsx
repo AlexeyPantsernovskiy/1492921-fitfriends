@@ -221,83 +221,90 @@ function UserCard(): JSX.Element {
                 <h1 className="visually-hidden">{`Карточка пользователя${user.role === UserRole.Coach ? ' роль тренер' : ''}`}</h1>
                 <div className={`${cardClassName}__wrapper`}>
                   {user.role === UserRole.Coach ? (
-                    <div className={`${cardClassName}__card`}>{card}</div>
+                    <>
+                      <div className={`${cardClassName}__card`}>{card}</div>
+                      <div className="user-card-coach__training">
+                        <div className="user-card-coach__training-head">
+                          <h2 className="user-card-coach__training-title">
+                            Тренировки
+                          </h2>
+                          <div className="user-card-coach__training-bts">
+                            <IconButton
+                              classNames="btn-icon user-card-coach__training-btn"
+                              icon={Icon.Prev}
+                              ref={prevButtonRef}
+                              onClick={() =>
+                                sliderRef.current?.swiper.slidePrev()
+                              }
+                            />
+                            <IconButton
+                              classNames="btn-icon user-card-coach__training-btn"
+                              icon={Icon.Next}
+                              ref={nextButtonRef}
+                              onClick={() =>
+                                sliderRef.current?.swiper.slideNext()
+                              }
+                            />
+                          </div>
+                        </div>
+
+                        {isLoadingTrainings || !trainings ? (
+                          <Spinner />
+                        ) : trainings.length === 0 ? (
+                          <ThumbnailNearest />
+                        ) : (
+                          <Swiper
+                            slidesPerView={Limits.SliderTrainings}
+                            className="user-card-coach__training-list"
+                            modules={[Navigation]}
+                            ref={sliderRef}
+                            onBeforeInit={(swiper) => {
+                              if (prevButtonRef.current) {
+                                swiper.navigation.prevEl =
+                                  prevButtonRef.current;
+                              }
+                              if (nextButtonRef.current) {
+                                swiper.navigation.nextEl =
+                                  nextButtonRef.current;
+                              }
+                            }}
+                          >
+                            {trainings.map((training) => (
+                              <SwiperSlide
+                                key={`SwiperSlide-${training.id}`}
+                                className="user-card-coach__training-item"
+                              >
+                                <TrainingCard training={training} />
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
+                        )}
+
+                        <form className="user-card-coach__training-form">
+                          {!isRequestTrain && (
+                            <FilledButton
+                              addClasses="user-card-coach__btn-training"
+                              type={ButtonType.Button}
+                              caption="Хочу персональную тренировку"
+                              disabled={!user.isFriend}
+                              onClick={handleRequestTrainingButtonClick}
+                            />
+                          )}
+
+                          <div className="user-card-coach__training-check">
+                            <CustomToggle
+                              name="user-agreement"
+                              value="user-agreement-1"
+                              caption="Получать уведомление на почту о новой тренировке"
+                              onChange={handleToggleClick}
+                            />
+                          </div>
+                        </form>
+                      </div>
+                    </>
                   ) : (
                     card
                   )}
-
-                  <div className="user-card-coach__training">
-                    <div className="user-card-coach__training-head">
-                      <h2 className="user-card-coach__training-title">
-                        Тренировки
-                      </h2>
-                      <div className="user-card-coach__training-bts">
-                        <IconButton
-                          classNames="btn-icon user-card-coach__training-btn"
-                          icon={Icon.Prev}
-                          ref={prevButtonRef}
-                          onClick={() => sliderRef.current?.swiper.slidePrev()}
-                        />
-                        <IconButton
-                          classNames="btn-icon user-card-coach__training-btn"
-                          icon={Icon.Next}
-                          ref={nextButtonRef}
-                          onClick={() => sliderRef.current?.swiper.slideNext()}
-                        />
-                      </div>
-                    </div>
-
-                    {isLoadingTrainings || !trainings ? (
-                      <Spinner />
-                    ) : trainings.length === 0 ? (
-                      <ThumbnailNearest />
-                    ) : (
-                      <Swiper
-                        slidesPerView={Limits.SliderTrainings}
-                        className="user-card-coach__training-list"
-                        modules={[Navigation]}
-                        ref={sliderRef}
-                        onBeforeInit={(swiper) => {
-                          if (prevButtonRef.current) {
-                            swiper.navigation.prevEl = prevButtonRef.current;
-                          }
-                          if (nextButtonRef.current) {
-                            swiper.navigation.nextEl = nextButtonRef.current;
-                          }
-                        }}
-                      >
-                        {trainings.map((training) => (
-                          <SwiperSlide
-                            key={`SwiperSlide-${training.id}`}
-                            className="user-card-coach__training-item"
-                          >
-                            <TrainingCard training={training} />
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    )}
-
-                    <form className="user-card-coach__training-form">
-                      {!isRequestTrain && (
-                        <FilledButton
-                          addClasses="user-card-coach__btn-training"
-                          type={ButtonType.Button}
-                          caption="Хочу персональную тренировку"
-                          disabled={!user.isFriend}
-                          onClick={handleRequestTrainingButtonClick}
-                        />
-                      )}
-
-                      <div className="user-card-coach__training-check">
-                        <CustomToggle
-                          name="user-agreement"
-                          value="user-agreement-1"
-                          caption="Получать уведомление на почту о новой тренировке"
-                          onChange={handleToggleClick}
-                        />
-                      </div>
-                    </form>
-                  </div>
                 </div>
               </section>
             </div>

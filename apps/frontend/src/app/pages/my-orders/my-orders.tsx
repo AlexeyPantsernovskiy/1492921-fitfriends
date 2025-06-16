@@ -6,6 +6,7 @@ import {
   BackButton,
   FilledButton,
   Spinner,
+  ThumbnailNearest,
   TrainingCard,
 } from '@frontend/components';
 import { getOrders, orderSelectors } from '@frontend/store';
@@ -125,38 +126,43 @@ function MyOrders(): JSX.Element {
             </div>
           </div>
 
-          {isLoading || !orders ? (
+          {isLoading ? (
             <Spinner />
           ) : (
             <>
-              <ul className="my-orders__list">
-                {orders.entities.map((order) => (
-                  <li className="my-orders__item" key={order.training.id}>
-                    <TrainingCard training={order} />
-                  </li>
-                ))}
-              </ul>
-              <div className="show-more my-orders__show-more">
-                {orders && orders.totalPages > orders.currentPage && (
-                  <FilledButton
-                    classPrefix="show-more"
-                    addClasses="show-more__button--more"
-                    type={ButtonType.Button}
-                    caption="Показать еще"
-                    onClick={handleButtonMoreClick}
-                  />
-                )}
-                {orders &&
-                  orders.itemsPerPage > Limits.MyOrders &&
-                  orders.totalPages === orders.currentPage && (
-                    <FilledButton
-                      classPrefix="show-more"
-                      type={ButtonType.Button}
-                      caption="Вернуться в начало"
-                      onClick={handleButtonToTopClick}
-                    />
-                  )}
-              </div>
+              {!orders && <ThumbnailNearest text="У Вас пока нет заказов" />}
+              {orders && (
+                <>
+                  <ul className="my-orders__list">
+                    {orders.entities.map((order) => (
+                      <li className="my-orders__item" key={order.training.id}>
+                        <TrainingCard training={order} />
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="show-more my-orders__show-more">
+                    {orders && orders.totalPages > orders.currentPage && (
+                      <FilledButton
+                        classPrefix="show-more"
+                        addClasses="show-more__button--more"
+                        type={ButtonType.Button}
+                        caption="Показать еще"
+                        onClick={handleButtonMoreClick}
+                      />
+                    )}
+                    {orders &&
+                      orders.itemsPerPage > Limits.MyOrders &&
+                      orders.totalPages === orders.currentPage && (
+                        <FilledButton
+                          classPrefix="show-more"
+                          type={ButtonType.Button}
+                          caption="Вернуться в начало"
+                          onClick={handleButtonToTopClick}
+                        />
+                      )}
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>

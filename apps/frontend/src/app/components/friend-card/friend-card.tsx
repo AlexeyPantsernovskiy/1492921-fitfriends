@@ -95,7 +95,7 @@ function FriendCard({ friend }: FriendCardProps): JSX.Element {
               user.requestTrain === RequestTrain.Send &&
               ' отправлен'}
             {user.requestTrain === RequestTrain.Accept && ' принят'}
-            {user.requestTrain === RequestTrain.Reject && ' не принят'}
+            {user.requestTrain === RequestTrain.Reject && ' отклонен'}
           </p>
           {user.requestUserId !== userAuth?.id &&
             user.requestTrain === RequestTrain.Send && (

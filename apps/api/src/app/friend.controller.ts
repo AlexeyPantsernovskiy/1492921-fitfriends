@@ -24,6 +24,7 @@ import {
 import * as url from 'node:url';
 
 import {
+  AVATAR_DEFAULT,
   CommonResponse,
   FriendOperation,
   FriendParam,
@@ -38,6 +39,7 @@ import {
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check-auth.guard';
+import { createUrlForFile } from '@project/shared-helpers';
 
 @ApiTags('Друзья')
 @Controller('friends')
@@ -78,7 +80,10 @@ export class FriendController {
             },
           }
         );
-        return user;
+        const avatar =
+          user.avatar ||
+          createUrlForFile(AVATAR_DEFAULT, ApplicationServiceURL.FileServe);
+        return { ...user, avatar };
       })
     );
     return {
@@ -187,6 +192,9 @@ export class FriendController {
         },
       }
     );
-    return user;
+    const avatar =
+      user.avatar ||
+      createUrlForFile(AVATAR_DEFAULT, ApplicationServiceURL.FileServe);
+    return { ...user, avatar };
   }
 }

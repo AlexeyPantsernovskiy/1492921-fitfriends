@@ -86,12 +86,17 @@ export class TrainingsController {
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthGuard)
   public async catalog(@Query() _query: TrainingQuery, @Req() req: Request) {
-    const queryString = url.parse(req.url).query;
-    const response = await this.httpService.axiosRef.get(
+    const userId = req['user']?.sub;
+    const userRole = req['user']?.role;
+    let queryString = url.parse(req.url).query;
+    if (userRole === UserRole.Coach) {
+      queryString = `${queryString}&coachId=${userId}`;
+    }
+    const { data: trainings } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Trainings}?${queryString}`,
       {}
     );
-    response.data.entities.forEach((item) => {
+    trainings.entities.forEach((item) => {
       item.image = createUrlForFile(
         item.image,
         ApplicationServiceURL.FileServe
@@ -101,7 +106,7 @@ export class TrainingsController {
         ApplicationServiceURL.FileServe
       );
     });
-    return response.data;
+    return trainings;
   }
 
   @Get('special-for-you')

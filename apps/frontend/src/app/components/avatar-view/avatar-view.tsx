@@ -1,3 +1,4 @@
+import { AVATAR_DEFAULT } from '@project/shared';
 import { JSX } from 'react';
 
 export type AvatarViewProps = {

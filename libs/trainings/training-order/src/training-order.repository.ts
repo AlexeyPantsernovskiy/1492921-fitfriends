@@ -160,7 +160,7 @@ export class TrainingOrderRepository extends BasePostgresRepository<
     try {
       const orderBy = sortBy
         ? Prisma.sql`ORDER BY ${Prisma.raw(sortBy)} ${Prisma.raw(sortDirection || 'DESC')}`
-        : Prisma.sql`ORDER BY createDate DESC`;
+        : Prisma.sql`ORDER BY create_date DESC`;
       const records = await this.client.$queryRaw<any[]>`
         SELECT
           o.training_id as "trainingId",
@@ -181,13 +181,12 @@ export class TrainingOrderRepository extends BasePostgresRepository<
         LIMIT ${limit}
         OFFSET ${skip}
       `;
-
       if (records.length === 0) {
         return null;
       }
       const count = records[0].count;
       return {
-        entities: records.map(({ count, createdate, ...rest }) => rest),
+        entities: records.map(({ count, createDate, ...rest }) => rest),
         currentPage: page,
         totalPages: calculatePage(count, take),
         itemsPerPage: take,
